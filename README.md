@@ -2,6 +2,10 @@
 
 חומרי לימוד והכנה לקורס (סמסטר קיץ תשפ"ו, המרצה עו"ד נאוה קורמן).
 
+**📖 חוברת ההכנה לבוחן — קישורים ישירים:**
+- [צפייה ב-PDF (נפתח בדפדפן)](https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/raw/main/booklet.pdf)
+- [הורדת קובץ Word](https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/raw/main/booklet.docx)
+
 ## מה יש כאן
 
 | תיקייה | תוכן |
