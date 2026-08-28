@@ -190,6 +190,54 @@
   }
 
   /* ============ PRINT ============ */
+
+  /* ---------- writing lab (screen only) ---------- */
+  .lab { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 14px 0; }
+  .lab-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .lab-stmt { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-weight: 600; margin-bottom: 10px; line-height: 1.55; }
+  .lab-stmt .idx { color: var(--accent); font-weight: 800; margin-left: 6px; }
+  .lab textarea {
+    width: 100%; box-sizing: border-box; min-height: 148px; resize: vertical;
+    font-family: inherit; font-size: 15px; line-height: 1.65; direction: rtl; text-align: right;
+    border: 1px solid var(--line); border-radius: 10px; padding: 12px;
+    background: var(--paper); color: var(--ink);
+  }
+  .lab textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .lab-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
+  .lab-nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .pill { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 11px; font-size: 13px; font-weight: 700; }
+  .pill.warnp { background: var(--warn-soft); color: var(--warn); }
+  .qjump { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+  .qjump button {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--surface); cursor: pointer; font-family: inherit; font-size: 13px; color: var(--ink);
+  }
+  .qjump button.done { background: var(--good-soft); border-color: var(--good); color: var(--good); font-weight: 700; }
+  .qjump button.cur { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .qjump button.appx { opacity: .55; }
+  .score { font-size: 15px; font-weight: 700; padding: 10px 14px; border-radius: 10px; margin: 12px 0 8px; }
+  .score.hi { background: var(--good-soft); color: var(--good); }
+  .score.mid { background: var(--warn-soft); color: var(--warn); }
+  .score.lo { background: var(--bad-soft); color: var(--bad); }
+  .crit { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-top: 1px solid var(--line); }
+  .crit:first-child { border-top: 0; }
+  .crit .mark { flex: 0 0 auto; width: 22px; text-align: center; font-weight: 800; font-size: 15px; }
+  .crit.ok .mark { color: var(--good); }
+  .crit.no .mark { color: var(--bad); }
+  .crit.part .mark { color: var(--warn); }
+  .crit .txt { font-size: 14px; line-height: 1.5; }
+  .crit .txt b { display: block; margin-bottom: 1px; }
+  .crit .hint { color: var(--muted); font-size: 13px; }
+  .model { background: var(--good-soft); border-radius: 10px; padding: 12px 14px; margin-top: 12px; }
+  .model h4 { margin: 0 0 6px; color: var(--good); }
+  .model p { margin: 4px 0; }
+  .timer { font-variant-numeric: tabular-nums; font-weight: 800; font-size: 19px; }
+  .timer.low { color: var(--bad); }
+  .rep { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+  .rep h4 { margin: 0 0 4px; }
+  .rep .mine { background: var(--paper); border-radius: 8px; padding: 8px 10px; margin: 6px 0; white-space: pre-wrap; font-size: 14px; }
+  .lab-hide { display: none; }
+
   @media print {
     @page { size: A4; margin: 14mm 13mm; }
     body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.45; }
@@ -269,6 +317,7 @@
     <a href="#summary">סיכום מלא</a>
     <a href="#realquiz">הבוחן מ־20.5</a>
     <a href="#practice">תרגול</a>
+    <a href="#write">חדר כתיבה</a>
     <a href="#casestudy">קייסים</a>
     <a href="#law">לשון החוק</a>
     <a href="#appendix">נספח</a>
@@ -650,6 +699,77 @@
     </details>
   </section>
 
+
+  <section id="write" class="noprint">
+    <div class="part-label">חלק ח׳</div>
+    <h2>חדר כתיבה — תרגול כתיבת תשובות</h2>
+    <p>כותבים תשובה מלאה לפי התבנית, ואז לוחצים <b>בדוק</b>. הבדיקה מזהה אם פסקתם נכון,
+      אם ציטטתם את הסעיף ואת פסק הדין הנכונים, ואם יישמתם לעובדות — ורק אחר כך נחשפת תשובת המופת.
+      התשובות נשמרות בדפדפן שלכם.</p>
+    <div class="note"><b>לזכור:</b> בבוחן עצמו כותבים ביד ובלי מחשב. השתמשו בחדר הכתיבה כדי לתרגל
+      ניסוח ומבנה — ולפחות סבב אחד כדאי לעשות על נייר, בכתב יד, עם טיימר.</div>
+
+    <div class="lab">
+      <div class="lab-tabs">
+        <button class="act" id="tabFree">תרגול חופשי</button>
+        <button class="act ghost" id="tabQuiz">מצב בוחן — 5 היגדים, 30 דק׳</button>
+      </div>
+
+      <!-- ============ free practice ============ -->
+      <div id="paneFree">
+        <div class="lab-nav">
+          <button class="act ghost" id="fPrev">‹ הקודם</button>
+          <button class="act ghost" id="fNext">הבא ›</button>
+          <button class="act ghost" id="fRand">אקראי 🎲</button>
+          <span class="pill" id="fPos"></span>
+          <span class="pill warnp lab-hide" id="fTag"></span>
+        </div>
+        <div class="lab-stmt" id="fStmt"></div>
+        <div class="template" id="fTmpl">[נכון / לא נכון]. לפי סעיף ___ לחוק החוזים (חלק כללי) / פס"ד ___, הכלל הוא ש־___. בענייננו ___, ולכן ___.</div>
+        <textarea id="fText" placeholder="כתוב כאן את התשובה המלאה…" aria-label="התשובה שלך"></textarea>
+        <div class="lab-meta">
+          <span id="fCount">0 מילים</span>
+          <span>
+            <button class="act" id="fCheck">בדוק</button>
+            <button class="act ghost" id="fClear">נקה</button>
+          </span>
+        </div>
+        <div id="fOut"></div>
+        <div class="qjump" id="fJump"></div>
+        <div class="btnrow">
+          <button class="act ghost" id="fExport">📋 העתק את כל התשובות שלי לבדיקה מעמיקה</button>
+          <button class="act ghost" id="fWipe">מחק את כל הטיוטות</button>
+        </div>
+        <p class="hint" id="fExportNote" style="font-size:13px;color:var(--muted);margin-top:8px">
+          הכפתור מעתיק את ההיגדים, מה שכתבת ותשובות המופת — הדביקו לי בצ׳אט ואבדוק לעומק.</p>
+      </div>
+
+      <!-- ============ quiz mode ============ -->
+      <div id="paneQuiz" class="lab-hide">
+        <div id="qIntro">
+          <p>סימולציה בתנאי הבוחן: <b>5 היגדים</b> נבחרים אקראית מתוך החומר שבהיקף, <b>30 דקות</b>,
+            בלי לראות תשובות עד הסוף.</p>
+          <label style="display:block;margin:10px 0"><input type="checkbox" id="qS15"> לכלול גם היגדים על ס׳ 15 (הטעיה) — אם נלמד ב־1.9</label>
+          <button class="act" id="qStart">התחל בוחן</button>
+        </div>
+        <div id="qRun" class="lab-hide">
+          <div class="lab-nav">
+            <span class="timer" id="qTimer">30:00</span>
+            <button class="act ghost" id="qPrev">‹ הקודם</button>
+            <button class="act ghost" id="qNext">הבא ›</button>
+            <span class="pill" id="qPos"></span>
+            <button class="act" id="qDone">סיים ובדוק</button>
+          </div>
+          <div class="lab-stmt" id="qStmt"></div>
+          <textarea id="qText" placeholder="כתוב כאן את התשובה המלאה…" aria-label="התשובה שלך"></textarea>
+          <div class="lab-meta"><span id="qCount">0 מילים</span></div>
+          <div class="qjump" id="qJump"></div>
+        </div>
+        <div id="qReport" class="lab-hide"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="casestudy" class="newpage">
     <div class="part-label">חלק ח׳</div>
     <h2>קייסים רשמיים עם פתרון</h2>
@@ -769,5 +889,412 @@
     });
   })();
 </script>
+
+<script>
+/* ---------- writing lab: builds its bank from the printed practice section ---------- */
+(function () {
+  'use strict';
+  var root = document.getElementById('write');
+  if (!root) return;
+
+  var LSK = 'biu-legal-write-v1';
+  var HEBRE = /[\u05d0-\u05ea]/;
+
+  function norm(s) { return (s || '').replace(/[\u05f3\u2019\u02bc]/g, "'").replace(/\s+/g, ' ').trim(); }
+  function el(id) { return document.getElementById(id); }
+  function words(s) { var t = norm(s); return t ? t.split(' ').length : 0; }
+  function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  /* ---- storage (must survive private mode / blocked storage) ---- */
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(LSK) || '{}') || {}; } catch (e) { store = {}; }
+  function save() { try { localStorage.setItem(LSK, JSON.stringify(store)); } catch (e) {} }
+
+  /* ---- case-law list, derived from the judgments table ---- */
+  var GENERIC = ['מדינת ישראל', 'ממשלת ארה"ב', 'ארגון הדיירים', 'ממשלת ארהב'];
+  function buildCases() {
+    var out = [], seen = {};
+    function add(name, extra) {
+      name = norm(name);
+      if (!name || name.length < 3 || seen[name]) return;
+      seen[name] = 1;
+      var al = [name];
+      name.split(/\s+נ'\s+/).forEach(function (p) {
+        p = norm(p);
+        if (p.length >= 3 && GENERIC.indexOf(p) === -1) al.push(p);
+      });
+      (extra || []).forEach(function (x) { al.push(x); });
+      out.push({ name: name, aliases: al });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#cases td:first-child'), function (td) {
+      var raw = norm(td.textContent).replace(/\([^)]*\)/g, '').replace(/פס"?ד\s*/, '').replace(/פסק דין\s*/, '');
+      add(raw);
+    });
+    /* appendix judgments that appear in answers but not in the table */
+    add('אקספומדיה'); add('מאיה נ\' פנפורד', ['פנפורד']);
+    return out;
+  }
+  var CASES = buildCases();
+
+  /* Hebrew prefixes (ב/ה/ל/מ/ו/כ/ש) glue onto nouns, so "בזנדבנק" must still
+     count as a hit on "זנדבנק" — walk back over up to two of them. */
+  var PREFIX = /[בהלמוכש]/;
+  function hasTerm(text, term) {
+    var i = text.indexOf(term);
+    while (i !== -1) {
+      if (!HEBRE.test(text.charAt(i + term.length) || ' ')) {
+        var j = i;
+        for (var k = 0; k <= 2; k++) {
+          var b = j > 0 ? text.charAt(j - 1) : ' ';
+          if (!HEBRE.test(b)) return true;
+          if (!PREFIX.test(b)) break;
+          j--;
+        }
+      }
+      i = text.indexOf(term, i + 1);
+    }
+    return false;
+  }
+  function findCases(text) {
+    var t = norm(text), hit = [];
+    CASES.forEach(function (c) {
+      for (var i = 0; i < c.aliases.length; i++) {
+        if (hasTerm(t, c.aliases[i])) { hit.push(c.name); return; }
+      }
+    });
+    return hit;
+  }
+
+  /* ---- section references: ס' 12(ב) / סעיף 12 / bare 3(א) ---- */
+  function findSecs(text) {
+    var t = norm(text), out = {}, m;
+    var re1 = /(?:ס'|סעיף)\s*(\d{1,2})\s*(\([א-ת0-9]{1,3}\))?/g;
+    while ((m = re1.exec(t))) out[m[1] + (m[2] || '')] = 1;
+    var re2 = /(?:^|[\s(])(\d{1,2})\s*(\([א-ת]\))/g;
+    while ((m = re2.exec(t))) out[m[1] + m[2]] = 1;
+    var keys = Object.keys(out);
+    /* drop a bare number when a sub-lettered version of it exists */
+    return keys.filter(function (k) {
+      if (/\(/.test(k)) return true;
+      return !keys.some(function (o) { return o !== k && o.indexOf(k + '(') === 0; });
+    });
+  }
+  function baseOf(s) { return s.replace(/\(.*/, ''); }
+
+  /* ---- verdict in free text ---- */
+  function readVerdict(text) {
+    var t = norm(text);
+    var neg = t.search(/לא נכון|אינו נכון|איננו נכון|אינה נכונה|לא נכונה|שגוי|לא מדויק/);
+    var pos = t.search(/נכון|נכונה/);
+    if (neg === -1 && pos === -1) return null;
+    if (neg === -1) return 'נכון';
+    if (pos === -1) return 'לא נכון';
+    return neg <= pos ? 'לא נכון' : 'נכון';
+  }
+  var APPLY = /בענייננו|במקרה שלנו|במקרה דנן|בנסיבות|ולכן|מכאן|לפיכך|משכך|ומשום כך/;
+
+  /* ---- bank, read straight out of #practice so it never drifts ---- */
+  var BANK = [];
+  Array.prototype.forEach.call(document.querySelectorAll('#practice details.q'), function (d, i) {
+    var sum = d.querySelector('summary'), ans = d.querySelector('.a');
+    if (!sum || !ans) return;
+    var sc = sum.cloneNode(true);
+    var nEl = sc.querySelector('.n'), tEl = sc.querySelector('.tag');
+    var num = nEl ? nEl.textContent.replace(/\D/g, '') : String(i + 1);
+    var tag = tEl ? norm(tEl.textContent) : '';
+    if (nEl) nEl.parentNode.removeChild(nEl);
+    if (tEl) tEl.parentNode.removeChild(tEl);
+    var vEl = ans.querySelector('.verdict');
+    var ac = ans.cloneNode(true);
+    var vc = ac.querySelector('.verdict');
+    if (vc) vc.parentNode.removeChild(vc);
+    var atext = norm(ac.textContent);
+    var scope = !tag ? 'core' : (tag.indexOf('15') !== -1 ? 's15' : 'appendix');
+    BANK.push({
+      num: num, tag: tag, scope: scope,
+      stmt: norm(sc.textContent),
+      verdict: (vEl && /good/.test(vEl.className)) ? 'נכון' : 'לא נכון',
+      html: ac.innerHTML, text: atext,
+      secs: findSecs(atext), cases: findCases(atext)
+    });
+  });
+  if (!BANK.length) { root.style.display = 'none'; return; }
+
+  /* ---------- grading ---------- */
+  function grade(item, answer) {
+    var t = norm(answer), crits = [];
+    if (words(t) < 4) {
+      return { crits: [{ s: 'no', title: 'לא נכתבה תשובה', hint: 'כתוב תשובה מלאה לפי התבנית ואז בדוק.' }], got: 0, max: 1 };
+    }
+    /* 1. verdict */
+    var uv = readVerdict(t);
+    crits.push(uv === null
+      ? { s: 'no', title: 'פסיקה — חסרה', hint: 'פתח במילים "נכון" או "לא נכון". בלי "תלוי".' }
+      : uv === item.verdict
+        ? { s: 'ok', title: 'פסיקה — ' + uv + ' ✓', hint: '' }
+        : { s: 'no', title: 'פסיקה — כתבת "' + uv + '", והתשובה היא "' + item.verdict + '"', hint: 'זה החלק שנותן את מרבית הניקוד — שווה לחזור על המלכודת הזו.' });
+
+    /* 2. statute */
+    if (item.secs.length) {
+      var us = findSecs(t);
+      var exact = item.secs.filter(function (s) { return us.indexOf(s) !== -1; });
+      var base = item.secs.filter(function (s) {
+        return exact.indexOf(s) === -1 && us.some(function (u) { return baseOf(u) === baseOf(s); });
+      });
+      crits.push(exact.length === item.secs.length
+        ? { s: 'ok', title: 'סעיף — ' + item.secs.join(', ') + ' ✓', hint: '' }
+        : exact.length || base.length
+          ? { s: 'part', title: 'סעיף — חלקי', hint: 'ציפינו ל־' + item.secs.join(', ') + (base.length ? '. כתבת את מספר הסעיף בלי תת־הסעיף המדויק — וזה בדיוק ההבדל שנבדק.' : '.') }
+          : { s: 'no', title: 'סעיף — חסר', hint: 'התשובה נשענת על ' + item.secs.join(', ') + '. ציטוט הסעיף המדויק הוא חלק מהניקוד.' });
+    }
+    /* 3. case law */
+    if (item.cases.length) {
+      var uc = findCases(t);
+      var hit = item.cases.filter(function (c) { return uc.indexOf(c) !== -1; });
+      crits.push(hit.length
+        ? { s: hit.length === item.cases.length ? 'ok' : 'part', title: 'פסיקה מנחה — ' + hit.join(', ') + (hit.length === item.cases.length ? ' ✓' : ''), hint: hit.length === item.cases.length ? '' : 'חסר גם: ' + item.cases.filter(function (c) { return hit.indexOf(c) === -1; }).join(', ') }
+        : { s: 'no', title: 'פסק דין — חסר', hint: 'התשובה נשענת על ' + item.cases.join(', ') + '.' });
+    }
+    /* 4. application */
+    crits.push(APPLY.test(t)
+      ? { s: 'ok', title: 'יישום לעובדות ✓', hint: '' }
+      : { s: 'no', title: 'יישום — חסר', hint: 'חבר את הכלל לעובדות ההיגד: "בענייננו… ולכן…".' });
+
+    var got = 0;
+    crits.forEach(function (c) { got += c.s === 'ok' ? 1 : c.s === 'part' ? 0.5 : 0; });
+    return { crits: crits, got: got, max: crits.length };
+  }
+
+  function renderGrade(g, item, showModel) {
+    var pct = g.max ? g.got / g.max : 0;
+    var cls = pct >= 0.85 ? 'hi' : pct >= 0.5 ? 'mid' : 'lo';
+    var h = '<div class="score ' + cls + '">' + (Math.round(g.got * 10) / 10) + ' מתוך ' + g.max + '</div>';
+    g.crits.forEach(function (c) {
+      h += '<div class="crit ' + c.s + '"><span class="mark">' + (c.s === 'ok' ? '✓' : c.s === 'part' ? '~' : '✗') + '</span>' +
+        '<span class="txt"><b>' + esc(c.title) + '</b>' + (c.hint ? '<span class="hint">' + esc(c.hint) + '</span>' : '') + '</span></div>';
+    });
+    if (showModel) h += '<div class="model"><h4>תשובת המופת</h4><b>' + esc(item.verdict) + '.</b> ' + item.html + '</div>';
+    return h;
+  }
+
+  /* ================= free practice ================= */
+  var fIdx = 0;
+  function fItem() { return BANK[fIdx]; }
+  function fRender() {
+    var it = fItem();
+    el('fPos').textContent = 'היגד ' + it.num + ' מתוך ' + BANK.length;
+    var tg = el('fTag');
+    if (it.tag) { tg.textContent = it.tag; tg.className = 'pill warnp'; } else { tg.className = 'pill warnp lab-hide'; }
+    el('fStmt').innerHTML = '<span class="idx">' + esc(it.num) + '.</span>' + esc(it.stmt);
+    el('fText').value = (store[it.num] && store[it.num].a) || '';
+    el('fOut').innerHTML = '';
+    fCount();
+    fJump();
+  }
+  function fCount() { el('fCount').textContent = words(el('fText').value) + ' מילים'; }
+  function fJump() {
+    var h = '';
+    BANK.forEach(function (b, i) {
+      var done = store[b.num] && norm(store[b.num].a) ? ' done' : '';
+      h += '<button type="button" data-i="' + i + '" class="' + (i === fIdx ? 'cur' : '') + done + (b.scope !== 'core' ? ' appx' : '') + '">' + esc(b.num) + '</button>';
+    });
+    el('fJump').innerHTML = h;
+  }
+  el('fJump').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) { fIdx = +b.getAttribute('data-i'); fRender(); }
+  });
+  el('fText').addEventListener('input', function () {
+    var it = fItem();
+    store[it.num] = store[it.num] || {};
+    store[it.num].a = el('fText').value;
+    save(); fCount();
+  });
+  el('fCheck').addEventListener('click', function () {
+    var it = fItem();
+    el('fOut').innerHTML = renderGrade(grade(it, el('fText').value), it, true);
+    fJump();
+  });
+  el('fClear').addEventListener('click', function () {
+    var it = fItem();
+    el('fText').value = ''; store[it.num] = {}; save();
+    el('fOut').innerHTML = ''; fCount(); fJump();
+  });
+  el('fPrev').addEventListener('click', function () { fIdx = (fIdx - 1 + BANK.length) % BANK.length; fRender(); });
+  el('fNext').addEventListener('click', function () { fIdx = (fIdx + 1) % BANK.length; fRender(); });
+  el('fRand').addEventListener('click', function () { fIdx = Math.floor(Math.random() * BANK.length); fRender(); });
+  el('fWipe').addEventListener('click', function () {
+    if (!window.confirm('למחוק את כל הטיוטות שנשמרו?')) return;
+    store = {}; save(); fRender();
+  });
+
+  /* ---- export for a deeper review in chat ---- */
+  function copyText(txt, btn) {
+    var done = function () {
+      var old = btn.textContent;
+      btn.textContent = '✓ הועתק — הדבק לי בצ׳אט';
+      setTimeout(function () { btn.textContent = old; }, 2600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(txt, done); });
+    } else { fallback(txt, done); }
+  }
+  function fallback(txt, done) {
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { window.prompt('העתק ידנית:', txt); }
+    document.body.removeChild(ta);
+  }
+  el('fExport').addEventListener('click', function () {
+    var lines = ['בדוק בבקשה את התשובות שלי לתרגול היגדים — היבטים משפטיים בניהול, בוחן 8.9.',
+      'לכל היגד: ההיגד, מה שכתבתי, ותשובת המופת מהחוברת. אמור לי מה חסר בניסוח ובנימוק.', ''];
+    var n = 0;
+    BANK.forEach(function (b) {
+      var a = store[b.num] && store[b.num].a;
+      if (!a || !norm(a)) return;
+      n++;
+      var g = grade(b, a);
+      lines.push('── היגד ' + b.num + ' ──');
+      lines.push('ההיגד: ' + b.stmt);
+      lines.push('תשובתי: ' + norm(a));
+      lines.push('תשובת המופת: ' + b.verdict + '. ' + b.text);
+      lines.push('בדיקה אוטומטית: ' + (Math.round(g.got * 10) / 10) + '/' + g.max + ' — ' +
+        g.crits.map(function (c) { return c.title; }).join(' · '));
+      lines.push('');
+    });
+    if (!n) { window.alert('עדיין לא כתבת תשובות. כתוב לפחות אחת ואז נסה שוב.'); return; }
+    copyText(lines.join('\n'), el('fExport'));
+  });
+
+  /* ================= quiz mode ================= */
+  var qSet = [], qIdx = 0, qLeft = 0, qTimer = null, qAns = {};
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function pickFive(withS15) {
+    var pool = BANK.filter(function (b) { return b.scope === 'core' || (withS15 && b.scope === 's15'); });
+    var yes = shuffle(pool.filter(function (b) { return b.verdict === 'נכון'; }));
+    var no = shuffle(pool.filter(function (b) { return b.verdict === 'לא נכון'; }));
+    var out = [];
+    /* the bank is deliberately trap-heavy, so guarantee at least one true statement */
+    if (yes.length) out.push(yes.shift());
+    if (no.length) out.push(no.shift());
+    var rest = shuffle(yes.concat(no));
+    while (out.length < 5 && rest.length) out.push(rest.shift());
+    return shuffle(out);
+  }
+  function fmt(s) {
+    var m = Math.floor(s / 60), x = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (x < 10 ? '0' : '') + x;
+  }
+  function tick() {
+    qLeft--;
+    var t = el('qTimer');
+    t.textContent = fmt(Math.max(0, qLeft));
+    if (qLeft <= 300) t.className = 'timer low';
+    if (qLeft <= 0) { finish(true); }
+  }
+  function qJumpRender() {
+    var h = '';
+    qSet.forEach(function (b, i) {
+      h += '<button type="button" data-i="' + i + '" class="' + (i === qIdx ? 'cur' : '') +
+        (norm(qAns[b.num] || '') ? ' done' : '') + '">' + (i + 1) + '</button>';
+    });
+    el('qJump').innerHTML = h;
+  }
+  function qRender() {
+    var it = qSet[qIdx];
+    el('qPos').textContent = (qIdx + 1) + ' / ' + qSet.length;
+    el('qStmt').innerHTML = '<span class="idx">' + (qIdx + 1) + '.</span>' + esc(it.stmt);
+    el('qText').value = qAns[it.num] || '';
+    el('qCount').textContent = words(el('qText').value) + ' מילים';
+    qJumpRender();
+  }
+  el('qJump').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) { qIdx = +b.getAttribute('data-i'); qRender(); }
+  });
+  el('qText').addEventListener('input', function () {
+    qAns[qSet[qIdx].num] = el('qText').value;
+    el('qCount').textContent = words(el('qText').value) + ' מילים';
+    qJumpRender();
+  });
+  el('qPrev').addEventListener('click', function () { qIdx = (qIdx - 1 + qSet.length) % qSet.length; qRender(); });
+  el('qNext').addEventListener('click', function () { qIdx = (qIdx + 1) % qSet.length; qRender(); });
+  el('qStart').addEventListener('click', function () {
+    qSet = pickFive(el('qS15').checked);
+    if (qSet.length < 5) { window.alert('אין מספיק היגדים בהיקף. סמן את ס׳ 15 כדי להרחיב.'); return; }
+    qAns = {}; qIdx = 0; qLeft = 30 * 60;
+    el('qIntro').className = 'lab-hide';
+    el('qReport').className = 'lab-hide';
+    el('qRun').className = '';
+    el('qTimer').textContent = '30:00';
+    el('qTimer').className = 'timer';
+    qRender();
+    if (qTimer) clearInterval(qTimer);
+    qTimer = setInterval(tick, 1000);
+  });
+  el('qDone').addEventListener('click', function () { finish(false); });
+
+  function finish(auto) {
+    if (qTimer) { clearInterval(qTimer); qTimer = null; }
+    var total = 0, max = 0, h = '';
+    h += '<h3>' + (auto ? 'הזמן נגמר — ' : '') + 'תוצאות</h3>';
+    var body = '';
+    qSet.forEach(function (it, i) {
+      var a = qAns[it.num] || '';
+      var g = grade(it, a);
+      total += g.got; max += g.max;
+      body += '<div class="rep"><h4>' + (i + 1) + '. ' + esc(it.stmt) + '</h4>' +
+        '<div class="mine">' + (norm(a) ? esc(norm(a)) : '<i>לא נענה</i>') + '</div>' +
+        renderGrade(g, it, true) + '</div>';
+    });
+    var pct = max ? Math.round(total / max * 100) : 0;
+    h += '<div class="score ' + (pct >= 85 ? 'hi' : pct >= 50 ? 'mid' : 'lo') + '">ציון כולל: ' +
+      (Math.round(total * 10) / 10) + ' מתוך ' + max + ' (' + pct + '%)</div>' + body +
+      '<div class="btnrow"><button class="act ghost" id="qCopy">📋 העתק את הבוחן לבדיקה מעמיקה</button>' +
+      '<button class="act ghost" id="qAgain">בוחן חדש</button></div>';
+    el('qRun').className = 'lab-hide';
+    el('qReport').className = '';
+    el('qReport').innerHTML = h;
+    el('qAgain').addEventListener('click', function () {
+      el('qReport').className = 'lab-hide';
+      el('qIntro').className = '';
+    });
+    el('qCopy').addEventListener('click', function () {
+      var L = ['בדוק בבקשה את הבוחן שלי (סימולציה, 5 היגדים) — היבטים משפטיים בניהול.', ''];
+      qSet.forEach(function (it, i) {
+        var g = grade(it, qAns[it.num] || '');
+        L.push('── היגד ' + (i + 1) + ' ──');
+        L.push('ההיגד: ' + it.stmt);
+        L.push('תשובתי: ' + (norm(qAns[it.num] || '') || '(לא נענה)'));
+        L.push('תשובת המופת: ' + it.verdict + '. ' + it.text);
+        L.push('בדיקה אוטומטית: ' + (Math.round(g.got * 10) / 10) + '/' + g.max);
+        L.push('');
+      });
+      copyText(L.join('\n'), el('qCopy'));
+    });
+  }
+
+  /* ---- tabs ---- */
+  function tab(free) {
+    el('paneFree').className = free ? '' : 'lab-hide';
+    el('paneQuiz').className = free ? 'lab-hide' : '';
+    el('tabFree').className = free ? 'act' : 'act ghost';
+    el('tabQuiz').className = free ? 'act ghost' : 'act';
+    if (free && qTimer) { clearInterval(qTimer); qTimer = null; }
+  }
+  el('tabFree').addEventListener('click', function () { tab(true); });
+  el('tabQuiz').addEventListener('click', function () { tab(false); });
+
+  fRender();
+})();
+</script>
+
 </body>
 </html>
