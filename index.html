@@ -1,10 +1,8 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
 <title>חוברת הבוחן בחוזים</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700&display=swap">
 <style>
@@ -22,6 +20,8 @@
     --bad-soft: #F9ECEA;
     --warn: #8A6100;
     --warn-soft: #FFF6E0;
+    --alert: #B3392F;
+    --alert-soft: #FBEDEB;
     --chip-ink: #FFFFFF;
   }
   @media (prefers-color-scheme: dark) {
@@ -39,6 +39,8 @@
       --bad-soft: #362020;
       --warn: #E5C069;
       --warn-soft: #2E2817;
+      --alert: #F0A093;
+      --alert-soft: #3A2320;
       --chip-ink: #131722;
     }
   }
@@ -56,6 +58,8 @@
     --bad-soft: #362020;
     --warn: #E5C069;
     --warn-soft: #2E2817;
+    --alert: #F0A093;
+    --alert-soft: #3A2320;
     --chip-ink: #131722;
   }
   * { box-sizing: border-box; }
@@ -83,6 +87,25 @@
     padding: 5px 14px; font-size: 13.5px; color: var(--muted);
   }
   .facts li b { color: var(--ink); font-weight: 700; }
+  .facts li.hot { background: var(--alert-soft); border-color: var(--alert); color: var(--alert); font-weight: 700; }
+  .facts li.hot b { color: var(--alert); }
+
+  .printbox {
+    background: var(--alert-soft); border: 1px solid var(--alert); border-radius: 12px;
+    padding: 16px 18px; margin: 20px 0 8px;
+  }
+  .printbox h3 { margin: 0 0 6px; font-size: 17px; color: var(--alert); }
+  .printbox ol { margin: 8px 0 0; padding-right: 22px; }
+  .printbox li { margin: 4px 0; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 0; }
+  button.act {
+    font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
+    background: var(--accent); color: var(--chip-ink); border: 0;
+    border-radius: 999px; padding: 8px 18px;
+  }
+  button.act.ghost { background: var(--accent-soft); color: var(--accent); }
+  button.act:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
   nav.toc {
     position: sticky; top: 0; z-index: 5; background: var(--paper);
     padding: 10px 0; margin: 10px 0 6px; border-bottom: 1px solid var(--line);
@@ -140,29 +163,105 @@
   .trap-list li { margin: 10px 0; }
   .trap-list b { color: var(--accent); }
   .case-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-style: italic; color: var(--muted); }
+
+  /* quick sheet */
+  .sheet { background: var(--surface); border: 2px solid var(--accent); border-radius: 14px; padding: 20px 22px; margin: 16px 0; }
+  .sheet h3 { margin-top: 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .card h4 { margin: 0 0 6px; }
+  .card p, .card ul { margin: 4px 0; font-size: 15px; }
+  .vs { font-weight: 700; color: var(--accent); }
+
+  /* legislation appendix */
+  .law { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; margin: 10px 0; }
+  .law .num { font-weight: 700; color: var(--accent); font-family: 'Frank Ruhl Libre', serif; font-size: 17px; }
+  .law .txt { margin: 4px 0 0; font-size: 15.5px; }
+  .law .gloss { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+  .law.para { border-right: 3px solid var(--warn); }
+  .law.para .num::after { content: " · תמצית"; font-size: 12px; color: var(--warn); font-weight: 700; font-family: 'Heebo', sans-serif; }
+
   footer.fin { margin-top: 60px; text-align: center; color: var(--muted); font-size: 14px; }
   footer.fin .big { font-family: 'Frank Ruhl Libre', serif; font-weight: 900; font-size: 22px; color: var(--accent); }
   @media (prefers-reduced-motion: no-preference) {
     details.q .a { animation: fade .18s ease; }
     @keyframes fade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
   }
+
+  /* ============ PRINT ============ */
+  @media print {
+    @page { size: A4; margin: 14mm 13mm; }
+    body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.45; }
+    .page { max-width: none; padding: 0; }
+    nav.toc, .btnrow, .printbox, .noprint { display: none !important; }
+    header.hero { padding: 0 0 4px; }
+    h1 { font-size: 22pt; margin: 0 0 6px; }
+    .verified { border: 1px solid #999; background: #fff; color: #000; }
+    .facts li { background: #fff; border: 1px solid #999; color: #000; font-size: 9pt; }
+    .facts li.hot { border: 1.5pt solid #000; font-weight: 700; }
+    section { margin-top: 16pt; page-break-inside: auto; }
+    section.newpage { page-break-before: always; }
+    h2 { font-size: 15pt; page-break-after: avoid; }
+    h3, h4 { page-break-after: avoid; }
+    .tablewrap { overflow: visible; border: 1px solid #000; border-radius: 0; page-break-inside: auto; }
+    table { min-width: 0; font-size: 9pt; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; }
+    th { background: #ddd !important; color: #000 !important; border-bottom: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    td { border-top: 1px solid #bbb; }
+    tbody tr:nth-child(even) td { background: #f4f4f4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    td.sec, .law .num, .trap-list b, .part-label { color: #000; }
+    details.q { border: 1px solid #999; border-radius: 0; page-break-inside: avoid; margin: 5pt 0; }
+    details.q summary { padding: 5pt 8pt; }
+    details.q[open] summary { border-bottom: 1px solid #ccc; }
+    details.q .a { padding: 5pt 8pt 7pt; display: block !important; }
+    details > *:not(summary) { display: block !important; }
+    .verdict { border: 1px solid #000; background: #fff !important; color: #000 !important; }
+    .note, .soon, .template, .case-box, .card, .law, .sheet {
+      background: #fff !important; border: 1px solid #999; border-radius: 0;
+      page-break-inside: avoid; color: #000;
+    }
+    .sheet { border: 1.5pt solid #000; }
+    .note b, .soon b, .card h4, h4 { color: #000; }
+    a { color: #000; text-decoration: none; }
+    footer.fin { page-break-inside: avoid; }
+    footer.fin .big { color: #000; }
+  }
 </style>
+</head>
+<body>
 
 <div class="page">
   <header class="hero">
     <div class="kicker">היבטים משפטיים בניהול · בר־אילן</div>
     <h1>חוברת הכנה לבוחן — 8.9</h1>
-    <div class="verified">✓ מהדורה 2 — מאומתת מול אתר הקורס (25.8)</div>
-    <p class="lead">טכניקת תשובה, טבלאות שליפה, סיכום לפי המצגות הרשמיות, הבוחן האמיתי של הכיתה המקבילה ו־30 היגדים פתורים.</p>
+    <div class="verified">✓ מהדורה 3 — מעודכנת לתנאי הבוחן: ללא מחשבים</div>
+    <p class="lead">טכניקת תשובה, טבלאות שליפה, סיכום לפי המצגות הרשמיות, הבוחן האמיתי של הכיתה המקבילה, 30 היגדים פתורים ולשון הסעיפים — הכל בעמוד אחד להדפסה.</p>
     <ul class="facts">
+      <li class="hot"><b>⚠ ללא מחשבים</b> — רק חומר מודפס</li>
       <li><b>פורמט:</b> 5 היגדים נכון/לא נכון + נימוק · חצי שעה</li>
-      <li><b>חומר פתוח</b> + אתר הקורס</li>
       <li><b>היקף:</b> מבוא + מצגת 1 מלאה + מצגת 2 עד 14(ב) + ס' 19–21</li>
       <li><b>ס' 15:</b> אולי יילמד ב־1.9 · <b>ס' 16–18:</b> נספח</li>
     </ul>
+
+    <div class="printbox">
+      <h3>⚠ המרצה הודיעה: אין מחשבים בבוחן</h3>
+      <p style="margin:6px 0">אתר הקורס והדף הזה <b>לא יהיו זמינים</b> בזמן הבוחן — רק מה שהבאת מודפס. מה להדפיס:</p>
+      <ol>
+        <li><b>את החוברת הזו</b> — כפתור ההדפסה למטה מפיק גרסה נקייה בשחור־לבן, עם כל התשובות פתוחות.</li>
+        <li><b>קובץ החקיקה של המרצה</b> — הנספח כאן מכיל את הסעיפים המרכזיים, אבל קובץ החקיקה המלא שווה את הדפים.</li>
+        <li>סמן בטוש את <b>הדף המהיר</b> (מיד למטה) ואת <b>טבלת הסעיפים</b> — אלה שני הדפים שתחזור אליהם בפועל.</li>
+      </ol>
+      <div class="btnrow">
+        <button class="act" onclick="window.print()">🖨️ הדפס את החוברת</button>
+        <button class="act ghost" id="toggleAll">פתח את כל התשובות</button>
+      </div>
+    </div>
   </header>
 
   <nav class="toc" aria-label="ניווט">
+    <a href="#quick">דף מהיר</a>
     <a href="#technique">טכניקה</a>
     <a href="#sections">סעיפי חוק</a>
     <a href="#cases">פסקי דין</a>
@@ -171,10 +270,55 @@
     <a href="#realquiz">הבוחן מ־20.5</a>
     <a href="#practice">תרגול</a>
     <a href="#casestudy">קייסים</a>
+    <a href="#law">לשון החוק</a>
     <a href="#appendix">נספח</a>
   </nav>
 
-  <section id="technique">
+  <section id="quick">
+    <div class="part-label">הדף המהיר</div>
+    <h2>אם תסתכל רק בדף אחד — שיהיה זה</h2>
+    <div class="sheet">
+      <h3>1 · תבנית התשובה</h3>
+      <div class="template">[נכון / לא נכון]. לפי סעיף ___ לחוק החוזים (חלק כללי) / פס"ד ___, הכלל הוא ש־___. בענייננו ___, ולכן ___.</div>
+      <p style="font-size:15px;color:var(--muted);margin:4px 0 0">פסיקה חד־משמעית → כלל + מקור מדויק → משפט יישום. 2–4 שורות מספיקות.</p>
+
+      <h3>2 · שש ההבחנות שמכריעות היגדים</h3>
+      <div class="grid2">
+        <div class="card">
+          <h4>בטל <span class="vs">מול</span> ניתן לביטול</h4>
+          <p>חוזה פסול (ס' 30) — <b>בטל מעצמו</b>. פגם ברצון (14, 15, 17, 18) — <b>תקף עד שיבוטל</b> ע"י הנפגע.</p>
+        </div>
+        <div class="card">
+          <h4>מתן <span class="vs">מול</span> מסירה</h4>
+          <p><b>מתן</b> קיבול = משלוח ה"כן" (ס' 3(א), 4(2)). <b>מסירה</b> = הגעתו למציע (ס' 10).</p>
+        </div>
+        <div class="card">
+          <h4>14(א) <span class="vs">מול</span> 14(ב)</h4>
+          <p>ההבדל היחיד: <b>ידיעת הצד השני</b>. ידע → ביטול עצמי. לא ידע → רק ביהמ"ש + חשיפה לפיצויים.</p>
+        </div>
+        <div class="card">
+          <h4>טעות <span class="vs">מול</span> כדאיות</h4>
+          <p>טעות = <b>הווה או עבר</b>. ציפייה לעתיד / AS-IS / סיכון מודע = <b>כדאיות</b> (14(ד)) — אין ביטול.</p>
+        </div>
+        <div class="card">
+          <h4>שתיקה</h4>
+          <p>המציע <b>לא כופה</b> (6(ב)); הניצע רשאי מיוזמתו; הצעה מזכה — <b>חזקת קיבול</b> (ס' 7).</p>
+        </div>
+        <div class="card">
+          <h4>סעד ס' 12</h4>
+          <p><b>פיצויים, לא ביטול.</b> הסתמכות; חריג — קיום (קל בניין). נתבע גם בלי כריתה.</p>
+        </div>
+      </div>
+
+      <h3>3 · מפת הסעיפים בשורה</h3>
+      <p style="font-size:15px"><b>1</b> חוזה=הצעה+קיבול · <b>2</b> הצעה (גמירת דעת+מסוימות) · <b>3</b> חרטת מציע · <b>4</b> פקיעה · <b>5</b> קיבול · <b>6</b> התנהגות/שתיקה · <b>7</b> הצעה מזכה · <b>8</b> מועד · <b>9</b> קיבול אחרי פקיעה · <b>10</b> חרטת ניצע · <b>11</b> קיבול תוך שינוי · <b>12</b> תום לב · <b>14</b> טעות · <b>15</b> הטעיה · <b>19</b> ביטול חלקי · <b>20</b> דרך הביטול · <b>21</b> השבה · <b>22</b> שמירת תרופות · <b>23</b> צורה · <b>26</b> השלמה · <b>30</b> חוזה פסול</p>
+
+      <h3>4 · אזהרת "מילים מוחלטות"</h3>
+      <p style="font-size:15px">ראית <b>"תמיד" / "רק" / "בכל מקרה" / "כל פרט" / "אינו יכול"</b> — עצור. כמעט תמיד ההיגד <b>לא נכון</b>, והחריג הוא בדיוק הנימוק שלך.</p>
+    </div>
+  </section>
+
+  <section id="technique" class="newpage">
     <div class="part-label">חלק א׳</div>
     <h2>איך עונים על היגד</h2>
     <ol>
@@ -190,7 +334,7 @@
     <div class="note"><b>לא נכון.</b> לפי סעיף 2 לחוק החוזים, פנייה היא הצעה אם יש בה גמירת דעת ומסוימות, ודרישת המסוימות מסתפקת בעיקרי הדברים. הפניה למחירון שקולה לנקיבת מחיר, ולכן יש מסוימות ומדובר בהצעה.</div>
   </section>
 
-  <section id="sections">
+  <section id="sections" class="newpage">
     <div class="part-label">חלק ב׳</div>
     <h2>טבלת שליפה מהירה — סעיפי החוק</h2>
     <h3>חוק החוזים (חלק כללי), התשל"ג־1973</h3>
@@ -220,7 +364,7 @@
         <tr><td class="sec">19</td><td>ביטול חלקי: העילה בחלק מחוזה הניתן להפרדה — מבטלים אותו; לא היה מתקשר בלעדיו — מבטלים הכול (די וורולי סיאני).</td><td class="kw">ביטול חלקי</td></tr>
         <tr><td class="sec">20</td><td>דרך הביטול: הודעה (אף משתמעת) תוך זמן סביר מגילוי העילה; בכפייה — משפסקה הכפייה.</td><td class="kw">זמן סביר</td></tr>
         <tr><td class="sec">21</td><td>השבה הדדית: בעין, ואם בלתי אפשרית/בלתי סבירה — השבת שווי.</td><td class="kw">השבה</td></tr>
-        <tr><td class="sec">22</td><td>שמירת תרופות — אפשר לצרף פיצויי ס׳ 12 לביטול ולהשבה.</td><td class="kw">שמירת תרופות</td></tr>
+        <tr><td class="sec">22</td><td>שמירת תרופות — אפשר לצרף פיצויי ס' 12 לביטול ולהשבה.</td><td class="kw">שמירת תרופות</td></tr>
         <tr><td class="sec">23</td><td>חופש הצורה: בע"פ, בכתב או בצורה אחרת — אלא אם חוק/הסכם קובעים צורה כתנאי לתוקף.</td><td class="kw">חופש הצורה</td></tr>
         <tr><td class="sec">24</td><td>חופש התוכן: ככל שהסכימו הצדדים.</td><td class="kw">חופש התוכן</td></tr>
         <tr><td class="sec">26</td><td>השלמת פרטים שאינם עיקר: נוהג בין הצדדים ← נוהג מקובל ← הוראות החוק המשלימות.</td><td class="kw">השלמה</td></tr>
@@ -233,15 +377,15 @@
     <div class="tablewrap"><table>
       <thead><tr><th>מקור</th><th>הכלל</th></tr></thead>
       <tbody>
-        <tr><td class="sec">ס׳ 8 לחוק המקרקעין</td><td>התחייבות לעסקה במקרקעין טעונה מסמך בכתב (דרישת כתב מהותית).</td></tr>
-        <tr><td class="sec">ס׳ 5(א) לחוק המתנה</td><td>התחייבות לתת מתנה בעתיד טעונה מסמך בכתב.</td></tr>
-        <tr><td class="sec">חוק הכשרות, ס׳ 2–5</td><td>כל אדם כשר (2); קטין עד 18 (3); פעולת קטין טעונה הסכמת נציג (4); ביטול ע"י נציג/יועמ"ש תוך חודש מהיוודע או ע"י הקטין תוך חודש מבגרותו (5).</td></tr>
+        <tr><td class="sec">ס' 8 לחוק המקרקעין</td><td>התחייבות לעסקה במקרקעין טעונה מסמך בכתב (דרישת כתב מהותית).</td></tr>
+        <tr><td class="sec">ס' 5(א) לחוק המתנה</td><td>התחייבות לתת מתנה בעתיד טעונה מסמך בכתב.</td></tr>
+        <tr><td class="sec">חוק הכשרות, ס' 2–5</td><td>כל אדם כשר (2); קטין עד 18 (3); פעולת קטין טעונה הסכמת נציג (4); ביטול ע"י נציג/יועמ"ש תוך חודש מהיוודע או ע"י הקטין תוך חודש מבגרותו (5).</td></tr>
       </tbody>
     </table></div>
-    <div class="note"><b>הגדרות מדויקות (משקפי החזרה — חשוב להיגדי מועדים!):</b> "מסירת הצעה" = הגעתה לניצע או למענו; "מתן הודעת קיבול" = רגע אמירת/משלוח ה"כן"; "מסירת הודעת קיבול" = הגעת ה"כן" למציע. ס׳ 3(א) ו־4(2) נבחנים לפי <b>מתן</b>; ס׳ 10 — לפי <b>מסירה</b>.</div>
+    <div class="note"><b>הגדרות מדויקות (משקפי החזרה — חשוב להיגדי מועדים!):</b> "מסירת הצעה" = הגעתה לניצע או למענו; "מתן הודעת קיבול" = רגע אמירת/משלוח ה"כן"; "מסירת הודעת קיבול" = הגעת ה"כן" למציע. ס' 3(א) ו־4(2) נבחנים לפי <b>מתן</b>; ס' 10 — לפי <b>מסירה</b>.</div>
   </section>
 
-  <section id="cases">
+  <section id="cases" class="newpage">
     <div class="part-label">חלק ג׳</div>
     <h2>טבלאות פסקי דין</h2>
     <h3>מהמצגות הרשמיות — אלה שצפוי לצטט</h3>
@@ -251,7 +395,7 @@
         <tr><td class="sec">פרץ בוני הנגב נ׳ בוחבוט (ע"א 1932/90)</td><td class="kw">גמירת דעת</td><td>מבחן אובייקטיבי מרוכך: "מתקשר סביר במעמדם" של הצדדים — האם ממעשיהם ודבריהם היה מסיק שגמרו בדעתם לכרות חוזה.</td></tr>
         <tr><td class="sec">זנדבנק נ׳ דנציגר (ע"א 440/75)</td><td class="kw">מסוימות</td><td>ההצעה מלאה ומדויקת במידה מספקת כך שעם הקיבול נכרת חוזה בר־קיום.</td></tr>
         <tr><td class="sec">נוה עם נ׳ יעקבסון</td><td class="kw">דחיית הצעה</td><td>דחייה מפקיעה רק אם מפורשת ואקטיבית; שאלות הבהרה או ניסיון שיפור אינם דחייה.</td></tr>
-        <tr><td class="sec">שג"מ חניונים</td><td class="kw">קיבול בהתנהגות</td><td>כניסה לחניון בתשלום = קיבול במעשה (ס׳ 6(א)); אין להתווכח על המחיר בדיעבד.</td></tr>
+        <tr><td class="sec">שג"מ חניונים</td><td class="kw">קיבול בהתנהגות</td><td>כניסה לחניון בתשלום = קיבול במעשה (ס' 6(א)); אין להתווכח על המחיר בדיעבד.</td></tr>
         <tr><td class="sec">תשובה נ׳ בר נתן (ע"א 7824/95)</td><td class="kw">חזרה מהצעה</td><td>חרטה (בטלפון ופקס) שנמסרה לפני שההצעה בדואר הגיעה לניצע — תופסת; אין חוזה על ההצעה המקורית.</td></tr>
         <tr><td class="sec">רבינאי נ׳ מן שקד (ע"א 158/77)</td><td class="kw">זיכרון דברים</td><td>שני מבחנים מצטברים: כוונה להתחייב כבר עתה + מסוימות בפרטים המהותיים → חוזה; ממלא את דרישת הכתב במקרקעין.</td></tr>
         <tr><td class="sec">קוזלי נ׳ מדינת ישראל (ע"א 6295/16)</td><td class="kw">הצעת פרס לציבור</td><td>פרשת מג׳די חלבי — ראו מסגרת בסיכום: 4 המשוכות, אקראיות אינה שוללת, פקיעה וחזרה. דנ"א 4165/19 נדחה.</td></tr>
@@ -271,35 +415,35 @@
       <thead><tr><th>פסק דין</th><th>נושא</th><th>ההלכה בקצרה</th></tr></thead>
       <tbody>
         <tr><td class="sec">סויסה נ׳ זגה</td><td class="kw">גילוי — איש מקצוע</td><td>מתווך שרכש בעצמו בלי לגלות שינוי ייעוד — חובת גילוי מוגברת; ביטול ופיצויים.</td></tr>
-        <tr><td class="sec">קלמר נ׳ גיא</td><td class="kw">תו"ל מול כתב</td><td>חוסר תום לב קיצוני ("זעקת ההגינות") גובר על דרישת הכתב שבס׳ 8 לחוק המקרקעין.</td></tr>
+        <tr><td class="sec">קלמר נ׳ גיא</td><td class="kw">תו"ל מול כתב</td><td>חוסר תום לב קיצוני ("זעקת ההגינות") גובר על דרישת הכתב שבס' 8 לחוק המקרקעין.</td></tr>
         <tr><td class="sec">זהבה כנען נ׳ ממשלת ארה"ב</td><td class="kw">טעות משותפת</td><td>טעות משותפת → מסלול 14(ב): ביטול בשיקול דעת ביהמ"ש משיקולי צדק.</td></tr>
         <tr><td class="sec">שושנה קרן נ׳ דיור לעולה</td><td class="kw">כפייה [נספח]</td><td>לחץ מצד שלישי עצמאי (שכנים) אינו כפייה — נדרש לחץ מהצד השני או מטעמו.</td></tr>
       </tbody>
     </table></div>
   </section>
 
-  <section id="traps">
+  <section id="traps" class="newpage">
     <div class="part-label">חלק ד׳</div>
     <h2>14 מלכודות קלאסיות בהיגדים</h2>
     <ol class="trap-list">
-      <li><b>"בטל" לעומת "ניתן לביטול":</b> חוזה פסול (ס׳ 30) — בטל מעצמו. פגמים ברצון — ניתן לביטול ע"י הנפגע (או ביהמ"ש ב־14(ב)) בלבד.</li>
+      <li><b>"בטל" לעומת "ניתן לביטול":</b> חוזה פסול (ס' 30) — בטל מעצמו. פגמים ברצון — ניתן לביטול ע"י הנפגע (או ביהמ"ש ב־14(ב)) בלבד.</li>
       <li><b>מילים מוחלטות:</b> "תמיד", "רק", "בכל מקרה", "כל פרט" — לרוב לא נכון; חפשו את החריג.</li>
-      <li><b>מתן מול מסירה:</b> מתן קיבול = אמירת/משלוח ה"כן"; מסירה = הגעתו למציע. ס׳ 3(א) ו־4(2) — מתן; ס׳ 10 — מסירה.</li>
+      <li><b>מתן מול מסירה:</b> מתן קיבול = אמירת/משלוח ה"כן"; מסירה = הגעתו למציע. ס' 3(א) ו־4(2) — מתן; ס' 10 — מסירה.</li>
       <li><b>חרטת מציע — שני מסלולים:</b> רגילה — עד מתן הקיבול (3(א)); "ללא חזרה"/עם מועד — משנמסרה לניצע אין חזרה, לפני שנמסרה אפשר (3(ב)).</li>
-      <li><b>חרטת ניצע:</b> נמסרה לא אחרי הודעת הקיבול; הגיעו יחד — החזרה גוברת (ס׳ 10).</li>
+      <li><b>חרטת ניצע:</b> נמסרה לא אחרי הודעת הקיבול; הגיעו יחד — החזרה גוברת (ס' 10).</li>
       <li><b>מוות:</b> לפני מתן הקיבול — פקיעה (4(2)); אחרי — חוזה שעובר ליורשים.</li>
       <li><b>שתיקה:</b> המציע לא כופה (6(ב)); הניצע רשאי מיוזמתו; הצעה מזכה — חזקת קיבול (7).</li>
       <li><b>קיבול בהתנהגות:</b> רק כשנקבע/משתמע (6(א), שג"מ חניונים); משבוצע — חוסם חרטת מציע.</li>
       <li><b>דחיית הצעה:</b> רק מפורשת ואקטיבית מפקיעה (נוה עם); בירור ושיפור אינם דחייה.</li>
       <li><b>טעות — הווה/עבר בלבד:</b> ציפייה לעתיד שהתבדתה = כדאיות (14(ד)); וכך גם AS-IS ונטילת סיכון (כרמל נ׳ טלמון, בן לולו).</li>
       <li><b>14(א) מול 14(ב):</b> ההבדל — ידיעת הצד השני (בפועל/בכוח). ידע → ביטול עצמי; לא ידע → רק ביהמ"ש + חשיפה לפיצויים. טעות משותפת → 14(ב).</li>
-      <li><b>זיכרון דברים:</b> תוכן ולא כותרת; עיקרי הדברים חובה; השלמה רק לפרטים משניים (ס׳ 26 + 41–46); "בכפוף לחוזה" = לא מחייב.</li>
-      <li><b>סעד ס׳ 12:</b> פיצויים (הסתמכות; חריג — קיום), לא ביטול; נתבע גם בלי כריתה וגם כשהחוזה נשאר בתוקף.</li>
+      <li><b>זיכרון דברים:</b> תוכן ולא כותרת; עיקרי הדברים חובה; השלמה רק לפרטים משניים (ס' 26 + 41–46); "בכפוף לחוזה" = לא מחייב.</li>
+      <li><b>סעד ס' 12:</b> פיצויים (הסתמכות; חריג — קיום), לא ביטול; נתבע גם בלי כריתה וגם כשהחוזה נשאר בתוקף.</li>
       <li><b>השלמה "רק מנוהג":</b> לא — גם הוראות החוק המשלימות (41, 44, 45, 46).</li>
     </ol>
   </section>
 
-  <section id="summary">
+  <section id="summary" class="newpage">
     <div class="part-label">חלק ה׳</div>
     <h2>סיכום נושאים מלא</h2>
 
@@ -307,25 +451,25 @@
     <ul>
       <li><b>ענפי המשפט:</b> ציבורי (עונשין, חוקתי, מנהלי, מסים, צבא) מול פרטי (ממון — קניין וחיובים: חוזים, נזיקין, עשיית עושר; משפחה; עבודה; מסחרי). הקורס — משפט פרטי.</li>
       <li><b>חוזים יש לכבד:</b> עיקרון־על; אין "הפרה יעילה" בישראל; שידול להפרה = גרם הפרת חוזה.</li>
-      <li><b>חופש החוזים:</b> צורה (ס׳ 23; חריגים: מקרקעין ס׳ 8, מתנה עתידית); תוכן (ס׳ 24 בכפוף לס׳ 30 — בטל); התקשרות (כשרות — ס׳ 2–5 לחוק הכשרות).</li>
+      <li><b>חופש החוזים:</b> צורה (ס' 23; חריגים: מקרקעין ס' 8, מתנה עתידית); תוכן (ס' 24 בכפוף לס' 30 — בטל); התקשרות (כשרות — ס' 2–5 לחוק הכשרות).</li>
     </ul>
 
-    <h3>2 · מצגת 1 — כריתת חוזה (ס׳ 1–12)</h3>
-    <h4>הצעה (ס׳ 2)</h4>
+    <h3>2 · מצגת 1 — כריתת חוזה (ס' 1–12)</h3>
+    <h4>הצעה (ס' 2)</h4>
     <ul>
       <li><b>גמירת דעת:</b> מבחן אובייקטיבי מרוכך (בוחבוט). העדה: אמירה מפורשת, נסיבות, מונחים משפטיים, מסוימות, התנהגות, חתימה, העברת כספים.</li>
       <li><b>מסוימות:</b> עיקרי הדברים — מלאה ומדויקת במידה מספקת (זנדבנק); מחירון = מחיר.</li>
       <li><b>חסר יסוד:</b> הזמנה להציע הצעות — התגובה אליה היא ההצעה.</li>
     </ul>
-    <h4>השלמת פרטים (ס׳ 26 + 41–50)</h4>
+    <h4>השלמת פרטים (ס' 26 + 41–50)</h4>
     <ul><li>נוהג בין הצדדים ← נוהג מקובל ← החוק: מועד (41), מקום (44), בינוניות (45), סכום ראוי (46). עיקרי הדברים — לעולם לא.</li></ul>
-    <h4>חיי ההצעה (ס׳ 3–4)</h4>
+    <h4>חיי ההצעה (ס' 3–4)</h4>
     <ul>
       <li><b>חזרה (3(א)):</b> שלושה שלבים (מקוזלי): כוונה + הודעה לניצע + לפני מתן הקיבול.</li>
       <li><b>בלתי הדירה (3(ב)):</b> משנמסרה לניצע אין חזרה; לפני מסירתה — אפשר (תשובה נ׳ בר נתן).</li>
       <li><b>פקיעה (4):</b> דחייה מפורשת ואקטיבית (נוה עם) / חלוף מועד או זמן סביר (לפי טיב ההצעה) / מוות, פסלות דין, צו נכסים, פירוק — לפני מתן הקיבול.</li>
     </ul>
-    <h4>קיבול (ס׳ 5–11)</h4>
+    <h4>קיבול (ס' 5–11)</h4>
     <ul>
       <li><b>5:</b> הודעה שנמסרה + גמירת דעת + על יסוד ההצעה ובהתאמה לה.</li>
       <li><b>6(א):</b> בהתנהגות — כשנקבע/משתמע (שג"מ חניונים, הצעות פרס); דינה כהודעת קיבול לעניין 3(א) ו־4(2).</li>
@@ -351,74 +495,74 @@
       <li>שני מבחנים מצטברים: כוונה להתחייב כבר עתה + מסוימות בפרטים המהותיים → חוזה מחייב + ממלא דרישת כתב במקרקעין.</li>
       <li>"בכפוף לחוזה" = לא מחייב; "חוזה מפורט ייערך בעוד שבוע" = מחייב.</li>
     </ul>
-    <h4>תום לב במו"מ (ס׳ 12)</h4>
+    <h4>תום לב במו"מ (ס' 12)</h4>
     <ul>
-      <li><b>תחולה:</b> מהקשר הראשון עד כריתה/סיום; כל מי שנטל חלק (צד, עובד, מתווך); סטנדרט אובייקטיבי; נמשך בתקופת החוזה (ס׳ 39). נתבע גם בלי כריתה וגם כשהחוזה בתוקף.</li>
+      <li><b>תחולה:</b> מהקשר הראשון עד כריתה/סיום; כל מי שנטל חלק (צד, עובד, מתווך); סטנדרט אובייקטיבי; נמשך בתקופת החוזה (ס' 39). נתבע גם בלי כריתה וגם כשהחוזה בתוקף.</li>
       <li><b>מצבים:</b> מו"מ מקביל בהסתרה (זעירא נ׳ קנית); מו"מ ללא כוונת התקשרות; פרישה שלא בתו"ל; חוזה בידיעה שיופר (קוט); הפרת חובת גילוי (פנידר נ׳ קסטרו). פרמטרים לגילוי: זהות, קלות, עלות, מומחיות.</li>
       <li><b>סעד (12(ב)):</b> הסתמכות; חריג — קיום (קל בניין); לעיתים אכיפה (זפניק). [מהשיעורים: קלמר נ׳ גיא.]</li>
     </ul>
 
-    <h3>3 · מצגת 2 — פגמים בכריתה (עד 14(ב) + ס׳ 19–21)</h3>
+    <h3>3 · מצגת 2 — פגמים בכריתה (עד 14(ב) + ס' 19–21)</h3>
     <div class="note"><b>המסגרת:</b> טעות (14), הטעיה (15), כפייה (17), עושק (18) — הפגם מתגלה אחרי הכריתה; ביטול חד־צדדי (14(א), 15, 17, 18) או באישור ביהמ"ש (14(ב)) + השבה (21). ניתן לביטול — לא בטל.</div>
-    <h4>טעות (ס׳ 14) — נלמד</h4>
+    <h4>טעות (ס' 14) — נלמד</h4>
     <ul>
       <li><b>הגדרה:</b> אמונה שאינה תואמת את המציאות (רבינוביץ); הווה או עבר בלבד.</li>
       <li><b>14(א):</b> חוזה; טעות (לא כדאיות); קש"ס; יסודיות ("ניתן להניח שלולא הטעות לא היה מתקשר"); ידיעת הצד השני בפועל או בכוח → ביטול עצמי (20) + השבה (21); כפוף ל־19 ו־14(ג).</li>
       <li><b>14(ב):</b> הצד השני לא ידע → רק ביהמ"ש, משיקולי צדק (נזק/תועלת, רשלנות, אשם תורם) + אפשרות פיצויים לצד השני. [טעות משותפת → 14(ב), זהבה כנען.]</li>
       <li><b>14(ג):</b> תיקון במקום ביטול. <b>14(ד):</b> כדאיות — סיכון מודע שהתממש (פרידמן וכהן; בן לולו; קרקע שלא הופשרה; AS-IS — כרמל נ׳ טלמון). טעות עובדתית על נתון קיים המשליך על שווי — כן עילה (ספקטור).</li>
     </ul>
-    <h4>סעדים בשל פגם (ס׳ 19–22) — נלמד</h4>
+    <h4>סעדים בשל פגם (ס' 19–22) — נלמד</h4>
     <ul>
       <li><b>19:</b> ביטול חלקי; בלי יחידה נפרדת — מבטלים הכול (די וורולי סיאני).</li>
       <li><b>20:</b> הודעה (אף משתמעת) תוך זמן סביר; בכפייה — משפסקה.</li>
-      <li><b>21:</b> השבה בעין או בשווי. <b>22:</b> שמירת תרופות — אפשר לצרף פיצויי ס׳ 12.</li>
+      <li><b>21:</b> השבה בעין או בשווי. <b>22:</b> שמירת תרופות — אפשר לצרף פיצויי ס' 12.</li>
     </ul>
-    <div class="soon"><b>הטעיה (ס׳ 15) — צפוי להילמד ב־1.9:</b> מצג שווא / העלמת מידע / הצהרה כוזבת בשלב הטרום־חוזי, בכתב, בע"פ או בהתנהגות. אקטיבית ("שתילת מידע מוטעה") או פסיבית (אי־גילוי שחובה לגלות לפי דין, נסיבות, נוהג). יסודות: חוזה; הטעיה ע"י הצד השני/מטעמו; טעות (לא כדאיות); קש"ס כפול. סעד: ביטול עצמי (20) + השבה (21). אי־גילוי מהותי = גם ס׳ 12 וגם ס׳ 15. פירוט בנספח.</div>
+    <div class="soon"><b>הטעיה (ס' 15) — צפוי להילמד ב־1.9:</b> מצג שווא / העלמת מידע / הצהרה כוזבת בשלב הטרום־חוזי, בכתב, בע"פ או בהתנהגות. אקטיבית ("שתילת מידע מוטעה") או פסיבית (אי־גילוי שחובה לגלות לפי דין, נסיבות, נוהג). יסודות: חוזה; הטעיה ע"י הצד השני/מטעמו; טעות (לא כדאיות); קש"ס כפול. סעד: ביטול עצמי (20) + השבה (21). אי־גילוי מהותי = גם ס' 12 וגם ס' 15. פירוט בנספח.</div>
   </section>
 
-  <section id="realquiz">
+  <section id="realquiz" class="newpage">
     <div class="part-label">חלק ו׳</div>
     <h2>הבוחן של הכיתה המקבילה (20.5) + פתרון</h2>
     <p>חמשת ההיגדים שנשאלו בפועל. נסו לענות לפני שפותחים:</p>
 
     <details class="q"><summary><span class="n">1.</span>הסעד של הפרת חובת תום לב במשא ומתן הוא ביטול החוזה או פיצויים לבחירת הנפגע.</summary>
       <div class="a"><span class="verdict bad">לא נכון</span>
-        <p>הסעד בס׳ 12(ב) הוא פיצויים — ככלל הסתמכות, ובחריגים קיום (קל בניין) או אכיפה (זפניק). ביטול אינו הסעד — פעמים רבות אין בכלל חוזה, וניתן לתבוע גם כשהחוזה נשאר בתוקף.</p>
+        <p>הסעד בס' 12(ב) הוא פיצויים — ככלל הסתמכות, ובחריגים קיום (קל בניין) או אכיפה (זפניק). ביטול אינו הסעד — פעמים רבות אין בכלל חוזה, וניתן לתבוע גם כשהחוזה נשאר בתוקף.</p>
       </div>
     </details>
     <details class="q"><summary><span class="n">2.</span>שלומי הציע פרס למי שימצא את העגיל שאיבד בכיתה. יוסי יצא לחפש את העגיל. שלומי אינו רשאי כבר להתחרט מההצעה.</summary>
       <div class="a"><span class="verdict good">נכון</span>
-        <p>הצעה לציבור (ס׳ 2 סיפא) שקיבולה במעשה (ס׳ 6(א)). לפי סיפת 6(א), לעניין ס׳ 3(א) ההתנהגות כהודעת קיבול — משהחל יוסי בביצוע, שלומי אינו חוזר בו כלפיו.</p>
+        <p>הצעה לציבור (ס' 2 סיפא) שקיבולה במעשה (ס' 6(א)). לפי סיפת 6(א), לעניין ס' 3(א) ההתנהגות כהודעת קיבול — משהחל יוסי בביצוע, שלומי אינו חוזר בו כלפיו.</p>
         <p class="more">השוו קוזלי: חזרה מהצעת פרס דורשת כוונה + הודעה בדרך מקבילה לפרסום — וכלפי מי שכבר פועל, מאוחר מדי.</p>
       </div>
     </details>
     <details class="q"><summary><span class="n">3.</span>זיכרון דברים יכול להיחשב לחוזה במקרקעין.</summary>
       <div class="a"><span class="verdict good">נכון</span>
-        <p>לפי רבינאי נ׳ מן שקד (ע"א 158/77): גמירת דעת + מסוימות → חוזה מחייב, והמסמך ממלא את דרישת הכתב שבס׳ 8 לחוק המקרקעין.</p>
+        <p>לפי רבינאי נ׳ מן שקד (ע"א 158/77): גמירת דעת + מסוימות → חוזה מחייב, והמסמך ממלא את דרישת הכתב שבס' 8 לחוק המקרקעין.</p>
       </div>
     </details>
     <details class="q"><summary><span class="n">4.</span>כאשר מציע מת לפני מתן הודעת קיבול — ההצעה פוקעת.</summary>
       <div class="a"><span class="verdict good">נכון</span>
-        <p>ס׳ 4(2): פקיעה במות המציע או הניצע לפני מתן הודעת הקיבול. (אחרי — חוזה שעובר ליורשים.)</p>
+        <p>ס' 4(2): פקיעה במות המציע או הניצע לפני מתן הודעת הקיבול. (אחרי — חוזה שעובר ליורשים.)</p>
       </div>
     </details>
     <details class="q"><summary><span class="n">5.</span>ניתן להשלים מכוח הנוהג כל פרט חסר בזיכרון דברים.</summary>
       <div class="a"><span class="verdict bad">לא נכון</span>
-        <p>השלמה (ס׳ 26) — רק לפרטים שאינם מעיקרי הדברים, מכוח נוהג הצדדים, נוהג מקובל או הוראות החוק (41–46). בלי עיקרי הדברים אין חוזה כלל. המילה "כל" היא המלכודת.</p>
+        <p>השלמה (ס' 26) — רק לפרטים שאינם מעיקרי הדברים, מכוח נוהג הצדדים, נוהג מקובל או הוראות החוק (41–46). בלי עיקרי הדברים אין חוזה כלל. המילה "כל" היא המלכודת.</p>
       </div>
     </details>
   </section>
 
-  <section id="practice">
+  <section id="practice" class="newpage">
     <div class="part-label">חלק ז׳</div>
     <h2>מאגר תרגול — 30 היגדים</h2>
     <p>1–10 מהתרגולים הרשמיים ושאלות הבונוס; 11–26 על החומר שבהיקף; 27–30 על חומר הנספח (מסומנים).</p>
 
     <details class="q"><summary><span class="n">1.</span>החובה לנהוג בתום לב במו"מ חלה על כל מי שמשתתף בו, גם אם בסוף לא יהיה צד לחוזה.</summary>
-      <div class="a"><span class="verdict good">נכון</span><p>ס׳ 12(א) — כל מי שנטל חלק במו"מ: צד, עובד חברה, מתווך; בלי תלות בכריתה.</p></div>
+      <div class="a"><span class="verdict good">נכון</span><p>ס' 12(א) — כל מי שנטל חלק במו"מ: צד, עובד חברה, מתווך; בלי תלות בכריתה.</p></div>
     </details>
     <details class="q"><summary><span class="n">2.</span>מודעה שקובעת תמורה "לפי מחירון לוי יצחק" אינה הצעה, כי אין מסוימות.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>מסוימות = עיקרי הדברים (זנדבנק); הפניה למחירון = נקיבת מחיר. הצעה לפי ס׳ 2.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>מסוימות = עיקרי הדברים (זנדבנק); הפניה למחירון = נקיבת מחיר. הצעה לפי ס' 2.</p></div>
     </details>
     <details class="q"><summary><span class="n">3.</span>הצעה שניתן לקבל בהתנהגות אינה מאפשרת למציע להתחרט.</summary>
       <div class="a"><span class="verdict bad">לא נכון</span><p>המציע רשאי לחזור בו (3(א)) כל עוד לא בוצעה ההתנהגות; משבוצעה — דינה כהודעת קיבול (6(א)) והחרטה נחסמת.</p></div>
@@ -427,57 +571,57 @@
       <div class="a"><span class="verdict good">נכון</span><p>רבינאי: גמירת דעת + מסוימות → חוזה, גם אם תוכנן חוזה מפורט שלא נחתם.</p></div>
     </details>
     <details class="q"><summary><span class="n">5.</span>הודעת חרטה של ניצע הגיעה למציע בדיוק יחד עם הודעת הקיבול — אין חוזה.</summary>
-      <div class="a"><span class="verdict good">נכון</span><p>ס׳ 10: "לא לאחר" = לפני או יחד — החזרה גוברת.</p></div>
+      <div class="a"><span class="verdict good">נכון</span><p>ס' 10: "לא לאחר" = לפני או יחד — החזרה גוברת.</p></div>
     </details>
     <details class="q"><summary><span class="n">6.</span>הצעה מזכה ניתן לקבל רק בקיבול מפורש.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 7 — חזקת קיבול בשתיקה; רק ההתנגדות טעונה הודעה תוך זמן סביר.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 7 — חזקת קיבול בשתיקה; רק ההתנגדות טעונה הודעה תוך זמן סביר.</p></div>
     </details>
     <details class="q"><summary><span class="n">7.</span>אם חסרים עיקרי הפרטים בזיכרון דברים, בית המשפט רשאי להשלימם.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>משלימים (ס׳ 26) רק פרטים שאינם עיקר; בלי עיקרי הדברים אין מסוימות ואין חוזה.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>משלימים (ס' 26) רק פרטים שאינם עיקר; בלי עיקרי הדברים אין מסוימות ואין חוזה.</p></div>
     </details>
     <details class="q"><summary><span class="n">8.</span>קיבול בהתנהגות אפשרי בכל סוג של הצעה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 6(א): רק כשנקבע ע"י המציע או משתמע מההצעה (שג"מ חניונים, מודעת פרס).</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 6(א): רק כשנקבע ע"י המציע או משתמע מההצעה (שג"מ חניונים, מודעת פרס).</p></div>
     </details>
     <details class="q"><summary><span class="n">9.</span>בנימין שלח הצעה בדואר רשום, פתוחה ליומיים מיום הגעתה, וכעבור שעה התחרט. הוא יוכל לחזור בו רק אם יודיע לפני הגעת המכתב.</summary>
       <div class="a"><span class="verdict good">נכון</span><p>נקבע מועד לקיבול → בלתי הדירה משנמסרה (3(ב)); חלון החרטה — עד מסירת ההצעה (תשובה נ׳ בר נתן).</p></div>
     </details>
     <details class="q"><summary><span class="n">10.</span><span>רמי מעוניין לבטל חוזה שנכרת עקב כפייה — עליו לעשות זאת תוך זמן סביר מרגע שנכרת החוזה.</span><span class="tag">נספח</span></summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 20: בכפייה — תוך זמן סביר משפסקה הכפייה, לא מהכריתה.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 20: בכפייה — תוך זמן סביר משפסקה הכפייה, לא מהכריתה.</p></div>
     </details>
     <details class="q"><summary><span class="n">11.</span>חוזה למכירת רכב שנעשה בעל פה בלבד — אין לו תוקף.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 23 — חופש הצורה; כתב נדרש רק כשחוק/הסכם קובעים (מקרקעין ס׳ 8; מתנה עתידית).</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 23 — חופש הצורה; כתב נדרש רק כשחוק/הסכם קובעים (מקרקעין ס' 8; מתנה עתידית).</p></div>
     </details>
     <details class="q"><summary><span class="n">12.</span>חוזה שתוכנו נוגד את תקנת הציבור ניתן לביטול ע"י הצד הנפגע.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 30 — בטל מעצמו ומלכתחילה, בלי הודעת ביטול.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 30 — בטל מעצמו ומלכתחילה, בלי הודעת ביטול.</p></div>
     </details>
     <details class="q"><summary><span class="n">13.</span>קטין בן 17 אינו כשיר להתקשר בחוזה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 2 לחוק הכשרות — כל אדם כשר; פעולת קטין טעונה הסכמת נציג (4) וניתנת לביטול (5).</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 2 לחוק הכשרות — כל אדם כשר; פעולת קטין טעונה הסכמת נציג (4) וניתנת לביטול (5).</p></div>
     </details>
     <details class="q"><summary><span class="n">14.</span>מציע רשאי לקבוע שאם הניצע לא יגיב תוך שבוע — ייחשב הדבר הסכמה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 6(ב) — אין תוקף; שתיקה כקיבול רק ביוזמת הניצע, או בהצעה מזכה (7).</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 6(ב) — אין תוקף; שתיקה כקיבול רק ביוזמת הניצע, או בהצעה מזכה (7).</p></div>
     </details>
     <details class="q"><summary><span class="n">15.</span>ניצע שענה "מסכים, בתנאי שהמסירה תוקדם בשבוע" — קיבל את ההצעה ונכרת חוזה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>קיבול תוך שינוי = הצעה חדשה (ס׳ 11); התפקידים מתהפכים.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>קיבול תוך שינוי = הצעה חדשה (ס' 11); התפקידים מתהפכים.</p></div>
     </details>
     <details class="q"><summary><span class="n">16.</span>הודעת קיבול שנשלחה בזמן אך איחרה בגלל תקלת תקשורת שאינה תלויה בניצע — אינה יוצרת חוזה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 8(ב) — נכרת חוזה, אלא אם המציע דחה מיד עם קבלת ההודעה.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 8(ב) — נכרת חוזה, אלא אם המציע דחה מיד עם קבלת ההודעה.</p></div>
     </details>
     <details class="q"><summary><span class="n">17.</span>קיבול של הצעה שפקעה הוא חסר כל נפקות משפטית.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 9 — כמוהו כהצעה חדשה שהמציע המקורי רשאי לקבל.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 9 — כמוהו כהצעה חדשה שהמציע המקורי רשאי לקבל.</p></div>
     </details>
     <details class="q"><summary><span class="n">18.</span>ב׳ השיב "כן" במייל להצעת א׳, ושעה אחר כך — בטרם נקרא המייל — מת. ההצעה פקעה ואין חוזה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 4(2) — פקיעה רק לפני מתן הקיבול; "מתן" = משלוח ה"כן", שכבר נעשה. החוזה מחייב את העיזבון.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 4(2) — פקיעה רק לפני מתן הקיבול; "מתן" = משלוח ה"כן", שכבר נעשה. החוזה מחייב את העיזבון.</p></div>
     </details>
     <details class="q"><summary><span class="n">19.</span>"מתן הודעת קיבול" הוא הרגע שבו ההודעה מגיעה לידי המציע.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>מתן = אמירת/משלוח ה"כן"; ההגעה למציע היא "מסירה". ס׳ 3(א) ו־4(2) — מתן; ס׳ 10 — מסירה.</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>מתן = אמירת/משלוח ה"כן"; ההגעה למציע היא "מסירה". ס' 3(א) ו־4(2) — מתן; ס' 10 — מסירה.</p></div>
     </details>
     <details class="q"><summary><span class="n">20.</span>ניהול מו"מ במקביל עם כמה רוכשים מהווה כשלעצמו חוסר תום לב.</summary>
       <div class="a"><span class="verdict bad">לא נכון</span><p>מו"מ מקביל לגיטימי (זעירא נ׳ קנית); הפסול בהסתרה וביצירת מצג של בלעדיות.</p></div>
     </details>
     <details class="q"><summary><span class="n">21.</span>מי שפרש ממו"מ בלי שנכרת חוזה אינו חשוף לתביעה, שהרי אין חוזה.</summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 12 חל בשלב הטרום־חוזי; פרישה שלא בתו"ל — פיצויי הסתמכות, ובחריגים קיום (קל בניין).</p></div>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 12 חל בשלב הטרום־חוזי; פרישה שלא בתו"ל — פיצויי הסתמכות, ובחריגים קיום (קל בניין).</p></div>
     </details>
-    <details class="q"><summary><span class="n">22.</span>צד שנפגע מחוסר תום לב במו"מ חייב לבטל את החוזה שנכרת כדי לזכות בפיצויים לפי ס׳ 12(ב).</summary>
+    <details class="q"><summary><span class="n">22.</span>צד שנפגע מחוסר תום לב במו"מ חייב לבטל את החוזה שנכרת כדי לזכות בפיצויים לפי ס' 12(ב).</summary>
       <div class="a"><span class="verdict bad">לא נכון</span><p>ניתן לתבוע בין אם נכרת חוזה ובין אם לאו — וגם כשהנפגע משאיר את החוזה בתוקפו.</p></div>
     </details>
     <details class="q"><summary><span class="n">23.</span>רוכשת קרקע חקלאית שקיוותה להפשרה שלא הגיעה — רשאית לבטל בעילת טעות.</summary>
@@ -486,36 +630,36 @@
     <details class="q"><summary><span class="n">24.</span>קונה שרכש נכס "AS-IS" ללא אחריות למצבו, וגילה שטעה בשווי — רשאי לבטל בעילת טעות.</summary>
       <div class="a"><span class="verdict bad">לא נכון</span><p>כרמל נ׳ טלמון (ע"א 7920/13): נטל את הסיכון; טעות בשווי = כדאיות (14(ד)).</p></div>
     </details>
-    <details class="q"><summary><span class="n">25.</span>שני הצדדים טעו יחד לגבי טיב הנכס — הנפגע רשאי לבטל בהודעה לפי ס׳ 14(א).</summary>
+    <details class="q"><summary><span class="n">25.</span>שני הצדדים טעו יחד לגבי טיב הנכס — הנפגע רשאי לבטל בהודעה לפי ס' 14(א).</summary>
       <div class="a"><span class="verdict bad">לא נכון</span><p>טעות משותפת = הצד השני לא ידע → מסלול 14(ב): רק ביהמ"ש, משיקולי צדק (זהבה כנען).</p></div>
     </details>
     <details class="q"><summary><span class="n">26.</span>מי שמצא נעדר באקראי, בלי שחיפש באופן פעיל, אינו זכאי לפרס שהובטח למוסרי מידע.</summary>
       <div class="a"><span class="verdict bad">לא נכון</span><p>קוזלי (ע"א 6295/16): פרשנות "הניצע הסביר" — די במסירת מידע העונה להצעה; אקראיות אינה שוללת, ואין צורך בידיעה ודאית — די בכוונה ותקווה.</p></div>
     </details>
-    <details class="q"><summary><span class="n">27.</span><span>אי־גילוי פרט שחובה לגלותו הוא חוסר תום לב, וגם הטעיה אם נכרת חוזה.</span><span class="tag">ס׳ 15</span></summary>
-      <div class="a"><span class="verdict good">נכון</span><p>אי־גילוי לפי דין, נוהג או נסיבות מפר את ס׳ 12; נכרת חוזה — גם הטעיה פסיבית (ס׳ 15) המקנה ביטול.</p></div>
+    <details class="q"><summary><span class="n">27.</span><span>אי־גילוי פרט שחובה לגלותו הוא חוסר תום לב, וגם הטעיה אם נכרת חוזה.</span><span class="tag">ס' 15</span></summary>
+      <div class="a"><span class="verdict good">נכון</span><p>אי־גילוי לפי דין, נוהג או נסיבות מפר את ס' 12; נכרת חוזה — גם הטעיה פסיבית (ס' 15) המקנה ביטול.</p></div>
     </details>
-    <details class="q"><summary><span class="n">28.</span><span>מי שהוטעה ע"י מתווך מטעם המוכר אינו יכול לבטל מול המוכר, כי המוכר עצמו לא הטעה.</span><span class="tag">ס׳ 15</span></summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 15 — "הצד השני או אחר מטעמו"; הטעיית שלוח מקנה ביטול מול הצד עצמו.</p></div>
+    <details class="q"><summary><span class="n">28.</span><span>מי שהוטעה ע"י מתווך מטעם המוכר אינו יכול לבטל מול המוכר, כי המוכר עצמו לא הטעה.</span><span class="tag">ס' 15</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 15 — "הצד השני או אחר מטעמו"; הטעיית שלוח מקנה ביטול מול הצד עצמו.</p></div>
     </details>
-    <details class="q"><summary><span class="n">29.</span><span>בחוזה נכתב בטעות "573 מ"ר" במקום "375 מ"ר" — הצד המעוניין רשאי לבטל את החוזה.</span><span class="tag">ס׳ 16</span></summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>טעות סופר (ס׳ 16) — מתקנים לפי אומד דעת הצדדים; ההתכחשות לה — חוסר תום לב.</p></div>
+    <details class="q"><summary><span class="n">29.</span><span>בחוזה נכתב בטעות "573 מ"ר" במקום "375 מ"ר" — הצד המעוניין רשאי לבטל את החוזה.</span><span class="tag">ס' 16</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>טעות סופר (ס' 16) — מתקנים לפי אומד דעת הצדדים; ההתכחשות לה — חוסר תום לב.</p></div>
     </details>
-    <details class="q"><summary><span class="n">30.</span><span>ספק שאמר "אם לא תשלם עד מחר — אגיש תביעה", והלקוח חתם על הסדר — הלקוח רשאי לבטל בעילת כפייה.</span><span class="tag">ס׳ 17</span></summary>
-      <div class="a"><span class="verdict bad">לא נכון</span><p>ס׳ 17(ב) — אזהרה בתום לב על הפעלת זכות אינה איום; כפייה = לחץ בלתי לגיטימי, מפתיע וחמור (אקספומדיה; מאיה נ׳ פנפורד).</p></div>
+    <details class="q"><summary><span class="n">30.</span><span>ספק שאמר "אם לא תשלם עד מחר — אגיש תביעה", והלקוח חתם על הסדר — הלקוח רשאי לבטל בעילת כפייה.</span><span class="tag">ס' 17</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 17(ב) — אזהרה בתום לב על הפעלת זכות אינה איום; כפייה = לחץ בלתי לגיטימי, מפתיע וחמור (אקספומדיה; מאיה נ׳ פנפורד).</p></div>
     </details>
   </section>
 
-  <section id="casestudy">
+  <section id="casestudy" class="newpage">
     <div class="part-label">חלק ח׳</div>
     <h2>קייסים רשמיים עם פתרון</h2>
     <p><b>שיטה:</b> שלבי הכריתה כרונולוגית (הזמנה להציע? הצעה? קיבול / תוך שינוי / דחייה?) → עילות → סעדים, עם סעיף לכל שלב.</p>
     <h3>קייס 1 — תמרי הנגר (מ"שקפי החזרה" הרשמיים)</h3>
     <div class="case-box">תמרי, נגר בעל שם, הציב כוננית בחלון הראווה עם תווית מחיר 6,000 ₪. ניר נכנס והציע 5,000 ₪ כולל הובלה והרכבה על חשבון תמרי. תמרי סירב. למחרת שלח ניר מייל: 5,000 ₪ והובלה עליו, "אם לא אשמע ממך עד מחר — אראה בכך הסכמה". תמרי לא ענה והפיק חשבונית. ניר לא הגיע לאסוף, ותמרי דורש לקיים את החוזה.</div>
     <ol>
-      <li><b>כוננית + תווית מחיר:</b> הצעה לציבור (ס׳ 2) — פנייה, גמירת דעת, מסוימות.</li>
-      <li><b>הצעת ניר:</b> קיבול תוך שינוי = הצעה חדשה (ס׳ 11); ניר נעשה מציע.</li>
-      <li><b>סירוב תמרי:</b> דחייה מפורשת — הצעת ניר פקעה (ס׳ 4(1)).</li>
+      <li><b>כוננית + תווית מחיר:</b> הצעה לציבור (ס' 2) — פנייה, גמירת דעת, מסוימות.</li>
+      <li><b>הצעת ניר:</b> קיבול תוך שינוי = הצעה חדשה (ס' 11); ניר נעשה מציע.</li>
+      <li><b>סירוב תמרי:</b> דחייה מפורשת — הצעת ניר פקעה (ס' 4(1)).</li>
       <li><b>המייל:</b> הצעה חדשה; כפיית שתיקה — חסרת תוקף (6(ב)), אך תמרי רשאי מיוזמתו לאמץ שתיקה כקיבול.</li>
       <li><b>הפקת החשבונית:</b> קיבול בהתנהגות (6(א)) — נכרת חוזה. תמרי צודק.</li>
     </ol>
@@ -523,33 +667,78 @@
     <div class="case-box">סיגל פרסמה בפייסבוק שהיא מחפשת מורה לגיטרה לבנה. איתי, חסר ניסיון בהוראה, פנה: "בעל ניסיון עשיר בלימוד גיטרה וילדים. 100 ₪ לשיעור". סיגל הציעה 75 ₪; איתי הסכים; נקבעו שיעורים. לאחר כמה שיעורים גילתה סיגל שאין לו ניסיון. דונו לפי חוק החוזים (חלק כללי).</div>
     <ol>
       <li><b>המודעה:</b> הזמנה להציע הצעות.</li>
-      <li><b>פניית איתי:</b> הצעה (ס׳ 2).</li>
-      <li><b>תגובת סיגל (75 ₪):</b> קיבול תוך שינוי = הצעה חדשה (ס׳ 11).</li>
-      <li><b>הסכמת איתי והשיעורים:</b> קיבול (ס׳ 5; אף 6(א)) — נכרת חוזה.</li>
-      <li><b>עילות:</b> חוסר תו"ל (ס׳ 12) — מצג שווא; טעות ידועה (14(א)) — יסודית, קש"ס, איתי ידע; והטעיה אקטיבית (ס׳ 15) עם קש"ס כפול.</li>
-      <li><b>סעדים:</b> ביטול (20) + השבה (21) + פיצויי הסתמכות מכוח 12(ב) (ס׳ 22 — שמירת תרופות).</li>
+      <li><b>פניית איתי:</b> הצעה (ס' 2).</li>
+      <li><b>תגובת סיגל (75 ₪):</b> קיבול תוך שינוי = הצעה חדשה (ס' 11).</li>
+      <li><b>הסכמת איתי והשיעורים:</b> קיבול (ס' 5; אף 6(א)) — נכרת חוזה.</li>
+      <li><b>עילות:</b> חוסר תו"ל (ס' 12) — מצג שווא; טעות ידועה (14(א)) — יסודית, קש"ס, איתי ידע; והטעיה אקטיבית (ס' 15) עם קש"ס כפול.</li>
+      <li><b>סעדים:</b> ביטול (20) + השבה (21) + פיצויי הסתמכות מכוח 12(ב) (ס' 22 — שמירת תרופות).</li>
     </ol>
   </section>
 
-  <section id="appendix">
+  <section id="law" class="newpage">
+    <div class="part-label">נספח חקיקה</div>
+    <h2>לשון הסעיפים — לציטוט מדויק</h2>
+    <p>הסעיפים שלהלן מובאים <b>כלשונם מהמצגות של המרצה</b>. סעיפים המסומנים <b>"תמצית"</b> מובאים בניסוח מתומצת — ציין בבחינה את מספר הסעיף, ואם נדרש ציטוט מילולי מדויק היעזר בקובץ החקיקה המודפס.</p>
+
+    <h3>כריתת החוזה</h3>
+    <div class="law"><span class="num">ס' 2 — הצעה</span><p class="txt">"פנייתו של אדם לחברו היא בגדר הצעה, אם היא מעידה על גמירת דעתו של המציע להתקשר עם הניצע בחוזה והיא מסויימת כדי אפשרות לכרות את החוזה בקיבול ההצעה; הפניה יכול שתהיה לציבור."</p></div>
+    <div class="law"><span class="num">ס' 3 — חזרה מן ההצעה</span><p class="txt">"(א) המציע רשאי לחזור בו מן ההצעה בהודעה לניצע, ובלבד שהודעת החזרה נמסרה לניצע לפני שנתן הודעת קיבול.<br>(ב) קבע המציע שהצעתו היא ללא חזרה, או שקבע מועד לקיבולה, אין הוא רשאי לחזור בו ממנה לאחר שנמסרה לניצע."</p></div>
+    <div class="law"><span class="num">ס' 4 — פקיעת ההצעה</span><p class="txt">"ההצעה פוקעת — (1) כשדחה אותה הניצע או עבר המועד לקיבולה; (2) כשמת המציע או הניצע או כשנעשה אחד מהם פסול־דין או ניתן נגדו צו לקבלת נכסים או צו פירוק, והכל לפני מתן הודעת הקיבול."</p></div>
+    <div class="law"><span class="num">ס' 5 — הקיבול</span><p class="txt">"הקיבול יהיה בהודעת הניצע שנמסרה למציע ומעידה על גמירת דעתו של הניצע להתקשר עם המציע בחוזה לפי ההצעה."</p></div>
+    <div class="law"><span class="num">ס' 6 — קיבול בהתנהגות ובשתיקה</span><p class="txt">"(א) הקיבול יכול שיהיה במעשה לביצוע החוזה או בהתנהגות אחרת, אם דרכים אלה של קיבול משתמעות מן ההצעה; ולענין סעיפים 3(א) ו־4(2), התנהגות כאמור דינה כדין מתן הודעת קיבול.<br>(ב) קביעת המציע שהעדר תגובה מצד הניצע ייחשב לקיבול, אין לה תוקף."</p></div>
+    <div class="law"><span class="num">ס' 7 — הצעה מזכה</span><p class="txt">"הצעה שאין בה אלא כדי לזכות את הניצע, חזקה עליו שקיבל אותה, זולת אם הודיע למציע על התנגדותו תוך זמן סביר לאחר שנודע לו עליה."</p></div>
+    <div class="law"><span class="num">ס' 8 — מועד הקיבול</span><p class="txt">"(א) אין לקבל הצעה אלא תוך התקופה שנקבעה לכך בהצעה, ובאין תקופה כזאת — תוך זמן סביר.<br>(ב) נתן הניצע הודעת קיבול בעוד מועד, אך הודעתו נמסרה למציע באיחור מחמת סיבה שאינה תלויה בניצע ולא היתה ידועה לו, נכרת החוזה, זולת אם הודיע המציע לניצע על דחיית הקיבול מיד לאחר שנמסרה לו הודעת הקיבול."</p></div>
+    <div class="law"><span class="num">ס' 9 — קיבול לאחר פקיעה</span><p class="txt">"קיבול של הצעה לאחר שפקעה, כמוהו כהצעה חדשה."</p></div>
+    <div class="law"><span class="num">ס' 10 — חזרה מן הקיבול</span><p class="txt">"הניצע רשאי לחזור בו מן הקיבול בהודעה למציע, ובלבד שהודעת החזרה נמסרה למציע לא לאחר שנמסרה לו הודעת הקיבול או שנודע לו על קיבול בדרך האמורה בסעיף 6(א)."</p></div>
+    <div class="law"><span class="num">ס' 11 — קיבול תוך שינוי</span><p class="txt">"קיבול שיש בו תוספת, הגבלה או שינוי אחר לעומת ההצעה כמוהו כהצעה חדשה."</p></div>
+    <div class="law"><span class="num">ס' 12(א) — תום לב במשא ומתן</span><p class="txt">"במשא ומתן לקראת כריתתו של חוזה חייב אדם לנהוג בדרך מקובלת ובתום לב."</p></div>
+    <div class="law para"><span class="num">ס' 12(ב) — הסעד</span><p class="txt">צד שלא נהג בדרך מקובלת ובתום לב חייב לפצות את הצד השני על הנזק שנגרם לו עקב המשא ומתן או עקב כריתת החוזה.</p><p class="gloss">בפסיקה: פיצויי הסתמכות (שליליים); בחריג — פיצויי קיום (קל בניין).</p></div>
+    <div class="law"><span class="num">ס' 26 — השלמת פרטים</span><p class="txt">"פרטים שלא נקבעו בחוזה או על פיו יהיו לפי הנוהג הקיים בין הצדדים, ובאין נוהג כזה — לפי הנוהג המקובל בחוזים מאותו סוג, ויראו גם פרטים אלה כמוסכמים."</p></div>
+
+    <h3>פגמים בכריתה</h3>
+    <div class="law"><span class="num">ס' 14(א) — טעות ידועה</span><p class="txt">"מי שהתקשר בחוזה עקב טעות וניתן להניח שלולא הטעות לא היה מתקשר בחוזה והצד השני ידע או היה עליו לדעת על כך, רשאי לבטל את החוזה."</p></div>
+    <div class="law"><span class="num">ס' 14(ב) — טעות שאינה ידועה</span><p class="txt">"מי שהתקשר בחוזה עקב טעות וניתן להניח שלולא הטעות לא היה מתקשר בחוזה והצד השני לא ידע ולא היה עליו לדעת על כך, רשאי בית המשפט, לפי בקשת הצד שטעה, לבטל את החוזה, אם ראה שמן הצדק לעשות זאת; עשה כן, רשאי בית המשפט לחייב את הצד שטעה בפיצויים בעד הנזק שנגרם לצד השני עקב כריתת החוזה."</p></div>
+    <div class="law"><span class="num">ס' 14(ג) — תיקון הטעות</span><p class="txt">"טעות אינה עילה לביטול חוזה, אם ניתן לקיים את החוזה בתיקון הטעות והצד השני הודיע, לפני שבוטל החוזה, שהוא מוכן לעשות כן."</p></div>
+    <div class="law para"><span class="num">ס' 14(ד) — הגדרת "טעות"</span><p class="txt">"טעות" לעניין סעיף זה וסעיף 15 — בין בעובדה ובין בחוק, להוציא טעות שאינה אלא בכדאיות העסקה.</p><p class="gloss">זהו הסייג המרכזי: סיכון שנטל צד במפורש או מכללא והתממש — אינו טעות.</p></div>
+    <div class="law"><span class="num">ס' 15 — הטעיה <span style="font-size:12px;font-weight:400">[צפוי ב־1.9]</span></span><p class="txt">"מי שהתקשר בחוזה עקב טעות שהיא תוצאת הטעיה שהטעהו הצד השני או אחר מטעמו, רשאי לבטל את החוזה; לענין זה, 'הטעיה' — לרבות אי־גילוין של עובדות אשר לפי דין, לפי נוהג או לפי הנסיבות היה על הצד השני לגלותן."</p></div>
+    <div class="law"><span class="num">ס' 19 — ביטול חלקי</span><p class="txt">"ניתן החוזה להפרדה לחלקים ועילת הביטול נוגעת רק לאחד מחלקיו, ניתן לביטול אותו חלק בלבד; אולם אם יש להניח שהצד הרשאי לבטל לא היה מתקשר בחוזה לולא העילה, רשאי הוא לבטל את החלק האמור או את החוזה כולו."</p></div>
+    <div class="law para"><span class="num">ס' 20 — דרך הביטול</span><p class="txt">ביטול החוזה יהיה בהודעת המתקשר לצד השני תוך זמן סביר לאחר שנודע לו על עילת הביטול, ובמקרה של כפייה — תוך זמן סביר לאחר שנודע לו שפסקה הכפייה.</p><p class="gloss">ההודעה יכולה להיות אף משתמעת (מהמצגת).</p></div>
+    <div class="law para"><span class="num">ס' 21 — השבה</span><p class="txt">משבוטל החוזה, חייב כל צד להשיב לצד השני מה שקיבל על פי החוזה, ואם ההשבה היתה בלתי אפשרית או בלתי סבירה — לשלם לו את שוויו של מה שקיבל.</p></div>
+    <div class="law para"><span class="num">ס' 22 — שמירת תרופות</span><p class="txt">אין בהוראות פרק זה כדי לגרוע מהוראות כל דין בדבר תרופות אחרות.</p><p class="gloss">המשמעות המעשית: אפשר לצרף פיצויי ס' 12 לביטול ולהשבה.</p></div>
+
+    <h3>עקרונות ומסגרת</h3>
+    <div class="law"><span class="num">ס' 23 — צורת החוזה</span><p class="txt">"חוזה יכול שייעשה בעל פה, בכתב או בצורה אחרת, זולת אם היתה צורה מסויימת תנאי לתקפו על פי חוק או הסכם בין הצדדים."</p></div>
+    <div class="law"><span class="num">ס' 30 — חוזה פסול</span><p class="txt">"חוזה שכריתתו, תכנו או מטרתו הם בלתי חוקיים, בלתי מוסריים או סותרים את תקנת הציבור — בטל."</p></div>
+    <div class="law"><span class="num">חוק הכשרות המשפטית, ס' 2 — כשרות</span><p class="txt">"כל אדם כשר לפעולות משפטיות, זולת אם נשללה או הוגבלה כשרות זו בחוק או בפסק דין של בית משפט."</p></div>
+    <div class="law"><span class="num">שם, ס' 3 — קטינות ובגירות</span><p class="txt">"אדם שלא מלאו לו 18 שנה הוא קטין; אדם שמלאו לו 18 שנה הוא בגיר."</p></div>
+    <div class="law"><span class="num">שם, ס' 4 — פעולות של קטין</span><p class="txt">"פעולה משפטית של קטין טעונה הסכמת נציגו; ההסכמה יכולה להינתן מראש או למפרע לפעולה מסויימת או לסוג מסויים של פעולות..."</p></div>
+
+    <h3>סעיפי הכפייה והעושק <span style="font-size:13px;font-weight:400;color:var(--muted)">(נספח — טרם נלמד)</span></h3>
+    <div class="law"><span class="num">ס' 17(א) — כפייה</span><p class="txt">"מי שהתקשר בחוזה עקב כפיה שכפה עליו הצד השני או אחד מטעמו, בכוח או באיום, רשאי לבטל את החוזה."</p></div>
+    <div class="law"><span class="num">ס' 17(ב) — אזהרה בתום לב</span><p class="txt">"אזהרה בתום־לב על הפעלתה של זכות אינה בגדר איום לעניין סעיף זה."</p></div>
+    <div class="law"><span class="num">ס' 18 — עושק</span><p class="txt">"מי שהתקשר בחוזה עקב ניצול הצד השני או אחר מטעמו את מצוקת המתקשר, חולשתו השכלית או הגופנית או חוסר נסיונו, ותנאי החוזה גרועים במידה בלתי סבירה מן המקובל, רשאי לבטל את החוזה."</p></div>
+    <div class="law para"><span class="num">ס' 16 — טעות סופר</span><p class="txt">נפלה בחוזה טעות סופר או טעות כיוצא בה, יתוקן החוזה לפי אומד דעת הצדדים ואין הטעות עילה לביטול החוזה.</p></div>
+  </section>
+
+  <section id="appendix" class="newpage">
     <div class="part-label">נספח</div>
     <h2>חומר שטרם נלמד (נכון ל־25.8)</h2>
     <p class="lead">מהמשך מצגת 2 — אם המרצה תספיק לפני 8.9, זה מוכן; אחרת כנראה לא ייכלל.</p>
-    <h4>הטעיה (ס׳ 15) — פירוט</h4>
+    <h4>הטעיה (ס' 15) — פירוט</h4>
     <ul>
       <li><b>אקטיבית:</b> "שתילת מידע מוטעה" — גם בתום לב ("עבר 50,000 ק"מ" כשעבר 200,000; פרסומת מטעה).</li>
       <li><b>פסיבית:</b> אי־גילוי שחובה לגלות לפי דין, הנסיבות או נוהג (רטיבות, תאונה קשה).</li>
       <li><b>סעד:</b> ביטול עצמי (20) + השבה (21); כפוף ל־19 ולסייג הכדאיות; קש"ס כפול נדרש.</li>
     </ul>
-    <h4>טעות סופר (ס׳ 16)</h4>
+    <h4>טעות סופר (ס' 16)</h4>
     <ul><li>מתקנים לפי אומד דעת הצדדים; אין ביטול. המתכחש — חוסר תום לב; המוסכם בע"פ גובר על הכתוב.</li></ul>
-    <h4>כפייה (ס׳ 17)</h4>
+    <h4>כפייה (ס' 17)</h4>
     <ul>
       <li><b>יסודות:</b> חוזה + כפייה בכוח/באיום + ע"י הצד השני או מטעמו + קש"ס. צד שלישי עצמאי — לא (שושנה קרן).</li>
       <li><b>כלכלית:</b> אקספומדיה (ע"א 8/88) — איום מפתיע, חמור ובלתי הפיך, "גובל בסחיטה"; מאיה נ׳ פנפורד (ע"א 1569/93) — איכות הלחץ ועוצמתו ("מקדיח את התבשיל").</li>
-      <li><b>17(ב):</b> אזהרה בתום לב על הפעלת זכות — אינה איום. <b>ביטול:</b> תוך זמן סביר משפסקה הכפייה (20) + השבה; אפשר לצרף פיצויי ס׳ 12 (22).</li>
+      <li><b>17(ב):</b> אזהרה בתום לב על הפעלת זכות — אינה איום. <b>ביטול:</b> תוך זמן סביר משפסקה הכפייה (20) + השבה; אפשר לצרף פיצויי ס' 12 (22).</li>
     </ul>
-    <h4>עושק (ס׳ 18)</h4>
+    <h4>עושק (ס' 18)</h4>
     <ul><li>ניצול (ביודעין/בעצימת עיניים — סאסי) של מצוקה, חולשה שכלית/גופנית או חוסר ניסיון, במצב חמור במועד ההתקשרות; קש"ס כפול; ותנאים גרועים במידה בלתי סבירה (בוחנים את החוזה כולו).</li></ul>
   </section>
 
@@ -559,6 +748,26 @@
   </footer>
 </div>
 
+<script>
+  (function () {
+    var btn = document.getElementById('toggleAll');
+    var all = function () { return Array.prototype.slice.call(document.querySelectorAll('details.q')); };
+    var expanded = false;
+    if (btn) {
+      btn.addEventListener('click', function () {
+        expanded = !expanded;
+        all().forEach(function (d) { d.open = expanded; });
+        btn.textContent = expanded ? 'סגור את כל התשובות' : 'פתח את כל התשובות';
+      });
+    }
+    // Make sure every answer is visible on paper, then restore the reader's state.
+    window.addEventListener('beforeprint', function () {
+      all().forEach(function (d) { d.dataset.prev = d.open ? '1' : '0'; d.open = true; });
+    });
+    window.addEventListener('afterprint', function () {
+      all().forEach(function (d) { d.open = d.dataset.prev === '1'; });
+    });
+  })();
+</script>
 </body>
 </html>
-
