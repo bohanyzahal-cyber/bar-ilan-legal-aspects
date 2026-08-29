@@ -276,6 +276,28 @@
     footer.fin { page-break-inside: avoid; }
     footer.fin .big { color: #000; }
   }
+
+  /* ---------- scope filter: quiz 8.9 vs full course ---------- */
+  body[data-scope="quiz"] [data-only="final"] { display: none !important; }
+  .scopebar {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    margin:14px 0 0; padding:10px 12px; border:1px solid var(--line);
+    border-radius:10px; background:var(--card);
+  }
+  .scopebar .lbl { font-weight:700; font-size:.92rem }
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden }
+  .seg button {
+    border:0; padding:7px 14px; font:inherit; font-weight:600; cursor:pointer;
+    background:transparent; color:inherit;
+  }
+  .seg button[aria-pressed="true"] { background:var(--ink); color:var(--bg) }
+  .scopebar .hint { font-size:.84rem; color:var(--muted) }
+  .finaltag {
+    display:inline-block; font-size:.72rem; font-weight:700; padding:1px 7px;
+    border:1px solid var(--line); border-radius:999px; margin-inline-start:8px;
+    vertical-align:middle; color:var(--muted);
+  }
+  @media print { .scopebar { display:none } }
 </style>
 </head>
 <body>
@@ -299,12 +321,30 @@
       <ol>
         <li><b>את החוברת הזו</b> — כפתור ההדפסה למטה מפיק גרסה נקייה בשחור־לבן, עם כל התשובות פתוחות.</li>
         <li><b>קובץ החקיקה של המרצה</b> — הנספח כאן מכיל את הסעיפים המרכזיים, אבל קובץ החקיקה המלא שווה את הדפים.</li>
-        <li>סמן בטוש את <b>הדף המהיר</b> (מיד למטה) ואת <b>טבלת הסעיפים</b> — אלה שני הדפים שתחזור אליהם בפועל.</li>
+        <li><b>ערכת הבוחן</b> (למטה, PDF) — 8 עמודים עם ההדגשות כבר בפנים, כולל פ"ד קוזלי. הדבר היחיד שכדאי לתקן ידנית: במצגת 1, שקפים 24–25, "הודעת החזרה הגיעה <b>לניצע</b>" → הנכון <b>למציע</b>.</li>
       </ol>
       <div class="btnrow">
         <button class="act" onclick="window.print()">🖨️ הדפס את החוברת</button>
         <button class="act ghost" id="toggleAll">פתח את כל התשובות</button>
       </div>
+    </div>
+
+    <div class="scopebar">
+      <span class="lbl">היקף החומר:</span>
+      <span class="seg">
+        <button type="button" id="scQuiz" aria-pressed="true">בוחן 8.9</button>
+        <button type="button" id="scFull" aria-pressed="false">מבחן מסכם</button>
+      </span>
+      <span class="hint" id="scHint">מוצג רק מה שבהיקף הבוחן. „מבחן מסכם” מוסיף ס׳ 16–18, תרופות, צורה וריבוי חייבים.</span>
+    </div>
+
+    <div class="printbox" style="margin-top:14px">
+      <h3>📦 חומרים להורדה</h3>
+      <ul>
+        <li><b><a href="בוחן%208.9/ערכת-בוחן.pdf">ערכת בוחן — PDF להדפסה</a></b> — 8 עמודים, ההדגשות כבר בפנים, עמיד לשחור־לבן. זה מה שלוקחים לשולחן.</li>
+        <li><b><a href="בוחן%208.9/תרגול-בנהיגה.mp3">תרגול בנהיגה — MP3</a></b> — 30 דק׳: 30 היגדים, 25 שליפות סעיפים, 19 פסקי דין. שאלה, שקט לתשובה שלך, ואז התשובה.</li>
+        <li><b><a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/tree/main/%D7%94%D7%A7%D7%9C%D7%98%D7%95%D7%AA">סיכומי 8 ההקלטות</a></b> — מה נלמד בכל שיעור, על מה הודגש ואילו דוגמאות ניתנו.</li>
+      </ul>
     </div>
   </header>
 
@@ -320,7 +360,9 @@
     <a href="#write">חדר כתיבה</a>
     <a href="#casestudy">קייסים</a>
     <a href="#law">לשון החוק</a>
-    <a href="#appendix">נספח</a>
+    <a href="#appendix" data-only="final">ס׳ 16–18</a>
+    <a href="#remedies" data-only="final">תרופות</a>
+    <a href="#form" data-only="final">צורה וריבוי חייבים</a>
   </nav>
 
   <section id="quick">
@@ -848,10 +890,10 @@
     <div class="law para"><span class="num">ס' 16 — טעות סופר</span><p class="txt">נפלה בחוזה טעות סופר או טעות כיוצא בה, יתוקן החוזה לפי אומד דעת הצדדים ואין הטעות עילה לביטול החוזה.</p></div>
   </section>
 
-  <section id="appendix" class="newpage">
+  <section id="appendix" class="newpage" data-only="final">
     <div class="part-label">נספח</div>
-    <h2>חומר שטרם נלמד — ס׳ 16–18 (נכון ל־28.8)</h2>
-    <p class="lead">טעות סופר, כפייה ועושק — מהמשך מצגת 2. אם המרצה תספיק ב־1.9 זה מוכן; אחרת לא ייכלל. <b>ס׳ 15 נלמד ב־25.8 והועבר לגוף החוברת.</b></p>
+    <h2>ס׳ 16–18 — טעות סופר, כפייה ועושק <span class="finaltag">מבחן מסכם</span></h2>
+    <p class="lead">מהמשך מצגת 2. <b>אינם בהיקף בוחן 8.9</b> — נכללים במבחן המסכם.</p>
     <h4>טעות סופר (ס' 16)</h4>
     <ul><li>מתקנים לפי אומד דעת הצדדים; אין ביטול. המתכחש — חוסר תום לב; המוסכם בע"פ גובר על הכתוב.</li></ul>
     <h4>כפייה (ס' 17)</h4>
@@ -862,6 +904,78 @@
     </ul>
     <h4>עושק (ס' 18)</h4>
     <ul><li>ניצול (ביודעין/בעצימת עיניים — סאסי) של מצוקה, חולשה שכלית/גופנית או חוסר ניסיון, במצב חמור במועד ההתקשרות; קש"ס כפול; ותנאים גרועים במידה בלתי סבירה (בוחנים את החוזה כולו).</li></ul>
+  </section>
+
+
+  <section id="remedies" class="newpage" data-only="final">
+    <div class="part-label">מבחן מסכם</div>
+    <h2>תרופות בשל הפרת חוזה <span class="finaltag">מצגת 4</span></h2>
+    <p class="lead">חוק החוזים (תרופות בשל הפרת חוזה), התשל"א־1970. <b>אינו בהיקף בוחן 8.9.</b></p>
+
+    <h3>נקודת המוצא — שלוש תרופות, והבחירה בידי הנפגע</h3>
+    <ul>
+      <li><b>ס' 1:</b> "הפרה" — מעשה או מחדל שהם בניגוד לחוזה.</li>
+      <li><b>ס' 2:</b> לנפגע נתונה הבחירה בין <b>אכיפה</b>, <b>ביטול</b> ו<b>פיצויים</b> (כסעד עיקרי או בנוסף). <b>הבחירה בידי הנפגע.</b></li>
+    </ul>
+
+    <h3>אכיפה — הסעד העיקרי (ס' 3)</h3>
+    <p>הנפגע <b>זכאי</b> לאכיפה, זולת אם מתקיים אחד מארבעה חריגים:</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>ס'</th><th>החריג</th><th>הערה</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">3(1)</td><td>החוזה <b>אינו בר־ביצוע</b></td><td class="kw">אי־אפשרות</td></tr>
+        <tr><td class="sec">3(2)</td><td>אכיפה היא כפייה לעשות או לקבל <b>עבודה או שירות אישי</b></td><td class="kw">Wagner, פ"ד צרי · חריגים: פיטורין שלא בתום לב, על רקע התארגנות, או של אישה בהריון</td></tr>
+        <tr><td class="sec">3(3)</td><td>הביצוע דורש <b>מידה בלתי סבירה של פיקוח</b></td><td class="kw">פגיעה ביעילות</td></tr>
+        <tr><td class="sec">3(4)</td><td>האכיפה <b>בלתי צודקת</b> בנסיבות</td><td class="kw">צדק אישי/ציבורי; יועדף הצדק מצד הנפגע (ג. שלו) + מבחן תום הלב</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>ביטול — והבחנת ההפרה היסודית (ס' 6–7)</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>סוג</th><th>המבחן</th><th>הביטול</th></tr></thead>
+      <tbody>
+        <tr><td><b>יסודית מסתברת</b> (אובייקטיבית)</td><td>חוזרים למועד הכריתה ושואלים <b>אדם סביר</b>: מה תוצאות ההפרה, והאם לאורן היה מתקשר? (ד"נ 44/75 פרץ נ' ביטון)</td><td><b>ביטול מיידי</b> — ס' 7(א)</td></tr>
+        <tr><td><b>יסודית מוסכמת</b> (סובייקטיבית)</td><td>הצדדים קבעו במפורש בחוזה שההפרה יסודית</td><td><b>ביטול מיידי</b> — ס' 7(א)</td></tr>
+        <tr class="hot"><td><b>לא יסודית</b></td><td>כל השאר</td><td>חובה לתת <b>ארכה</b> לקיום; רק אם לא קויים תוך זמן סביר — ביטול. <b>וגם אז</b> לא יבוטל אם הביטול בלתי צודק (ס' 7(ב))</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>חריג לתניה גורפת:</b> תניה ההופכת הפרות רבות ליסודיות <b>ללא הבחנה</b> — אין לה תוקף, אלא אם הייתה סבירה בעת הכריתה (ס' 6 סיפא).</p>
+    <p><b>ביטול חלקי (ס' 7(ג)):</b> חוזה הניתן להפרדה והעילה נוגעת לחלק — יבוטל אותו חלק בלבד. הביטול גורר <b>השבה הדדית</b> בעין או בשווי.</p>
+
+    <h3>פיצויים (ס' 10, 13, 14)</h3>
+    <ul>
+      <li><b>ס' 10 — הזכות לפיצויים:</b> בעד הנזק שנגרם <b>עקב ההפרה ותוצאותיה</b>, <b>שהמפר ראה או שהיה עליו לראותו מראש בעת הכריתה</b> כתוצאה מסתברת של ההפרה.</li>
+      <li><b>ארבעת יסודות ס' 10:</b> ① נזק ② <b>סיבתיות</b> — מבחן ה"אלמלא" ③ <b>צפיות</b> בעת הכריתה ④ <b>ודאות</b> — הנזק יוכח בוודאות סבירה.</li>
+      <li><b>ס' 13 — נזק שאינו ממוני:</b> עגמת נפש — ביהמ"ש רשאי לפסוק פיצוי בשיעור שייראה לו.</li>
+      <li><b>ס' 14 — חובת הקטנת הנזק:</b> אין פיצוי בעד נזק שהנפגע יכול היה למנוע או להקטין באמצעים סבירים (פס"ד תושייה). הוציא הוצאות סבירות להקטנה — <b>המפר משפה עליהן</b>, בין אם הנזק נמנע ובין אם לאו.</li>
+    </ul>
+  </section>
+
+  <section id="form" class="newpage" data-only="final">
+    <div class="part-label">מבחן מסכם</div>
+    <h2>צורת החוזה, חוזה פסול וריבוי חייבים <span class="finaltag">מצגת 3</span></h2>
+    <p class="lead"><b>ס' 23, 24 ו־30 כן בהיקף בוחן 8.9</b> — כאן הם מורחבים לרמת המבחן המסכם.</p>
+
+    <h3>חוזה פסול (ס' 30) — ההרחבה</h3>
+    <p>חוזה שכריתתו, תוכנו או מטרתו בלתי חוקיים, בלתי מוסריים או נוגדים את תקנת הציבור — <b>בטל מעיקרו</b>, ואינו תלוי ברצון הצדדים. חמישה אופנים:</p>
+    <ul>
+      <li><b>כריתה</b> בלתי חוקית — נעשתה בניגוד להוראת חוק (למשל מכרז לא חוקי)</li>
+      <li><b>תוכן</b> בלתי חוקי — מהווה עוולה אזרחית או פלילית (למשל הסדר כובל)</li>
+      <li><b>מטרה</b> בלתי חוקית — למשל להונות את השלטונות; <b>לא משנה אם הושגה</b></li>
+      <li><b>ביצוע</b> בלתי חוקי — למשל תחילת ביצוע ללא רישיונות</li>
+      <li>המבחן: <b>אי־חוקיות מהותית ולא טפלה</b> — לפי תכלית החוק</li>
+    </ul>
+
+    <h3>הסעדים בחוזה פסול (ס' 31)</h3>
+    <ul>
+      <li>החוזה בטל ויש <b>חובת השבה</b>; משיקולי צדק ביהמ"ש רשאי <b>לפטור מהשבה</b> ואף לחייב בקיום החוב שכנגד.</li>
+      <li><b>הכלל: אין פיצויים</b> בשל בטלות חוזה פסול.</li>
+      <li>מאחר שהחוזה בטל מעיקרא — <b>אין צורך בהודעת ביטול</b>.</li>
+      <li>ביהמ"ש רשאי להכריז על <b>בטלות חלקית</b> — "עקרון העיפרון הכחול".</li>
+    </ul>
+
+    <h3>חוזה למראית עין (ס' 13)</h3>
+    <p>חוזה למראית עין <b>בטל מעיקרא</b>. חובת ההשבה נובעת מדיני עשיית עושר (השופט ברק, דעת מיעוט).</p>
   </section>
 
   <footer class="fin">
@@ -1178,8 +1292,11 @@
     }
     return a;
   }
+  /* follows the page-level scope filter, so quiz mode never draws out-of-scope items */
   function pickFive(withAppendix) {
-    var pool = BANK.filter(function (b) { return b.scope === 'core' || (withAppendix && b.scope === 'appendix'); });
+    var full = document.body.getAttribute('data-scope') === 'full';
+    var inc = withAppendix || full;
+    var pool = BANK.filter(function (b) { return b.scope === 'core' || (inc && b.scope === 'appendix'); });
     var yes = shuffle(pool.filter(function (b) { return b.verdict === 'נכון'; }));
     var no = shuffle(pool.filter(function (b) { return b.verdict === 'לא נכון'; }));
     var out = [];
@@ -1295,6 +1412,39 @@
   el('tabQuiz').addEventListener('click', function () { tab(false); });
 
   fRender();
+})();
+</script>
+
+<script>
+/* ---------- scope filter: quiz 8.9 vs full course ---------- */
+(function () {
+  var KEY = 'ba-scope';
+  var body = document.body;
+  var bQ = document.getElementById('scQuiz');
+  var bF = document.getElementById('scFull');
+  var hint = document.getElementById('scHint');
+  if (!bQ || !bF) return;
+
+  var HINTS = {
+    quiz: 'מוצג רק מה שבהיקף הבוחן. „מבחן מסכם” מוסיף ס׳ 16–18, תרופות, צורה וריבוי חייבים.',
+    full: 'מוצג כל חומר הקורס, כולל מה שאינו בהיקף בוחן 8.9 (מסומן „מבחן מסכם”).'
+  };
+
+  function apply(scope, save) {
+    body.setAttribute('data-scope', scope);
+    bQ.setAttribute('aria-pressed', scope === 'quiz');
+    bF.setAttribute('aria-pressed', scope === 'full');
+    if (hint) hint.textContent = HINTS[scope];
+    if (save) { try { localStorage.setItem(KEY, scope); } catch (e) {} }
+    document.dispatchEvent(new CustomEvent('scopechange', { detail: scope }));
+  }
+
+  var saved = 'quiz';
+  try { saved = localStorage.getItem(KEY) || 'quiz'; } catch (e) {}
+  apply(saved === 'full' ? 'full' : 'quiz', false);
+
+  bQ.addEventListener('click', function () { apply('quiz', true); });
+  bF.addEventListener('click', function () { apply('full', true); });
 })();
 </script>
 
