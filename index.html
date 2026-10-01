@@ -98,13 +98,13 @@
   .printbox ol { margin: 8px 0 0; padding-right: 22px; }
   .printbox li { margin: 4px 0; }
   .btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 0; }
-  button.act {
+  .act {
     font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
     background: var(--accent); color: var(--chip-ink); border: 0;
-    border-radius: 999px; padding: 8px 18px;
+    border-radius: 999px; padding: 8px 18px; text-decoration: none;
   }
-  button.act.ghost { background: var(--accent-soft); color: var(--accent); }
-  button.act:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .act.ghost { background: var(--accent-soft); color: var(--accent); }
+  .act:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   nav.toc {
     position: sticky; top: 0; z-index: 5; background: var(--paper);
@@ -365,6 +365,7 @@
     <div class="btnrow">
       <button class="act" onclick="window.print()">🖨️ הדפס את הדף</button>
       <button class="act ghost" id="toggleAll">פתח את כל התשובות</button>
+      <a class="act ghost" href="podcast/">🎧 פודקאסט למבחן · 45 דקות</a>
     </div>
 
     <div class="printbox" style="margin-top:14px">
@@ -376,6 +377,11 @@
       <div class="tablewrap"><table>
         <thead><tr><th>הקובץ</th><th>מה זה</th><th>מתי להשתמש</th></tr></thead>
         <tbody>
+          <tr>
+            <td><b><a href="podcast/">פודקאסט למבחן המסכם</a></b></td>
+            <td>שלושה פרקים בשני קולות: אכיפה וביטול, פיצויים והפרה צפויה וסיכול, וסדנת קייס חיים ויעל. כ־45 דקות, עם שאלות לתרגול ותמלילים.</td>
+            <td>לחזרה בהאזנה. הנגן שומר מקום ומהירות; אפשר להוריד את כל הפרקים לטלפון.</td>
+          </tr>
           <tr class="hot">
             <td><b><a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%9E%D7%91%D7%97%D7%9F%20%D7%9E%D7%A1%D7%9B%D7%9D/%D7%94%D7%A9%D7%95%D7%95%D7%90%D7%94.md">מבחן מסכם/השוואה.md</a></b></td>
             <td><b>ההשוואה למבחן המסכם</b> — נושא-נושא ופס״ד-פס״ד: מה נלמד אצלנו, מה יש כאן, כמה ממבחני העבר של המרצה בהיקף, מה ידוע על המבחן ואילו שאלות עוד פתוחות.</td>
@@ -415,6 +421,7 @@
   </header>
 
   <nav class="toc" aria-label="ניווט">
+    <a href="podcast/">🎧 פודקאסט</a>
     <a href="#quick">דף מהיר</a>
     <a href="#lookup">מפתח א׳–ת׳</a>
     <a href="#technique">טכניקה</a>

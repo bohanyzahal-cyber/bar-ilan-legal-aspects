@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>פודקאסט למבחן המסכם — היבטים משפטיים בניהול</title>
+  <style>
+    :root{--bg:#f5f6fa;--card:#fff;--ink:#202534;--muted:#616a79;--line:#dce0e9;--accent:#914657;--wash:#fbf0f2}
+    @media(prefers-color-scheme:dark){:root{--bg:#171a23;--card:#222734;--ink:#edf0f7;--muted:#b1b9c9;--line:#3a4253;--accent:#edb1bd;--wash:#342631}}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 "Segoe UI",Arial,sans-serif}
+    .wrap{max-width:920px;margin:auto;padding:28px 20px 60px}
+    a{color:var(--accent);text-underline-offset:3px}
+    .nav{display:flex;flex-wrap:wrap;gap:18px;font-size:.88rem;margin-bottom:26px}
+    .eyebrow{color:var(--accent);font-weight:700;font-size:.86rem}
+    h1{font-size:clamp(1.8rem,5vw,2.7rem);line-height:1.25;margin:8px 0 14px}
+    .lead{color:var(--muted);max-width:750px;margin:0}
+    .total{color:var(--accent);font-weight:700;margin:14px 0 22px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0}
+    .player{border-top:4px solid var(--accent)}
+    .small{font-size:.86rem;color:var(--muted)}
+    .current{font-size:1.4rem;line-height:1.4;margin:4px 0 14px}
+    audio{width:100%;margin:8px 0 10px}
+    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0}
+    button,select{font:inherit;font-size:.9rem;border:1px solid var(--line);border-radius:10px;padding:9px 13px;background:var(--card);color:var(--ink);cursor:pointer}
+    button:disabled{opacity:.45;cursor:default}
+    button:hover:not(:disabled){border-color:var(--accent)}
+    button.primary{background:var(--accent);color:var(--bg);font-weight:700;border-color:var(--accent)}
+    button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    label{display:inline-flex;gap:7px;align-items:center;font-size:.87rem}
+    input[type=checkbox]{accent-color:var(--accent);width:18px;height:18px}
+    .foot-controls{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:14px}
+    .status{min-height:1.7em;margin:8px 0 0;color:var(--muted);font-size:.87rem}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .episode{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px;display:flex;flex-direction:column;gap:10px}
+    .episode.active{border:2px solid var(--accent);background:var(--wash);padding:17px}
+    .episode h3{font-size:1.08rem;line-height:1.45;margin:0}
+    .episode p{font-size:.86rem;color:var(--muted);margin:0;flex:1}
+    .episode .meta{color:var(--accent);font-size:.83rem;font-weight:700}
+    .episode .bookmark{min-height:1.6em;font-size:.8rem;color:var(--muted)}
+    h2.section{font-size:1.25rem;margin:28px 0 14px}
+    details{margin-top:18px;border-top:1px solid var(--line);padding-top:15px}
+    summary{cursor:pointer;font-weight:700}
+    .transcript{font-size:.95rem;margin-top:16px}
+    .transcript h3{font-size:1.08rem;margin:25px 0 10px}
+    .transcript p{margin:10px 0}
+    .transcript .speaker{color:var(--accent);font-weight:700}
+    .transcript .pause{border-right:3px solid var(--line);padding-right:12px;color:var(--muted);font-size:.85rem}
+    .sources{margin-top:28px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.87rem}
+    bdi{font-variant-numeric:tabular-nums}
+    @media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:18px 14px 40px}.card{padding:18px}.controls{gap:8px}.current{font-size:1.22rem}}
+    @media print{audio,.controls,.foot-controls,.grid,.nav{display:none}.wrap{max-width:none}.card{border:0;padding:0}body{background:#fff;color:#000}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="nav" aria-label="ניווט"><a href="../index.html">← הכנה למבחן המסכם</a><a href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/">אתר התרגול</a><a href="legal-podcasts.zip" download>הורדת כל הפרקים לטלפון</a></nav>
+  <div class="eyebrow">היבטים משפטיים בניהול · בר־אילן</div>
+  <h1>שיחות לימוד למבחן המסכם</h1>
+  <p class="lead">שני קולות, דוגמאות וקייסים, ובסוף כל פרק שאלות עם זמן לחשוב לפני התשובה. שלושת הפרקים הראשונים מתמקדים בחוק התרופות ובדרך לכתוב תשובה שמיישמת את הדין.</p>
+  <p id="total" class="total" aria-live="polite">טוען את הפרקים…</p>
+
+  <section class="card player" aria-label="נגן הפודקאסט">
+    <div class="small" id="currentNumber">הפרק הנבחר</div>
+    <h2 id="currentTitle" class="current">בחרו פרק להאזנה</h2>
+    <audio id="audio" controls preload="none" aria-label="שמע הפרק הנבחר"></audio>
+    <div class="controls">
+      <button id="play" class="primary" type="button" disabled>נגן את הפרק</button>
+      <button id="back" type="button" disabled aria-label="חזור חמש עשרה שניות">↶ 15 שניות</button>
+      <button id="forward" type="button" disabled aria-label="התקדם חמש עשרה שניות">15 שניות ↷</button>
+      <label for="rate">מהירות <select id="rate" aria-label="מהירות האזנה"><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select></label>
+    </div>
+    <div class="controls">
+      <button id="previous" type="button" disabled>הפרק הקודם</button>
+      <button id="next" type="button" disabled>הפרק הבא</button>
+      <label><input id="continuous" type="checkbox" checked> להמשיך לפרק הבא בסיום</label>
+    </div>
+    <div class="foot-controls"><span class="small">המקום והמהירות נשמרים בדפדפן הזה.</span><a id="download" href="#" download hidden>הורדת הפרק כ־MP3</a></div>
+    <p id="status" class="status" role="status"></p>
+    <details id="transcriptDetails"><summary>תמליל הפרק לקריאה ולחיפוש</summary><div id="transcript" class="transcript"></div></details>
+  </section>
+
+  <h2 class="section">הפרקים</h2>
+  <div id="episodes" class="grid"></div>
+  <div class="sources">
+    <p>הפרקים מבוססים על <a href="../index.html#remedies">פרק התרופות</a>, סיכומי ההקלטות וקובץ החקיקה, ועל <a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">חוברת המרצה מ־29.9</a>. הם כוללים את ההבהרות לסעיפים 7(ג), 15(ג) ו־18(ב).</p>
+    <p>פרק הקייסים מבחין בין החלק שנפתר בכיתה ב־22.9 ובין ההמשך המבוסס על הפתרון הכתוב של המרצה, לקראת 6.10. הקולות מסונתזים; התסריטים והמקורות זמינים לקריאה. עודכן 1.10.2026.</p>
+  </div>
+  <noscript><p>אפשר להוריד את <a href="legal-podcasts.zip">כל הפרקים כקובץ אחד</a> ולהאזין בנגן בטלפון.</p></noscript>
+</main>
+<script>
+(() => {
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const audio = $("audio"), key = "biu-legal-podcast-v1";
+  const descriptions = [
+    "שלוש התרופות, ארבעת חריגי האכיפה, יסודית ולא יסודית, ארכה, ביטול חלקי והשבה.",
+    "נזק וקשר סיבתי, הקטנת נזק, מסלולי הפיצוי, הפרה צפויה וסיכול.",
+    "קוראים את חוזה חיים ויעל, מנתחים כל הפרה ומחשבים את הנזק הנוסף."
+  ];
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch (_) {}
+  if (typeof saved !== "object" || Array.isArray(saved)) saved = {};
+  if (!saved.positions || typeof saved.positions !== "object") saved.positions = {};
+  let episodes = [], selected = null, lastSave = 0, seekOnLoad = 0, switching = true;
+  const transcriptCache = new Map();
+  function clock(seconds) {
+    const n = Math.max(0, Math.round(Number(seconds) || 0));
+    return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0");
+  }
+  function writeProgress() {
+    if (selected && !switching && audio.readyState > 0 && Number.isFinite(audio.currentTime)) saved.positions[selected.id] = audio.currentTime;
+    saved.last = selected ? selected.id : saved.last;
+    saved.rate = Number($("rate").value);
+    saved.continuous = $("continuous").checked;
+    try { localStorage.setItem(key, JSON.stringify(saved)); } catch (_) {}
+  }
+  function renderList() {
+    $("episodes").replaceChildren();
+    episodes.forEach((episode, index) => {
+      const card = document.createElement("article");
+      card.className = "episode" + (selected && selected.id === episode.id ? " active" : "");
+      const meta = document.createElement("div"); meta.className = "meta";
+      meta.textContent = "פרק " + episode.number + " · " + clock(episode.duration);
+      const heading = document.createElement("h3"); heading.textContent = episode.title;
+      const description = document.createElement("p"); description.textContent = descriptions[index] || "";
+      const bookmark = document.createElement("div"); bookmark.className = "bookmark";
+      const position = Number(saved.positions[episode.id]) || 0;
+      bookmark.textContent = position > 2 ? "המקום השמור: " + clock(position) : "מוכן להאזנה";
+      const choose = document.createElement("button"); choose.type = "button";
+      choose.textContent = selected && selected.id === episode.id ? "הפרק הנבחר" : "בחירת הפרק";
+      choose.setAttribute("aria-label", "בחר פרק: " + episode.title);
+      choose.onclick = () => selectEpisode(episode, false);
+      card.append(meta, heading, description, bookmark, choose);
+      $("episodes").append(card);
+    });
+  }
+  async function loadTranscript() {
+    if (!selected || !$("transcriptDetails").open) return;
+    const episode = selected;
+    $("transcript").textContent = "טוען תמליל…";
+    try {
+      if (!transcriptCache.has(episode.id)) {
+        const response = await fetch(episode.transcript);
+        if (!response.ok) throw new Error("Transcript unavailable");
+        transcriptCache.set(episode.id, await response.text());
+      }
+      if (!selected || selected.id !== episode.id) return;
+      const fragment = document.createDocumentFragment();
+      for (const line of transcriptCache.get(episode.id).split(/\r?\n/)) {
+        if (line.startsWith("# chapter:")) {
+          const heading = document.createElement("h3"); heading.textContent = line.slice(10).trim(); fragment.append(heading);
+        } else if (/^[אש]:/.test(line)) {
+          const paragraph = document.createElement("p"), speaker = document.createElement("span");
+          speaker.className = "speaker"; speaker.textContent = line[0] === "ש" ? "מראיינת: " : "מסביר: ";
+          paragraph.append(speaker, document.createTextNode(line.slice(2).trim())); fragment.append(paragraph);
+        } else if (/^~\d/.test(line)) {
+          const pause = document.createElement("p"); pause.className = "pause";
+          pause.textContent = "זמן לחשוב ולענות לפני ההסבר."; fragment.append(pause);
+        }
+      }
+      $("transcript").replaceChildren(fragment);
+    } catch (_) { $("transcript").textContent = "לא ניתן לטעון את התמליל כרגע. אפשר לנסות שוב."; }
+  }
+  function selectEpisode(episode, play) {
+    if (selected && selected.id === episode.id) {
+      if (play) audio.play().catch(() => {});
+      return;
+    }
+    writeProgress();
+    switching = true;
+    audio.pause();
+    selected = episode;
+    const position = Math.max(0, Number(saved.positions[episode.id]) || 0);
+    seekOnLoad = position < episode.duration - 3 ? position : 0;
+    $("currentNumber").textContent = "פרק " + episode.number + " · " + clock(episode.duration);
+    $("currentTitle").textContent = episode.title;
+    $("status").textContent = seekOnLoad > 2 ? "הניגון ימשיך מהמקום השמור: " + clock(seekOnLoad) : "";
+    $("download").href = episode.src; $("download").hidden = false;
+    audio.src = episode.src; audio.load();
+    audio.playbackRate = Number($("rate").value);
+    $("play").disabled = false; $("back").disabled = false; $("forward").disabled = false;
+    const index = episodes.indexOf(episode);
+    $("previous").disabled = index === 0; $("next").disabled = index === episodes.length - 1;
+    saved.last = episode.id;
+    writeProgress();
+    renderList();
+    if ($("transcriptDetails").open) loadTranscript();
+    if (play) audio.play().catch(() => { $("status").textContent = "לחצו על נגן כדי להתחיל את הפרק."; });
+  }
+  audio.addEventListener("loadedmetadata", () => {
+    if (seekOnLoad && Number.isFinite(audio.duration)) audio.currentTime = Math.min(seekOnLoad, audio.duration - 1);
+    seekOnLoad = 0;
+    switching = false;
+    writeProgress();
+  });
+  audio.addEventListener("play", () => { $("play").textContent = "השהה"; writeProgress(); });
+  audio.addEventListener("pause", () => { $("play").textContent = audio.paused ? "נגן את הפרק" : "השהה"; writeProgress(); renderList(); });
+  audio.addEventListener("timeupdate", () => {
+    if (Date.now() - lastSave > 1000) { writeProgress(); lastSave = Date.now(); }
+  });
+  audio.addEventListener("error", () => { $("status").textContent = "השמע לא נטען. אפשר לנסות שוב או להוריד את קובץ הפרק."; });
+  audio.addEventListener("ended", () => {
+    writeProgress(); renderList();
+    const index = episodes.indexOf(selected);
+    if ($("continuous").checked && index + 1 < episodes.length) selectEpisode(episodes[index + 1], true);
+  });
+  $("play").onclick = () => {
+    if (audio.paused) audio.play().catch(() => { $("status").textContent = "לא ניתן להתחיל את הניגון כרגע."; });
+    else audio.pause();
+  };
+  $("back").onclick = () => { if (audio.readyState > 0) audio.currentTime = Math.max(0, audio.currentTime - 15); };
+  $("forward").onclick = () => { if (Number.isFinite(audio.duration)) audio.currentTime = Math.min(audio.duration - 0.1, audio.currentTime + 15); };
+  $("previous").onclick = () => { const index = episodes.indexOf(selected); if (index > 0) selectEpisode(episodes[index - 1], false); };
+  $("next").onclick = () => { const index = episodes.indexOf(selected); if (index + 1 < episodes.length) selectEpisode(episodes[index + 1], false); };
+  $("rate").onchange = () => { audio.playbackRate = Number($("rate").value); writeProgress(); };
+  $("continuous").onchange = writeProgress;
+  $("transcriptDetails").ontoggle = loadTranscript;
+  window.addEventListener("pagehide", writeProgress);
+  async function initialize() {
+    try {
+      const response = await fetch("manifest.json");
+      if (!response.ok) throw new Error("Manifest unavailable");
+      const data = await response.json();
+      episodes = data.episodes;
+      if (!Array.isArray(episodes) || !episodes.length) throw new Error("No episodes");
+      const total = episodes.reduce((sum, episode) => sum + episode.duration, 0);
+      $("total").textContent = episodes.length + " פרקים · כ־" + Math.round(total / 60) + " דקות · להאזנה ולהורדה";
+      if (["0.8", "1", "1.25", "1.5"].includes(String(saved.rate))) $("rate").value = String(saved.rate);
+      if (typeof saved.continuous === "boolean") $("continuous").checked = saved.continuous;
+      selectEpisode(episodes.find(episode => episode.id === saved.last) || episodes[0], false);
+    } catch (_) { $("total").textContent = "לא ניתן לטעון את הפרקים כרגע. אפשר להוריד את הקובץ המצורף."; }
+  }
+  initialize();
+})();
+</script>
+</body>
+</html>
