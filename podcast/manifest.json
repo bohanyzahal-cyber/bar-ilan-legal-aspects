@@ -33,6 +33,39 @@
       "speech_segments": 82,
       "words": 1804,
       "bytes": 7696434
+    },
+    {
+      "id": "04-formation-good-faith",
+      "number": 4,
+      "title": "כריתה ותום לב — מהצעה לחוזה",
+      "duration": 841.434,
+      "src": "mp3/04%20-%20%D7%9B%D7%A8%D7%99%D7%AA%D7%94%20%D7%95%D7%AA%D7%95%D7%9D%20%D7%9C%D7%91%20%E2%80%94%20%D7%9E%D7%94%D7%A6%D7%A2%D7%94%20%D7%9C%D7%97%D7%95%D7%96%D7%94.mp3",
+      "transcript": "scripts/plain/04-formation-good-faith.txt",
+      "speech_segments": 78,
+      "words": 1612,
+      "bytes": 6732386
+    },
+    {
+      "id": "05-defects-consent",
+      "number": 5,
+      "title": "פגמים ברצון — טעות הטעיה וכפייה",
+      "duration": 880.596,
+      "src": "mp3/05%20-%20%D7%A4%D7%92%D7%9E%D7%99%D7%9D%20%D7%91%D7%A8%D7%A6%D7%95%D7%9F%20%E2%80%94%20%D7%98%D7%A2%D7%95%D7%AA%20%D7%94%D7%98%D7%A2%D7%99%D7%94%20%D7%95%D7%9B%D7%A4%D7%99%D7%99%D7%94.mp3",
+      "transcript": "scripts/plain/05-defects-consent.txt",
+      "speech_segments": 82,
+      "words": 1713,
+      "bytes": 7045738
+    },
+    {
+      "id": "06-conditions-debtors",
+      "number": 6,
+      "title": "חוזה על תנאי וריבוי חייבים — שתי מפות לפתרון",
+      "duration": 950.952,
+      "src": "mp3/06%20-%20%D7%97%D7%95%D7%96%D7%94%20%D7%A2%D7%9C%20%D7%AA%D7%A0%D7%90%D7%99%20%D7%95%D7%A8%D7%99%D7%91%D7%95%D7%99%20%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%E2%80%94%20%D7%A9%D7%AA%D7%99%20%D7%9E%D7%A4%D7%95%D7%AA%20%D7%9C%D7%A4%D7%AA%D7%A8%D7%95%D7%9F.mp3",
+      "transcript": "scripts/plain/06-conditions-debtors.txt",
+      "speech_segments": 88,
+      "words": 1900,
+      "bytes": 7608516
     }
   ]
 }
