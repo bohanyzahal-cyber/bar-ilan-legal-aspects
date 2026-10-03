@@ -12,6 +12,8 @@
     .wrap{max-width:920px;margin:auto;padding:28px 20px 60px}
     a{color:var(--accent);text-underline-offset:3px}
     .nav{display:flex;flex-wrap:wrap;gap:18px;font-size:.88rem;margin-bottom:26px}
+    .nav button{border:0;border-radius:0;padding:0;background:none;color:var(--accent);font-size:inherit;text-decoration:underline;text-underline-offset:3px}
+    .nav .note{flex-basis:100%;color:var(--muted)}
     .eyebrow{color:var(--accent);font-weight:700;font-size:.86rem}
     h1{font-size:clamp(1.8rem,5vw,2.7rem);line-height:1.25;margin:8px 0 14px}
     .lead{color:var(--muted);max-width:750px;margin:0}
@@ -54,7 +56,7 @@
 </head>
 <body>
 <main class="wrap">
-  <nav class="nav" aria-label="ניווט"><a href="../index.html">← הכנה למבחן המסכם</a><a href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/">אתר התרגול</a><a href="legal-podcasts.zip" download>הורדת כל הפרקים לטלפון</a></nav>
+  <nav class="nav" aria-label="ניווט"><a href="../index.html">← הכנה למבחן המסכם</a><a href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/">אתר התרגול</a><button id="downloadAll" type="button" disabled>הורדת כל הפרקים לטלפון</button><span id="bundleStatus" class="note" role="status" hidden></span></nav>
   <div class="eyebrow">היבטים משפטיים בניהול · בר־אילן</div>
   <h1>שיחות לימוד למבחן המסכם</h1>
   <p class="lead">שש שיחות בשני קולות: תרופות וקייסים, כריתה ותום לב, פגמים ברצון, חוזה על תנאי וריבוי חייבים. בכל פרק דוגמאות וחמש שאלות עם זמן לחשוב לפני התשובה.</p>
@@ -83,10 +85,10 @@
   <h2 class="section">הפרקים</h2>
   <div id="episodes" class="grid"></div>
   <div class="sources">
-    <p>הבסיס הוא <a href="https://lemida.biu.ac.il/course/view.php?id=107175">הקורס שלנו — סמסטר קיץ תשפ״ו</a>: המצגות, קובץ החקיקה וההקלטות שלנו. הפרקים נעזרים ב<a href="../index.html#summary">סיכום החומר</a>; פרקי התרופות גם ב<a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">חוברת המרצה מ־29.9</a>, וכוללים את ההבהרות לסעיפים 7(ג), 15(ג) ו־18(ב).</p>
-    <p>פרק הקייסים מבחין בין החלק שנפתר בכיתה ב־22.9 ובין ההמשך המבוסס על הפתרון הכתוב של המרצה, לקראת 6.10. הקולות מסונתזים; התסריטים והמקורות זמינים לקריאה. עודכן 1.10.2026.</p>
+    <p>הבסיס הוא <a href="https://lemida.biu.ac.il/course/view.php?id=107175">הקורס שלנו — סמסטר קיץ תשפ״ו</a>: המצגות, קובץ החקיקה וההקלטות שלנו. הפרקים נעזרים ב<a href="../index.html#summary">סיכום החומר</a>; פרקי התרופות גם ב<a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">חוברת המרצה מ־29.9</a> ובפתרון הכתוב שלה לקייס חיים ויעל. סעיפים 15(ג) ו־18(ב) מוסברים בניסוח של המרצה.</p>
+    <p>פרק הקייסים מבחין בין החלק שנפתר בכיתה ב־22.9 ובין ההמשך המבוסס על הפתרון הכתוב של המרצה, לקראת 6.10. הקולות מסונתזים; התסריטים והמקורות זמינים לקריאה. עודכן 3.10.2026.</p>
   </div>
-  <noscript><p>אפשר להוריד את <a href="legal-podcasts.zip">כל הפרקים כקובץ אחד</a> ולהאזין בנגן בטלפון.</p></noscript>
+  <noscript><p>הנגן צריך JavaScript. את קובצי השמע אפשר להוריד ישירות מ<a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/tree/main/podcast/mp3">תיקיית הפרקים</a> ולהאזין בנגן בטלפון.</p></noscript>
 </main>
 <script>
 (() => {
@@ -219,6 +221,57 @@
   $("rate").onchange = () => { audio.playbackRate = Number($("rate").value); writeProgress(); };
   $("continuous").onchange = writeProgress;
   $("transcriptDetails").ontoggle = loadTranscript;
+  // "Download all" packs the episodes and their transcripts into one uncompressed ZIP in the browser.
+  const crcTable = Uint32Array.from({ length: 256 }, (_, n) => {
+    let c = n;
+    for (let bit = 0; bit < 8; bit++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+    return c >>> 0;
+  });
+  function crc32(bytes) {
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < bytes.length; i++) c = crcTable[(c ^ bytes[i]) & 255] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  async function downloadAll() {
+    const button = $("downloadAll"), note = $("bundleStatus");
+    button.disabled = true; note.hidden = false;
+    try {
+      const encoder = new TextEncoder(), now = new Date(), files = [], directory = [];
+      const time = now.getHours() << 11 | now.getMinutes() << 5 | now.getSeconds() >> 1;
+      const date = now.getFullYear() - 1980 << 9 | now.getMonth() + 1 << 5 | now.getDate();
+      let offset = 0;
+      for (const [index, episode] of episodes.entries()) {
+        note.textContent = "מוריד פרק " + (index + 1) + " מתוך " + episodes.length + "…";
+        for (const path of [episode.src, episode.transcript]) {
+          const response = await fetch(path);
+          if (!response.ok) throw new Error("File unavailable");
+          const data = new Uint8Array(await response.arrayBuffer());
+          const name = encoder.encode(decodeURIComponent(path)), checksum = crc32(data);
+          const local = new DataView(new ArrayBuffer(30)), central = new DataView(new ArrayBuffer(46));
+          local.setUint32(0, 0x04034B50, true); local.setUint16(4, 20, true); local.setUint16(6, 0x0800, true);
+          local.setUint16(10, time, true); local.setUint16(12, date, true); local.setUint32(14, checksum, true);
+          local.setUint32(18, data.length, true); local.setUint32(22, data.length, true); local.setUint16(26, name.length, true);
+          central.setUint32(0, 0x02014B50, true); central.setUint16(4, 20, true); central.setUint16(6, 20, true); central.setUint16(8, 0x0800, true);
+          central.setUint16(12, time, true); central.setUint16(14, date, true); central.setUint32(16, checksum, true);
+          central.setUint32(20, data.length, true); central.setUint32(24, data.length, true); central.setUint16(28, name.length, true);
+          central.setUint32(42, offset, true);
+          files.push(local, name, data); directory.push(central, name);
+          offset += 30 + name.length + data.length;
+        }
+      }
+      const end = new DataView(new ArrayBuffer(22));
+      end.setUint32(0, 0x06054B50, true); end.setUint16(8, directory.length / 2, true); end.setUint16(10, directory.length / 2, true);
+      end.setUint32(12, directory.reduce((sum, part) => sum + part.byteLength, 0), true); end.setUint32(16, offset, true);
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(new Blob([...files, ...directory, end], { type: "application/zip" }));
+      link.download = "legal-podcasts.zip";
+      document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(link.href), 60000);
+      note.textContent = "הקובץ מוכן: " + episodes.length + " פרקים עם התמלילים.";
+    } catch (_) { note.textContent = "ההורדה לא הושלמה. אפשר לנסות שוב, או להוריד כל פרק בנפרד בקישור „הורדת הפרק כ־MP3” שבנגן."; }
+    button.disabled = false;
+  }
+  $("downloadAll").onclick = downloadAll;
   window.addEventListener("pagehide", writeProgress);
   async function initialize() {
     try {
@@ -232,7 +285,8 @@
       if (["0.8", "1", "1.25", "1.5"].includes(String(saved.rate))) $("rate").value = String(saved.rate);
       if (typeof saved.continuous === "boolean") $("continuous").checked = saved.continuous;
       selectEpisode(episodes.find(episode => episode.id === saved.last) || episodes[0], false);
-    } catch (_) { $("total").textContent = "לא ניתן לטעון את הפרקים כרגע. אפשר להוריד את הקובץ המצורף."; }
+      $("downloadAll").disabled = false;
+    } catch (_) { $("total").textContent = "לא ניתן לטעון את הפרקים כרגע. אפשר לרענן את הדף ולנסות שוב."; }
   }
   initialize();
 })();

@@ -1,5 +1,6 @@
 """Build the legal-studies conversations with cached Hebrew speech segments."""
 import asyncio
+import datetime
 import hashlib
 import json
 import os
@@ -7,9 +8,8 @@ import re
 import shutil
 import subprocess
 import sys
-import zipfile
 from pathlib import Path
-from urllib.parse import quote, unquote
+from urllib.parse import quote
 
 import edge_tts
 
@@ -164,21 +164,6 @@ def build(path):
     return row
 
 
-def bundle(episodes):
-    target = ROOT / "legal-podcasts.zip"
-    temporary = target.with_suffix(".zip.writing")
-    with zipfile.ZipFile(temporary, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        for episode in episodes:
-            for key in ("src", "transcript"):
-                relative = unquote(episode[key])
-                source = (ROOT / relative).resolve()
-                if not source.is_relative_to(ROOT) or not source.is_file():
-                    raise ValueError("Invalid bundle source: " + relative)
-                archive.write(source, arcname=relative)
-    temporary.replace(target)
-    print("Download bundle ready: " + str(round(target.stat().st_size / 1_000_000, 1)) + " MB", flush=True)
-
-
 def main():
     if not FFMPEG or not FFPROBE:
         raise RuntimeError("ffmpeg and ffprobe must be installed")
@@ -194,11 +179,10 @@ def main():
     previous = json.loads(manifest.read_text(encoding="utf-8")) if manifest.exists() else {"episodes": []}
     merged = {row["id"]: row for row in previous["episodes"]}
     merged.update({row["id"]: row for row in rows})
-    data = {"updated": "2026-10-01", "episodes": sorted(merged.values(), key=lambda row: row["number"])}
+    data = {"updated": datetime.date.today().isoformat(), "episodes": sorted(merged.values(), key=lambda row: row["number"])}
     temporary = manifest.with_suffix(".json.writing")
     temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(manifest)
-    bundle(data["episodes"])
     print("Manifest updated; " + str(len(data["episodes"])) + " episodes", flush=True)
 
 
