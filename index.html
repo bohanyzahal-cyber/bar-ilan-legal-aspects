@@ -1,0 +1,1906 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הכנה למבחן בחוזים</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --paper: #F6F7FA;
+    --surface: #FFFFFF;
+    --ink: #1B2233;
+    --muted: #5A6376;
+    --accent: #2B4C9B;
+    --accent-soft: #E8EDF8;
+    --line: #DCE0EA;
+    --good: #2E7D46;
+    --good-soft: #E7F2EA;
+    --bad: #B3392F;
+    --bad-soft: #F9ECEA;
+    --warn: #8A6100;
+    --warn-soft: #FFF6E0;
+    --alert: #B3392F;
+    --alert-soft: #FBEDEB;
+    --chip-ink: #FFFFFF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #131722;
+      --surface: #1B2130;
+      --ink: #E8EAF2;
+      --muted: #9AA3B5;
+      --accent: #8FA9E8;
+      --accent-soft: #232C42;
+      --line: #2A3242;
+      --good: #7FC493;
+      --good-soft: #1D2E23;
+      --bad: #E29288;
+      --bad-soft: #362020;
+      --warn: #E5C069;
+      --warn-soft: #2E2817;
+      --alert: #F0A093;
+      --alert-soft: #3A2320;
+      --chip-ink: #131722;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #131722;
+    --surface: #1B2130;
+    --ink: #E8EAF2;
+    --muted: #9AA3B5;
+    --accent: #8FA9E8;
+    --accent-soft: #232C42;
+    --line: #2A3242;
+    --good: #7FC493;
+    --good-soft: #1D2E23;
+    --bad: #E29288;
+    --bad-soft: #362020;
+    --warn: #E5C069;
+    --warn-soft: #2E2817;
+    --alert: #F0A093;
+    --alert-soft: #3A2320;
+    --chip-ink: #131722;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: 'Heebo', 'Segoe UI', Arial, sans-serif;
+    font-size: 16.5px; line-height: 1.65;
+  }
+  .page { direction: rtl; max-width: 800px; margin: 0 auto; padding: 0 20px 80px; }
+  header.hero { padding: 44px 0 8px; }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+  h1 {
+    font-family: 'Frank Ruhl Libre', 'David', serif;
+    font-weight: 900; font-size: clamp(30px, 6vw, 44px);
+    margin: 6px 0 10px; line-height: 1.15; text-wrap: balance;
+  }
+  .verified {
+    display: inline-block; background: var(--good-soft); color: var(--good);
+    border-radius: 999px; padding: 3px 14px; font-size: 13px; font-weight: 700; margin-bottom: 12px;
+  }
+  .hero p.lead { color: var(--muted); margin: 0 0 18px; max-width: 60ch; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; padding: 0; list-style: none; }
+  .facts li {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 14px; font-size: 13.5px; color: var(--muted);
+  }
+  .facts li b { color: var(--ink); font-weight: 700; }
+  .facts li.hot { background: var(--alert-soft); border-color: var(--alert); color: var(--alert); font-weight: 700; }
+  .facts li.hot b { color: var(--alert); }
+
+  .printbox {
+    background: var(--alert-soft); border: 1px solid var(--alert); border-radius: 12px;
+    padding: 16px 18px; margin: 20px 0 8px;
+  }
+  .printbox h3 { margin: 0 0 6px; font-size: 17px; color: var(--alert); }
+  .printbox ol { margin: 8px 0 0; padding-right: 22px; }
+  .printbox li { margin: 4px 0; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 0; }
+  .act {
+    font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer;
+    background: var(--accent); color: var(--chip-ink); border: 0;
+    border-radius: 999px; padding: 8px 18px; text-decoration: none;
+  }
+  .act.ghost { background: var(--accent-soft); color: var(--accent); }
+  .act:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  nav.toc {
+    position: sticky; top: 0; z-index: 5; background: var(--paper);
+    padding: 10px 0; margin: 10px 0 6px; border-bottom: 1px solid var(--line);
+    display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+  }
+  nav.toc::-webkit-scrollbar { display: none; }
+  nav.toc a {
+    flex: 0 0 auto; text-decoration: none; color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px;
+    padding: 5px 13px; font-size: 13.5px; font-weight: 600; white-space: nowrap;
+  }
+  nav.toc a:focus-visible, details summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  section { margin-top: 44px; scroll-margin-top: 64px; }
+  h2 {
+    font-family: 'Frank Ruhl Libre', 'David', serif;
+    font-weight: 900; font-size: 26px; margin: 0 0 4px; text-wrap: balance;
+  }
+  .part-label { font-size: 12.5px; font-weight: 700; letter-spacing: .1em; color: var(--accent); }
+  h3 { font-size: 18px; font-weight: 700; margin: 26px 0 8px; }
+  h4 { font-size: 16px; font-weight: 700; margin: 20px 0 6px; color: var(--accent); }
+  p { margin: 10px 0; }
+  ul { margin: 8px 0; padding-right: 22px; padding-left: 0; }
+  li { margin: 5px 0; }
+  ol { padding-right: 24px; padding-left: 0; }
+  .note {
+    background: var(--surface); border: 1px solid var(--line); border-right: 3px solid var(--accent);
+    border-radius: 10px; padding: 12px 16px; margin: 14px 0; color: var(--muted); font-size: 15px;
+  }
+  .note b { color: var(--ink); }
+  .soon {
+    background: var(--warn-soft); border: 1px solid var(--line); border-right: 3px solid var(--warn);
+    border-radius: 10px; padding: 12px 16px; margin: 14px 0; font-size: 15px;
+  }
+  .soon b { color: var(--warn); }
+  .template { background: var(--accent-soft); border-radius: 10px; padding: 12px 16px; margin: 10px 0; font-style: italic; }
+  .tablewrap { overflow-x: auto; margin: 14px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14.5px; }
+  th { background: var(--accent); color: var(--chip-ink); text-align: right; padding: 9px 12px; font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+  td { padding: 9px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+  td.sec { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--accent); }
+  td.kw { color: var(--muted); font-size: 13.5px; }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface)); }
+  details.q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin: 10px 0; overflow: hidden; }
+  details.q summary { cursor: pointer; list-style: none; padding: 13px 16px; font-weight: 600; display: flex; gap: 10px; align-items: baseline; }
+  details.q summary::-webkit-details-marker { display: none; }
+  details.q summary .n { flex: 0 0 auto; font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 700; }
+  details.q summary .tag { flex: 0 0 auto; font-size: 12px; color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 1px 10px; font-weight: 700; align-self: center; }
+  details.q[open] summary { border-bottom: 1px solid var(--line); }
+  details.q .a { padding: 12px 16px 14px; }
+  .verdict { display: inline-block; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 2px 12px; margin-left: 8px; margin-bottom: 6px; }
+  .verdict.good { color: var(--good); background: var(--good-soft); }
+  .verdict.bad { color: var(--bad); background: var(--bad-soft); }
+  .a p { margin: 6px 0; }
+  .a .more { color: var(--muted); font-size: 14px; }
+  .trap-list li { margin: 10px 0; }
+  .trap-list b { color: var(--accent); }
+  .case-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-style: italic; color: var(--muted); }
+
+  /* quick sheet */
+  .sheet { background: var(--surface); border: 2px solid var(--accent); border-radius: 14px; padding: 20px 22px; margin: 16px 0; }
+  .sheet h3 { margin-top: 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 620px) { .grid2 { grid-template-columns: 1fr; } }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .card h4 { margin: 0 0 6px; }
+  .card p, .card ul { margin: 4px 0; font-size: 15px; }
+  .vs { font-weight: 700; color: var(--accent); }
+
+  /* legislation appendix */
+  .law { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; margin: 10px 0; }
+  .law .num { font-weight: 700; color: var(--accent); font-family: 'Frank Ruhl Libre', serif; font-size: 17px; }
+  .law .txt { margin: 4px 0 0; font-size: 15.5px; }
+  .law .gloss { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+  .law.para { border-right: 3px solid var(--warn); }
+  .law.para .num::after { content: " · תמצית"; font-size: 12px; color: var(--warn); font-weight: 700; font-family: 'Heebo', sans-serif; }
+
+  footer.fin { margin-top: 60px; text-align: center; color: var(--muted); font-size: 14px; }
+  footer.fin .big { font-family: 'Frank Ruhl Libre', serif; font-weight: 900; font-size: 22px; color: var(--accent); }
+  @media (prefers-reduced-motion: no-preference) {
+    details.q .a { animation: fade .18s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+  }
+
+  /* ============ PRINT ============ */
+
+  /* ---------- writing lab (screen only) ---------- */
+  .lab { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 14px 0; }
+  .lab-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .lab-stmt { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-weight: 600; margin-bottom: 10px; line-height: 1.55; }
+  .lab-stmt .idx { color: var(--accent); font-weight: 800; margin-left: 6px; }
+  .lab textarea {
+    width: 100%; box-sizing: border-box; min-height: 148px; resize: vertical;
+    font-family: inherit; font-size: 15px; line-height: 1.65; direction: rtl; text-align: right;
+    border: 1px solid var(--line); border-radius: 10px; padding: 12px;
+    background: var(--paper); color: var(--ink);
+  }
+  .lab textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .lab-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
+  .lab-nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .pill { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 11px; font-size: 13px; font-weight: 700; }
+  .pill.warnp { background: var(--warn-soft); color: var(--warn); }
+  .qjump { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+  .qjump button {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--surface); cursor: pointer; font-family: inherit; font-size: 13px; color: var(--ink);
+  }
+  .qjump button.done { background: var(--good-soft); border-color: var(--good); color: var(--good); font-weight: 700; }
+  .qjump button.cur { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .qjump button.appx { opacity: .55; }
+  .score { font-size: 15px; font-weight: 700; padding: 10px 14px; border-radius: 10px; margin: 12px 0 8px; }
+  .score.hi { background: var(--good-soft); color: var(--good); }
+  .score.mid { background: var(--warn-soft); color: var(--warn); }
+  .score.lo { background: var(--bad-soft); color: var(--bad); }
+  .crit { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-top: 1px solid var(--line); }
+  .crit:first-child { border-top: 0; }
+  .crit .mark { flex: 0 0 auto; width: 22px; text-align: center; font-weight: 800; font-size: 15px; }
+  .crit.ok .mark { color: var(--good); }
+  .crit.no .mark { color: var(--bad); }
+  .crit.part .mark { color: var(--warn); }
+  .crit .txt { font-size: 14px; line-height: 1.5; }
+  .crit .txt b { display: block; margin-bottom: 1px; }
+  .crit .hint { color: var(--muted); font-size: 13px; }
+  .model { background: var(--good-soft); border-radius: 10px; padding: 12px 14px; margin-top: 12px; }
+  .model h4 { margin: 0 0 6px; color: var(--good); }
+  .model p { margin: 4px 0; }
+  .timer { font-variant-numeric: tabular-nums; font-weight: 800; font-size: 19px; }
+  .timer.low { color: var(--bad); }
+  .rep { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+  .rep h4 { margin: 0 0 4px; }
+  .rep .mine { background: var(--paper); border-radius: 8px; padding: 8px 10px; margin: 6px 0; white-space: pre-wrap; font-size: 14px; }
+  .lab-hide { display: none; }
+
+  @media print {
+    @page { size: A4; margin: 14mm 13mm; }
+    body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.45; }
+    .page { max-width: none; padding: 0; }
+    nav.toc, .btnrow, .printbox, .noprint { display: none !important; }
+    header.hero { padding: 0 0 4px; }
+    h1 { font-size: 22pt; margin: 0 0 6px; }
+    .verified { border: 1px solid #999; background: #fff; color: #000; }
+    .facts li { background: #fff; border: 1px solid #999; color: #000; font-size: 9pt; }
+    .facts li.hot { border: 1.5pt solid #000; font-weight: 700; }
+    section { margin-top: 16pt; page-break-inside: auto; }
+    section.newpage { page-break-before: always; }
+    h2 { font-size: 15pt; page-break-after: avoid; }
+    h3, h4 { page-break-after: avoid; }
+    .tablewrap { overflow: visible; border: 1px solid #000; border-radius: 0; page-break-inside: auto; }
+    table { min-width: 0; font-size: 9pt; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; }
+    th { background: #ddd !important; color: #000 !important; border-bottom: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    td { border-top: 1px solid #bbb; }
+    tbody tr:nth-child(even) td { background: #f4f4f4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    td.sec, .law .num, .trap-list b, .part-label { color: #000; }
+    details.q { border: 1px solid #999; border-radius: 0; page-break-inside: avoid; margin: 5pt 0; }
+    details.q summary { padding: 5pt 8pt; }
+    details.q[open] summary { border-bottom: 1px solid #ccc; }
+    details.q .a { padding: 5pt 8pt 7pt; display: block !important; }
+    details > *:not(summary) { display: block !important; }
+    .verdict { border: 1px solid #000; background: #fff !important; color: #000 !important; }
+    .note, .soon, .template, .case-box, .card, .law, .sheet {
+      background: #fff !important; border: 1px solid #999; border-radius: 0;
+      page-break-inside: avoid; color: #000;
+    }
+    .sheet { border: 1.5pt solid #000; }
+    .note b, .soon b, .card h4, h4 { color: #000; }
+    a { color: #000; text-decoration: none; }
+    footer.fin { page-break-inside: avoid; }
+    footer.fin .big { color: #000; }
+  }
+
+  /* ---------- scope filter: quiz 8.9 vs full course ---------- */
+  body[data-scope="quiz"] [data-only="final"] { display: none !important; }
+  body[data-scope="full"] [data-only="quiz"] { display: none !important; }
+  .scopebar {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    margin:14px 0 0; padding:10px 12px; border:1px solid var(--line);
+    border-radius:10px; background:var(--surface);
+  }
+  .scopebar .lbl { font-weight:700; font-size:.92rem }
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden }
+  .seg button {
+    border:0; padding:7px 14px; font:inherit; font-weight:600; cursor:pointer;
+    background:transparent; color:inherit;
+  }
+  .seg button[aria-pressed="true"] { background:var(--ink); color:var(--paper) }
+  .scopebar .hint { font-size:.84rem; color:var(--muted) }
+  .finaltag {
+    display:inline-block; font-size:.72rem; font-weight:700; padding:1px 7px;
+    border:1px solid var(--line); border-radius:999px; margin-inline-start:8px;
+    vertical-align:middle; color:var(--muted);
+  }
+  @media print { .scopebar { display:none } }
+
+    .ixtable{font-size:.86rem}
+    .ixtable td.ix{font-weight:600;white-space:nowrap}
+    .ixtable td.pg{white-space:nowrap;text-align:left}
+    .ixtable td.pg a{text-decoration:none;font-size:.82rem;opacity:.85}
+    @media(min-width:820px){.ixtable tbody{column-count:1}}
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <header class="hero">
+    <div class="kicker">היבטים משפטיים בניהול · בר־אילן</div>
+    <h1>הכנה למבחן המסכם</h1>
+    <div class="verified">✓ סמסטר קיץ תשפ״ו שלנו · מחומרי הקורס בלמדה: מצגות, תרשימי זרימה, קובצי המרצה והקלטות · אומת מול למדה ועודכן 3.10</div>
+    <p class="lead"><b>חומר הלימוד כאן כולו מ<a href="https://lemida.biu.ac.il/course/view.php?id=107175">הקורס שלנו בלמדה</a>:</b> החומרים שהמרצה העלתה וההסברים מההקלטות שלנו. <a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%9E%D7%91%D7%97%D7%9F%20%D7%9E%D7%A1%D7%9B%D7%9D/%D7%94%D7%AA%D7%90%D7%9E%D7%94-%D7%9C%D7%A7%D7%95%D7%A8%D7%A1-%D7%A9%D7%9C%D7%A0%D7%95.md">מפת המקורות</a> מפרטת מאיפה כל נושא. הקייסים המורכבים שבלמדה מסומנים כתרגול נוסף.</p>
+    <p class="lead">סיכום החומר לפי המצגות וההקלטות, טבלאות שליפה של סעיפים ופסקי דין, חוק התרופות, קייסים עם פתרונות המרצה, היגדים פתורים ולשון הסעיפים — הכל בעמוד אחד.</p>
+
+    <div class="scopebar">
+      <span class="lbl">היקף החומר:</span>
+      <span class="seg">
+        <button type="button" id="scQuiz" aria-pressed="false">בוחן 8.9</button>
+        <button type="button" id="scFull" aria-pressed="true">מבחן מסכם</button>
+      </span>
+      <span class="hint" id="scHint">מוצג חומר הקורס שלנו, כולל חוזה על תנאי, ריבוי חייבים וחוק התרופות. סימוני המיקוד מבוססים על דברי המרצה אצלנו; טרם פורסמה רשימת היקף מלאה למסכם.</span>
+    </div>
+
+    <div class="printbox" data-only="final" style="margin-top:14px">
+      <h3>🎯 המבחן המסכם — מה ידוע (עודכן 9.10)</h3>
+      <ul style="margin:6px 0 0">
+        <li><b>מועד ומשך:</b> המבחן הוקדם ל־<b>1.11.2026, יום ראשון, בשעה 9:00</b> (במקור 5.11; כדאי לוודא בלוח הבחינות). הוא <b>בנוי לשעתיים</b>, ויינתנו <b>שעתיים וחצי</b>. המרצה תגיע לענות על שאלות בסביבות 10:00.</li>
+        <li><b>המבנה, מפי המרצה (6.10):</b> שני חלקים. <b>חלק אמריקאי</b> בשאלון נפרד — 4 או 5 שאלות, <b>5 נקודות כל אחת</b>, בטופס שנבדק בתוכנה. <b>חלק פתוח</b> — <b>קייס מתגלגל</b>, בדרך כלל 3–4 שאלות בניקוד משתנה, ו<b>4–5 היגדים</b> על כל החומר: נכון / לא נכון, סעיף והסבר של כמה מילים. <b>תרופות — בשאלה אחת, לפחות 20 נקודות.</b> יש מגבלת מקום; הגודל לא נאמר. את המבנה הסופי המרצה תשלח במייל אחרי שתחבר את המבחן.</li>
+        <li><b>איך לעבוד במבחן, מפיה:</b> מתחילים באמריקאיות — <b>עד שלוש דקות לשאלה</b>, רבע שעה עד 20 דקות בסך הכול — ורק אז עוברים לחלק הפתוח; גם להיגד לא יותר משלוש דקות. בקייס המתגלגל: אחרי <b>„לחילופין”</b> עונים רק לפי הנתון החדש, ואחרי <b>נתון נוסף</b> — לפי כל מה שנאמר עד אז. <b>הניקוד מכתיב את האורך:</b> 20 נקודות הן דיון מלא, 2 נקודות הן שורה. <b>בחלק הפתוח נושא לא חוזר:</b> אם נראה ששתי שאלות עוסקות באותו נושא, אחת מהן זוהתה לא נכון. <b>כשאירוע חיצוני גורם להפרה</b> דנים פעמיים — בהנחה שזה סיכול, ובהנחה שלא — ולא עוצרים אחרי הסיכול. הדרך חשובה מהשורה התחתונה: כותבים כמו שופט, ועוברים על כל האפשרויות. <span class="hint">נבדק מול ההקלטה ב־9.10; הפירוט ב<a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%94%D7%A7%D7%9C%D7%98%D7%95%D7%AA/%D7%A9%D7%99%D7%A2%D7%95%D7%A8-12.md">סיכום שיעור 12</a>.</span></li>
+        <li><b>חוק התרופות „תמיד מופיע במבחן, ובדרך כלל מנוקד בלפחות עשרים נקודות”</b> (22.9). ובהקלטה המשלימה: „אין מבחן בלי שאלה שעוסקת בחוק החוזים תרופות… אתם תפסידו 20% מהמבחן”.</li>
+        <li><b>מה נלמד מעבר לרשימת הבוחן:</b> חוזה על תנאי (27, 29) · ריבוי חייבים ונושים (54–56) · חוק התרופות — ס׳ 1–3, 6–11, 13–15, 17, 18.</li>
+        <li><b>בחוץ, מפי המרצה:</b> עושק (18) — „לא יהיה במבחן” · סיכול תנאי (28) — „אין טעם ללמד אותו” · 57–59 — „לא מעניין” · ס׳ 4–5 לחוק התרופות — „סעיף טכני, לא מעניין אותנו”.</li>
+        <li><b>השיעור המסכם — 6.10:</b> נפתרו חלק ב׳ של <a href="#case4">קייס חיים ויעל</a> ושלוש השאלות הפתוחות של <a href="https://lemida.biu.ac.il/mod/resource/view.php?id=3148926">„מבחן לדוגמה־” על מנשה ורז</a>. מה שנאמר בכיתה שולב כאן ובאתר התרגול ב־9.10, ליד הפתרונות הכתובים של המרצה, ובאתר התרגול נוספו עליו 16 שאלות רב־ברירה ו־10 היגדים, במסנן „מהשיעור המסכם”; <a href="https://lemida.biu.ac.il/mod/url/view.php?id=3234513">ההקלטה</a> בלמדה („הקלטת שיעור 13 6.10.2026”). <b>איך להתכונן, מפיה:</b> קודם לחזור על החומר ורק אז לפתור מבחנים; ולפני הבחינה לכתוב מבחן אחד שלם, לבד, שעתיים וחצי. את תרשימי הזרימה שבלמדה כדאי להדפיס.</li>
+        <li><b>ציון הבוחן נספר רק אם הוא משפר:</b> „אם במבחן קיבלתם 90 ובבוחן 70 — אני לא מזינה את ציון הבוחן… רק אפשר להרוויח” (25.8).</li>
+        <li><b>חומר פתוח — ניירות בלבד:</b> מודפסים או בכתב יד; <b>לא טלפון</b> (המרצה, 6.10). כך היה גם בבוחן שלנו. לכן את דף העזר, קובץ החקיקה ותרשימי הזרימה מביאים מודפסים.</li>
+        <li><b>חוברת תרופות חדשה — 29.9:</b> הסבר מסודר של השיעור המוקלט, <b>48 שאלות רב־ברירה ותשובון</b> — מצורפת ל<a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">הודעת המרצה בלמדה</a> (נדרשת התחברות). <a href="#remedies">פרק התרופות</a> כאן מסכם את אותו חומר בניסוחי המרצה; ללשון הסעיפים — קובץ החקיקה.</li>
+        <li><b>עוד תרגול:</b> 17 השאלות המקוונות מההודעה מ־8.9, שהמרצה קישרה אליהן שוב ב־29.9 · <a href="#ourquiz">הבוחן שלנו ושאלות הרשות</a>. בלמדה נוספה גם <a href="https://lemida.biu.ac.il/mod/quiz/view.php?id=3211892">שאלת רשות 6 — למי שחסר ניקוד</a>.</li>
+        <li><b>שאלות התרגול של המרצה — באתר התרגול (6.10):</b> כל נקודה שהמרצה שואלת עליה בתרופות — ב־17 השאלות המקוונות, ב־48 שאלות החוברת ובשאלת רשות 6 — מתורגלת עכשיו ב<a href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/">אתר התרגול</a>: 20 שאלות רב־ברירה ו־5 היגדים חדשים, בסיפורים ובניסוח שלנו, ומסנן <b>„לפי שאלות המרצה”</b> שמרכז את כל מה שנשען על שאלה שהיא עצמה שאלה. את השאלות בניסוח שלה פותרים בלמדה. שתי שאלות מקוונות עוסקות בס׳ 4–5, שלדבריה אינם נלמדים; באתר התרגול הן מסומנות מחוץ למיקוד.</li>
+      </ul>
+      <p style="margin:8px 0 0" class="hint">המקורות: <a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">הודעת המרצה מ־29.9</a> · <a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%9E%D7%91%D7%97%D7%9F%20%D7%9E%D7%A1%D7%9B%D7%9D/%D7%94%D7%AA%D7%90%D7%9E%D7%94-%D7%9C%D7%A7%D7%95%D7%A8%D7%A1-%D7%A9%D7%9C%D7%A0%D7%95.md">מפת המקורות של הקורס</a> · <a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/tree/main/%D7%94%D7%A7%D7%9C%D7%98%D7%95%D7%AA">סיכומי השיעורים</a>.</p>
+    </div>
+
+    <ul class="facts" data-only="quiz">
+      <li class="hot"><b>⚠ ללא מחשבים, טאבלטים או טלפונים</b> — רק חומר מודפס</li>
+      <li class="hot"><b>הבא כלי כתיבה ודף נייר</b> — ההיגדים מוקרנים על הלוח</li>
+      <li><b>פורמט:</b> 5 היגדים × <b>20 נק'</b> · חומר פתוח <b>כתוב</b></li>
+      <li class="hot"><b>בהיקף:</b> חו"ח ס' <b>1–17 (למעט 13)</b> · <b>19–21</b> · <b>23, 24</b> · <b>26</b> · <b>30</b> + ס' 8 מקרקעין · ס' 5 מתנה · <b>זיכרון דברים</b></li>
+      <li><b>בחוץ:</b> 13 · <b>18 עושק</b> · <b>22</b> · 25 · <b>27–29 חוזה על תנאי</b> · 31–33 · 39 · 41–50 · 51–53 · 60</li>
+      <li><b>ההיגדים יהיו חדשים</b> — המרצה כותבת היגדים שלא ניתנו בעבר ואינם בלמדה. אין טעם לשנן מאגרים.</li>
+    </ul>
+
+    <div class="printbox" data-only="quiz">
+      <h3>✓ הבוחן (8.9) — ההיקף הרשמי מהודעת המרצה</h3>
+      <p style="margin:6px 0" class="hint"><b>"נושאי הבוחן — כל מה שנלמד מהשיעור הראשון ועד השיעור האחרון 1.9 כולל! סעיפים 1-17 לחו"ח לא כולל סעיף 13, סעיפים 19-21, סעיפים 23,24, 26 ו-30 לחו"ח. סעיף 8 לחוק המקרקעין. סעיף 5 לחוק המתנה. וכן זכרון דברים (אין סעיף בחוק)."</b></p>
+      <p style="margin:6px 0" class="hint">רשימה זו <b>מחליפה</b> את ההיקף שנגזר קודם מסימוני הצהוב בקובץ החקיקה. שלושה שינויים מהותיים: <b>ס' 16 ו-17 (טעות סופר וכפייה) נכנסו להיקף</b> — הם היו קודם בנספח; <b>ס' 22, 27 ו-29 יצאו</b> — הרשימה עוצרת ב-21 ומדלגת מ-26 ל-30; <b>ס' 18 (עושק) נשאר בחוץ</b>, כי הרשימה מסתיימת ב-17.</p>
+      <p style="margin:6px 0">אתר הקורס והדף הזה <b>לא יהיו זמינים</b> בזמן הבוחן — רק מה שהבאת מודפס. מה להדפיס:</p>
+      <ol>
+        <li><b>את החוברת הזו</b> — כפתור ההדפסה למטה מפיק גרסה נקייה בשחור־לבן, עם כל התשובות פתוחות.</li>
+        <li><b>קובץ החקיקה של המרצה</b> — הנספח כאן מכיל את הסעיפים המרכזיים, אבל קובץ החקיקה המלא שווה את הדפים. <b>שים לב:</b> חסרים בו ס' 24, 26, 30 וס' 5 לחוק המתנה — הם בנספח החקיקה כאן ובעמ' 7 של הערכה.</li>
+        <li><b>ערכת הבוחן</b> (למטה, PDF) — 9 עמודים עם ההדגשות כבר בפנים, כולל פ"ד קוזלי. הדבר היחיד שכדאי לתקן ידנית: במצגת 1, שקפים 24–25, "הודעת החזרה הגיעה <b>לניצע</b>" → הנכון <b>למציע</b>.</li>
+        <li><b>דף מענה מובנה</b> (למטה, PDF) — 3 עמודים לפי תבנית התשובה, עם מקום לחמשת ההיגדים ועמוד המשך. להדפיס שני עותקים.</li>
+      </ol>
+    </div>
+
+    <div class="btnrow">
+      <a class="act" data-only="final" href="output/pdf/exam-reference.pdf">🖨️ ערכת עזר למסכם - PDF עם מפתח עמודים</a>
+      <a class="act ghost" data-only="final" href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/cheatsheet.html">מפתח מהיר - חיפוש סעיף ופסק דין</a>
+      <button class="act ghost" onclick="window.print()">הדפסת הסיכום המלא</button>
+      <button class="act ghost" id="toggleAll">פתח את כל התשובות</button>
+      <a class="act ghost" href="podcast/">🎧 פודקאסט למבחן · 6 פרקים</a>
+    </div>
+
+    <div class="printbox" style="margin-top:14px">
+      <h3>📦 מה יש כאן</h3>
+      <p style="margin:6px 0">כל התוכן שמתחת — דף מהיר, טכניקת תשובה, טבלאות סעיפים ופסיקה, מלכודות, סיכום מלא (כולל חוק
+      התרופות וריבוי חייבים), קייסים עם פתרונות המרצה, היגדים פתורים, חדר כתיבה ולשון החוק. אפשר לגלול, או לקפוץ דרך התפריט.</p>
+      <p style="margin:6px 0">לקראת המבחן כדאי להתחיל מ<a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%9E%D7%91%D7%97%D7%9F%20%D7%9E%D7%A1%D7%9B%D7%9D/%D7%94%D7%AA%D7%90%D7%9E%D7%94-%D7%9C%D7%A7%D7%95%D7%A8%D7%A1-%D7%A9%D7%9C%D7%A0%D7%95.md">מפת המקורות של הקורס שלנו</a>: היכן נמצא כל נושא בלמדה, מה נלמד ובאיזה שיעור, מה בחוץ ומה ידוע על המבחן.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>הקובץ</th><th>מה זה</th><th>מתי להשתמש</th></tr></thead>
+        <tbody>
+          <tr class="hot" data-only="final">
+            <td><b><a href="output/pdf/exam-reference.pdf">ערכת עזר למבחן המסכם</a></b></td>
+            <td>PDF קריא עם מפתח עמודים וסימניות; שלד תשובה, טבלאות לפי שם החוק, סעיפים, פסקי דין ובדיקה לפני הגשה. <a href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/cheatsheet.html">גרסת חיפוש לפי נושא, מספר ושם פסק דין</a>.</td>
+            <td>לאיתור אסמכתאות בזמן כתיבת תשובה ולתרגול עבודה בחומר פתוח. בהדפסה: גודל 100%, דו-צדדי. סוג חומרי העזר המותרים נקבע בהוראות הבחינה.</td>
+          </tr>
+          <tr>
+            <td><b><a href="podcast/">פודקאסט למבחן המסכם</a></b></td>
+            <td>שישה פרקים בשני קולות: תרופות וקייס חיים ויעל, כריתה ותום לב, פגמים ברצון, חוזה על תנאי וריבוי חייבים. בכל פרק שאלות לתרגול ותמליל לקריאה.</td>
+            <td>לחזרה בהאזנה. הנגן שומר מקום ומהירות; אפשר להוריד את כל הפרקים לטלפון.</td>
+          </tr>
+          <tr class="hot">
+            <td><b><a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%9E%D7%91%D7%97%D7%9F%20%D7%9E%D7%A1%D7%9B%D7%9D/%D7%94%D7%AA%D7%90%D7%9E%D7%94-%D7%9C%D7%A7%D7%95%D7%A8%D7%A1-%D7%A9%D7%9C%D7%A0%D7%95.md">מבחן מסכם/התאמה-לקורס-שלנו.md</a></b></td>
+            <td><b>מפת המקורות של הקורס שלנו</b> — לכל נושא: הקובץ בלמדה והשיעור שבו נלמד; מה בחוץ מפי המרצה; המבחנים לדוגמה והקייסים שבלמדה; ומה ידוע על המבחן.</td>
+            <td>כדי לדעת מאיפה כל דבר, ומה לתרגל קודם.</td>
+          </tr>
+          <tr>
+            <td><b><a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">חוברת התרופות של המרצה — 29.9</a></b></td>
+            <td>„סיכום חוק החוזים תרופות.docx” — הסבר השיעור המוקלט, 48 שאלות רב־ברירה ותשובון. בקישור להודעה נמצאת הצרופה; נדרשת התחברות ללמדה.</td>
+            <td>לקריאה ולתרגול התרופות, לצד קובץ החקיקה ופרק התרופות כאן.</td>
+          </tr>
+          <tr>
+            <td><b><a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/tree/main/%D7%94%D7%A7%D7%9C%D7%98%D7%95%D7%AA">הקלטות/</a></b></td>
+            <td><b>סיכומי 12 השיעורים</b> מההקלטות — מפת שיעור לפי דקות, מה הודגש, הדוגמאות והסיפורים, ומה נאמר על המבחן. שיעור 10 הוא ההקלטה המשלימה על חוק התרופות; שיעור 12 הוא השיעור המסכם — מבנה המבחן ופתרון שני הקייסים.</td>
+            <td>אם פספסת שיעור, או כדי לדעת מה המרצה הדגישה.</td>
+          </tr>
+          <tr>
+            <td><b><a href="%D7%A9%D7%99%D7%A2%D7%95%D7%A8%D7%99%D7%9D%20%D7%94%D7%99%D7%91%D7%98%D7%99%D7%9D%20%D7%9E%D7%A9%D7%A4%D7%98%D7%99%D7%99%D7%9D.docx">סיכום הקורס (סיכום כיתה)</a></b></td>
+            <td>סיכום השיעורים שנכתב בכיתה, עד 1.9.</td>
+            <td>לרענן מה נאמר בכיתה.</td>
+          </tr>
+          <tr data-only="quiz">
+            <td><b>חומרי הבוחן (8.9)</b></td>
+            <td><a href="%D7%91%D7%95%D7%97%D7%9F%208.9/%D7%A2%D7%A8%D7%9B%D7%AA-%D7%91%D7%95%D7%97%D7%9F.pdf">ערכת-בוחן.pdf</a> · <a href="%D7%91%D7%95%D7%97%D7%9F%208.9/%D7%93%D7%A3-%D7%9E%D7%A2%D7%A0%D7%94.pdf">דף-מענה.pdf</a> · <a href="%D7%91%D7%95%D7%97%D7%9F%208.9/%D7%AA%D7%A8%D7%92%D7%95%D7%9C-%D7%91%D7%A0%D7%94%D7%99%D7%92%D7%94.mp3">תרגול-בנהיגה.mp3</a> — הערכה, דף המענה ותרגול השמע שהוכנו לבוחן.</td>
+            <td>החלק הכללי שבהם רלוונטי גם למבחן. תרופות וריבוי חייבים — אין בהם.</td>
+          </tr>
+        </tbody>
+      </table></div>
+      <p style="margin:10px 0 0"><b>🎯 אתר התרגול —</b>
+        <a href="https://bohanyzahal-cyber.github.io/legal-aspects-quiz/">125 שאלות רב-ברירה, 84 היגדים, 18 קייסים ו-3 סימולציות</a>,
+        מחומרי הקורס שלנו: המבחנים לדוגמה, הקייסים וקובצי ההיגדים שהמרצה העלתה ללמדה, שאלות הרשות, שאלות התרגול שלה בתרופות (בניסוח שלנו) והשיעורים. מפת שאלות, ניווט וההתקדמות נשמרים בדפדפן.</p>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="ניווט">
+    <a href="podcast/">🎧 פודקאסט</a>
+    <a href="#quick">דף מהיר</a>
+    <a href="#lookup">מפתח א׳–ת׳</a>
+    <a href="#technique">טכניקה</a>
+    <a href="#sections">סעיפי חוק</a>
+    <a href="#cases">פסקי דין</a>
+    <a href="#traps">מלכודות</a>
+    <a href="#summary">סיכום מלא</a>
+    <a href="#ourquiz">הבוחן שלנו מ־8.9</a>
+    <a href="#practice">תרגול</a>
+    <a href="#write">חדר כתיבה</a>
+    <a href="#casestudy">קייסים</a>
+    <a href="#law">לשון החוק</a>
+    <a href="#conditional" data-only="final">חוזה על תנאי</a>
+    <a href="#appendix" data-only="final">ס׳ 18 עושק</a>
+    <a href="#remedies" data-only="final">תרופות</a>
+    <a href="#form" data-only="final">צורה וריבוי חייבים</a>
+  </nav>
+
+  <section id="quick">
+    <div class="part-label">הדף המהיר</div>
+    <h2>אם תסתכל רק בדף אחד — שיהיה זה</h2>
+    <div class="sheet">
+      <h3>1 · תבנית התשובה</h3>
+      <div class="template">[נכון / לא נכון]. לפי סעיף ___ לחוק החוזים (חלק כללי) / פס"ד ___, הכלל הוא ש־___. בענייננו ___, ולכן ___.</div>
+      <p style="font-size:15px;color:var(--muted);margin:4px 0 0">פסיקה חד־משמעית → כלל + מקור מדויק → משפט יישום. 2–4 שורות מספיקות.</p>
+
+      <h3>2 · שמונה ההבחנות שמכריעות היגדים</h3>
+      <div class="grid2">
+        <div class="card">
+          <h4>בטל <span class="vs">מול</span> ניתן לביטול</h4>
+          <p>חוזה פסול (ס' 30) — <b>בטל מעצמו</b>. פגם ברצון (14, 15, 17) — <b>תקף עד שיבוטל</b> ע"י הנפגע.</p>
+        </div>
+        <div class="card">
+          <h4>טעות (14) <span class="vs">מול</span> טעות סופר (16)</h4>
+          <p>טעות ברצון → <b>ביטול</b>. פליטת קולמוס בכתיבת המוסכם → <b>תיקון בלבד</b>, ואין עילת ביטול.</p>
+        </div>
+        <div class="card">
+          <h4>כפייה <span class="vs">מול</span> אזהרה לגיטימית</h4>
+          <p>ס' 17(ב): <b>אזהרה בתום לב על הפעלת זכות אינה איום</b>. "אגיש תביעה" על חוב אמיתי — לא כפייה. וגם: הכופה חייב להיות <b>הצד השני או מטעמו</b>.</p>
+        </div>
+        <div class="card">
+          <h4>מתן <span class="vs">מול</span> מסירה</h4>
+          <p><b>מתן</b> קיבול = משלוח ה"כן" (ס' 3(א), 4(2)). <b>מסירה</b> = הגעתו למציע (ס' 10).</p>
+        </div>
+        <div class="card">
+          <h4>14(א) <span class="vs">מול</span> 14(ב)</h4>
+          <p>ההבדל היחיד: <b>ידיעת הצד השני</b>. ידע → ביטול עצמי. לא ידע → רק ביהמ"ש + חשיפה לפיצויים.</p>
+        </div>
+        <div class="card">
+          <h4>טעות <span class="vs">מול</span> כדאיות</h4>
+          <p>טעות = <b>הווה או עבר</b>. ציפייה לעתיד / AS-IS / סיכון מודע = <b>כדאיות</b> (14(ד)) — אין ביטול.</p>
+        </div>
+        <div class="card">
+          <h4>שתיקה</h4>
+          <p>המציע <b>לא כופה</b> (6(ב)); הניצע רשאי מיוזמתו; הצעה מזכה — <b>חזקת קיבול</b> (ס' 7).</p>
+        </div>
+        <div class="card">
+          <h4>סעד ס' 12</h4>
+          <p><b>פיצויים, לא ביטול.</b> הסתמכות; חריג — קיום (קל בניין). נתבע גם בלי כריתה.</p>
+        </div>
+      </div>
+
+      <h3>3 · מפת הסעיפים שבהיקף — בשורה</h3>
+      <p style="font-size:15px"><b>1</b> חוזה=הצעה+קיבול · <b>2</b> הצעה (גמירת דעת+מסוימות) · <b>3</b> חרטת מציע · <b>4</b> פקיעה · <b>5</b> קיבול · <b>6</b> התנהגות/שתיקה · <b>7</b> הצעה מזכה · <b>8</b> מועד · <b>9</b> קיבול אחרי פקיעה · <b>10</b> חרטת ניצע · <b>11</b> קיבול תוך שינוי · <b>12</b> תום לב · <b>14</b> טעות · <b>15</b> הטעיה · <b>16</b> טעות סופר · <b>17</b> כפייה · <b>19</b> ביטול חלקי · <b>20</b> דרך הביטול · <b>21</b> השבה · <b>23</b> צורה · <b>24</b> תוכן · <b>26</b> השלמה · <b>30</b> חוזה פסול · <b>מקרקעין 8</b> · <b>מתנה 5</b> · <b>זיכרון דברים</b></p>
+      <p style="font-size:15px" data-only="final"><b>ולמבחן המסכם גם:</b> <b>27, 29</b> חוזה על תנאי · <b>54–56</b> ריבוי חייבים ונושים · <b>חוק התרופות</b> — ס׳ 1–3, 6–11, 13–15, 17, 18.</p>
+      <p style="font-size:14px;opacity:.7" data-only="quiz">אין ברשימה: <b>13</b> · <b>18</b> עושק · <b>22</b> · <b>25</b> · <b>27–29</b> · <b>39</b> · <b>41–50</b> · <b>60</b>.</p>
+      <p style="font-size:14px;opacity:.7" data-only="final">בחוץ, מפי המרצה: <b>18</b> עושק · <b>25</b> פירוש · <b>28</b> סיכול תנאי · <b>57–59</b> · <b>תרופות 4–5</b>. לא נלמדו כסעיפים: <b>13</b> · <b>22</b> · <b>31–33</b> · <b>41–50</b> · <b>60</b>.</p>
+
+      <h3>4 · אזהרת "מילים מוחלטות"</h3>
+      <p style="font-size:15px">ראית <b>"תמיד" / "רק" / "בכל מקרה" / "כל פרט" / "אינו יכול"</b> — עצור. כמעט תמיד ההיגד <b>לא נכון</b>, והחריג הוא בדיוק הנימוק שלך.</p>
+    </div>
+  </section>
+
+  <section id="lookup" class="newpage">
+    <div class="part-label">מפתח</div>
+    <h2>מפתח א׳–ת׳ — מונח, סעיף, היכן בחוברת</h2>
+    <p class="lead"><b>75 ערכים.</b> מצא את המונח, לחץ וקפוץ לחלק הרלוונטי.
+    <b>✗ = <span data-only="quiz">מחוץ לרשימה הרשמית של הבוחן</span><span data-only="final">מחוץ להיקף, או רקע בלבד</span>.</b></p>
+    <p class="lead" style="font-size:.9em;opacity:.8">חלק ב׳ (טבלת הסעיפים) מסודר
+    לפי מספר סעיף בכוונה — משם מצטטים, ו־3(א) חייב לשבת ליד 3(ב). המפתח הזה הוא
+    הכניסה לפי מילת מפתח.</p>
+    <div class="tablewrap"><table class="ixtable">
+      <thead><tr><th>מונח</th><th>מה זה</th><th>איפה</th></tr></thead>
+      <tbody>
+      <tr><td class="ix">אדם סביר</td><td>מבחן אובייקטיבי · גמירות דעת</td><td class="pg"><a href="#quick">דף מכריע</a></td></tr>
+      <tr><td class="ix">אדרת שומרון נ׳ הולינגסוורת</td><td>שתיקה בהסכמה מראש</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">אזהרה בתום לב</td><td>ס׳ 17(ב) — אינה איום</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">אי-גילוי</td><td>ס׳ 15 סיפא · הטעיה פסיבית</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">אכיפה</td><td>סעד לפי ס׳ 12 — נדיר (זפניק)</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">אקספומדיה</td><td>כפייה כלכלית</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">בוחבוט (פרץ בוני הנגב)</td><td>גמירות דעת — אובייקטיבי מרוכך</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">בטל / ניתן לביטול</td><td>ס׳ 30 מול פגם ברצון</td><td class="pg"><a href="#quick">דף מכריע</a></td></tr>
+      <tr><td class="ix">ביטול חלקי</td><td>ס׳ 19</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">בן לולו</td><td>כדאיות — סיכון שנטל</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">בר נתן (תשובה נ׳)</td><td>חזרה מהצעה בלתי הדירה</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">גמירות דעת</td><td>ס׳ 2 — יסוד שני</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">דחיית הצעה</td><td>ס׳ 4(1) — מפורשת (נווה עם)</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">די וורולי סיאני</td><td>ביטול חלקי — הפרדה</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">דמי רצינות</td><td>ראיה לגמירות דעת</td><td class="pg"><a href="#quick">דף מכריע</a></td></tr>
+      <tr><td class="ix">הזמנה להציע הצעות</td><td>חסר יסוד בס׳ 2</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">החזרה גוברת</td><td>ס׳ 10 — הגיעו יחד</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">הטעיה</td><td>ס׳ 15 · אקטיבית ופסיבית</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">הצעה</td><td>ס׳ 2 — שלושה יסודות</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">הצעה בלתי הדירה</td><td>ס׳ 3(ב)</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">הצעה לציבור</td><td>ס׳ 2 סיפא · קוזלי</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">הצעה מזכה</td><td>ס׳ 7 — חזקת קיבול</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">השבה</td><td>ס׳ 21 — בעין או בשווי</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">השלמת פרטים</td><td>ס׳ 26 · ס׳ 41–46</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">זיכרון דברים</td><td>רבינאי — שני מבחנים</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">זנדבנק נ׳ דנציגר</td><td>מסוימות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">זעירא נ׳ קנית</td><td>מו״מ מקביל — שקיפות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">זפניק (שיכון עובדים)</td><td>אכיפה לפי ס׳ 12</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">חובת גילוי</td><td>ס׳ 12 · פנידר — 4 פרמטרים</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">חוזה על תנאי</td><td>ס׳ 27, 29<span data-only="quiz"> — ✗ מחוץ לרשימה</span><span data-only="final"> — מתלה ומפסיק</span></td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">חוזה פסול</td><td>ס׳ 30 — בטל מעצמו</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">חזרה מהצעה</td><td>ס׳ 3 — מתן/מסירה</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">חזרה מקיבול</td><td>ס׳ 10 — נמסרת למציע</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">חניונים (שג״מ)</td><td>קיבול בהתנהגות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">טעות</td><td>ס׳ 14 — הווה או עבר</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">טעות יסודית</td><td>נדרשת ב-14, לא ב-15</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">טעות משותפת</td><td>← 14(ב) · כנען</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">טעות סופר</td><td>ס׳ 16 — תיקון, לא ביטול</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">כדאיות העסקה</td><td>ס׳ 14(ד) — סיכון שנטלת</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">כנען נ׳ ממשלת ארה״ב</td><td>טעות משותפת · תקנת השוק</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">כפוף ל…</td><td>זיכרון דברים — אין חוזה</td><td class="pg"><a href="#traps">חלק ד׳</a></td></tr>
+      <tr><td class="ix">כפייה</td><td>ס׳ 17 — בכוח או באיום</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">כרמל נ׳ טלמון</td><td>AS-IS — כדאיות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">מילים מוחלטות</td><td>„תמיד/רק/בכל מקרה”</td><td class="pg"><a href="#quick">דף מכריע</a></td></tr>
+      <tr><td class="ix">מכרז</td><td>הזמנה להציע הצעות</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">מסוימות</td><td>ס׳ 2 — עיקרי הדברים</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">מסירה</td><td>הגעה לנמען · ס׳ 60</td><td class="pg"><a href="#quick">דף מכריע</a></td></tr>
+      <tr><td class="ix">מקרקעין (דרישת כתב)</td><td>ס׳ 8 לחוק המקרקעין — כתב מהותי</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">מתן הודעת קיבול</td><td>שליחה — חוסם ס׳ 3(א)</td><td class="pg"><a href="#quick">דף מכריע</a></td></tr>
+      <tr><td class="ix">מתנה</td><td>ס׳ 5 לחוק המתנה — כתב + חזרה</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">נווה עם נ׳ יעקבסון</td><td>דחייה מפורשת</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">סיכול תנאי</td><td>ס׳ 28 — ✗ מחוץ להיקף</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">ספקטור נ׳ צרפתי</td><td>גילוי · טעות לא כדאיות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">עושק</td><td>ס׳ 18 — ✗ מחוץ להיקף, „לא יהיה במבחן”</td><td class="pg"><a href="#appendix">נספח</a></td></tr>
+      <tr><td class="ix">פיצויי הסתמכות</td><td>ס׳ 12(ב) — הכלל</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">פיצויי קיום</td><td>חריג — קל בניין</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">פנידר נ׳ קסטרו</td><td>חובת גילוי</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">פקיעת הצעה</td><td>ס׳ 4 · ס׳ 8(א) זמן סביר</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">צורת החוזה</td><td>ס׳ 23 — חופש הצורה</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">קוזלי</td><td>הצעת פרס · 4 משוכות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">קטין</td><td>חוק הכשרות ס׳ 3–5</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">קיבול</td><td>ס׳ 5 — שלושה יסודות</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">קיבול בהתנהגות</td><td>ס׳ 6(א) — משתמע מההצעה</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">קיבול בשתיקה</td><td>ס׳ 6(ב) — האסימותריה</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">קיבול תוך שינוי</td><td>ס׳ 11 — הצעה חדשה</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">קל בניין</td><td>פיצויי קיום — חריג</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">רבינאי נ׳ מן שקד</td><td>זיכרון דברים</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">רבינוביץ</td><td>הגדרת טעות</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">שושנה קרן</td><td>כפייה מצד ג׳ — אינה כפייה</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      <tr><td class="ix">שמירת תרופות</td><td>ס׳ 22 — ✗ רקע</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">תום לב במו״מ</td><td>ס׳ 12 — כל משתתף</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">תיקון הטעות</td><td>ס׳ 14(ג)</td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">תנאי מפסיק</td><td>ס׳ 27, 29<span data-only="quiz"> — ✗ מחוץ לרשימה</span><span data-only="final"> — החוזה יחדל בהתקיימותו</span></td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">תנאי מתלה</td><td>ס׳ 27, 29<span data-only="quiz"> — ✗ מחוץ לרשימה</span><span data-only="final"> — החוזה תלוי בהתקיימותו</span></td><td class="pg"><a href="#sections">חלק ב׳</a></td></tr>
+      <tr><td class="ix">תשובה נ׳ בר נתן</td><td>ס׳ 3(ב) — ציר זמן</td><td class="pg"><a href="#cases">חלק ג׳</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="technique" class="newpage">
+    <div class="part-label">חלק א׳</div>
+    <h2>איך עונים על היגד</h2>
+    <ol>
+      <li><b>פסיקה חד־משמעית:</b> "נכון" או "לא נכון". בלי "תלוי" — אם יש חריג רלוונטי, ההיגד בדרך כלל לא נכון ומסבירים את החריג.</li>
+      <li><b>הכלל + מקור:</b> הכלל בקצרה עם מספר הסעיף המדויק (3(ב), 6(א), 14(ד)…) או שם פסק הדין אם נלמד.</li>
+      <li><b>יישום קצר:</b> משפט שמחבר את הכלל לעובדות ההיגד ("ולכן…").</li>
+    </ol>
+    <h3>תבנית מוכנה</h3>
+    <div class="template">לא נכון. לפי סעיף ___ לחוק החוזים (חלק כללי), הכלל הוא ש־___. בענייננו ___, ולכן ההיגד אינו נכון.</div>
+    <div class="template">נכון. לפי סעיף ___ / פס"ד ___, ___. בענייננו ___, ולכן ההיגד נכון.</div>
+    <h3>דוגמה לתשובת מופת</h3>
+    <p><b>ההיגד:</b> "מודעה הקובעת כי התמורה עבור רכב היא בהתאם למחירון לוי יצחק אינה נחשבת להצעה כיוון שאין מסוימות."</p>
+    <div class="note"><b>לא נכון.</b> לפי סעיף 2 לחוק החוזים, פנייה היא הצעה אם יש בה גמירת דעת ומסוימות, ודרישת המסוימות מסתפקת בעיקרי הדברים. הפניה למחירון שקולה לנקיבת מחיר, ולכן יש מסוימות ומדובר בהצעה.</div>
+  </section>
+
+  <section id="sections" class="newpage">
+    <div class="part-label">חלק ב׳</div>
+    <h2>טבלת שליפה מהירה — סעיפי החוק</h2>
+    <h3>חוק החוזים (חלק כללי), התשל"ג־1973</h3>
+    <p class="lead" style="margin-top:0">לפי מספר סעיף. <b>מה שמסומן ✗ — <span data-only="quiz">מחוץ לרשימה הרשמית</span><span data-only="final">רקע שלא בהיקף</span> — נאסף בסוף הטבלה</b>, כדי שכל השאר יישב ברצף אחד.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>סעיף</th><th>הכלל</th><th>מילות מפתח</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">1</td><td>חוזה נכרת בדרך של הצעה וקיבול.</td><td class="kw">חוזה = הצעה + קיבול</td></tr>
+        <tr><td class="sec">2</td><td>הצעה = פנייה + גמירת דעת + מסוימות (עיקרי הדברים). יכולה להיות לציבור. חסר יסוד — הזמנה להציע הצעות בלבד. <b>המבחן המעשי (שיעור 2):</b> אפשר לומר „כן” על הפנייה כמו שהיא? מודעה עם עיקרי הדברים ומחיר יכולה להיות הצעה מחייבת (סיפור היאריס); בלי מחיר — בדרך כלל הזמנה להציע הצעות, וכך גם מכרז.</td><td class="kw">פנייה, גמירת דעת, מסוימות</td></tr>
+        <tr><td class="sec">3(א)</td><td>חרטת מציע בהודעה לניצע, שנמסרה לפני שנתן הניצע הודעת קיבול.</td><td class="kw">חרטת מציע — עד הקיבול</td></tr>
+        <tr><td class="sec">3(ב)</td><td>הצעה "ללא חזרה" או עם מועד לקיבול — אין לחזור ממנה אחרי שנמסרה לניצע (לפני שנמסרה — אפשר).</td><td class="kw">הצעה בלתי הדירה</td></tr>
+        <tr><td class="sec">4</td><td>פקיעה: (1) דחייה מפורשת ואקטיבית (נוה עם נ׳ יעקבסון) או חלוף המועד/זמן סביר; (2) מוות, פסלות דין, צו נכסים, פירוק — לפני מתן הודעת הקיבול.</td><td class="kw">פקיעת הצעה, מוות</td></tr>
+        <tr><td class="sec">5</td><td>קיבול = הודעת הניצע שנמסרה למציע, מעידה על גמירת דעתו ונעשית על יסוד ההצעה ובהתאמה לה.</td><td class="kw">קיבול בהודעה</td></tr>
+        <tr><td class="sec">6(א)</td><td>קיבול במעשה/התנהגות — רק כשנקבע ע"י המציע או משתמע מההצעה (שג"מ חניונים). לעניין 3(א) ו־4(2) ההתנהגות כהודעת קיבול.</td><td class="kw">קיבול בהתנהגות</td></tr>
+        <tr><td class="sec">6(ב)</td><td>קביעת המציע ששתיקה = קיבול — אין לה תוקף; הברירה בידי הניצע.</td><td class="kw">שתיקה אינה קיבול</td></tr>
+        <tr><td class="sec">7</td><td>הצעה מזכה (כל־כולה לטובת הניצע, נקייה מחיובים) — חזקת קיבול בשתיקה; ביטולה בהודעת התנגדות תוך זמן סביר.</td><td class="kw">חזקת קיבול</td></tr>
+        <tr><td class="sec">8</td><td>קיבול תוך התקופה שנקבעה או תוך זמן סביר; איחור מתקלה שאינה תלויה בניצע — נכרת חוזה אלא אם המציע דחה מיד (8(ב)).</td><td class="kw">מועד, תקלת תקשורת</td></tr>
+        <tr><td class="sec">9</td><td>קיבול לאחר פקיעה — כמוהו כהצעה חדשה.</td><td class="kw">קיבול מאוחר</td></tr>
+        <tr><td class="sec">10</td><td>חרטת ניצע: הודעת החזרה נמסרת למציע לא לאחר הודעת הקיבול (לפני או יחד — החזרה גוברת).</td><td class="kw">חרטת ניצע</td></tr>
+        <tr><td class="sec">11</td><td>קיבול עם תוספת/הגבלה/שינוי — הצעה חדשה. הוספת תנאים אחרי כריתה — רק בהסכמת שניהם.</td><td class="kw">קיבול תוך שינוי</td></tr>
+        <tr><td class="sec">12(א)</td><td>תום לב במו"מ: מרגע הקשר הראשון עד כריתה/סיום; חל על כל מי שנטל חלק (צד, עובד, מתווך); סטנדרט אובייקטיבי.</td><td class="kw">תום לב במו"מ</td></tr>
+        <tr><td class="sec">12(ב)</td><td>הסעד: פיצויי הסתמכות; חריג — פיצויי קיום (קל בניין); לעיתים אכיפה (זפניק). ניתן לתבוע גם בלי ביטול וגם כשנכרת חוזה.</td><td class="kw">פיצויים — לא ביטול</td></tr>
+        <tr><td class="sec">14(א)</td><td>טעות ידועה: הצד השני ידע/היה עליו לדעת (בפועל או בכוח) — ביטול עצמי בהודעה.</td><td class="kw">טעות ידועה</td></tr>
+        <tr><td class="sec">14(ב)</td><td>טעות לא ידועה: רק ביהמ"ש מבטל, משיקולי צדק (נזק מול תועלת, רשלנות, אשם תורם), ורשאי לחייב את הטועה בפיצויים.</td><td class="kw">טעות לא ידועה</td></tr>
+        <tr><td class="sec">14(ג)</td><td>אין ביטול אם ניתן לתקן את הטעות והצד השני הודיע לפני הביטול שמוכן לתקן.</td><td class="kw">תיקון במקום ביטול</td></tr>
+        <tr><td class="sec">14(ד)</td><td>טעות בעובדה/בחוק, למעט בכדאיות העסקה — סיכון מודע (מפורש או מכללא) שהתממש. טעות = הווה/עבר; ציפייה לעתיד = כדאיות.</td><td class="kw">כדאיות העסקה</td></tr>
+        <tr><td class="sec">15</td><td>הטעיה — מצג שווא או אי־גילוי שחובה לגלות (דין/נוהג/נסיבות), ע"י הצד השני או מטעמו; קש"ס כפול — ביטול עצמי.</td><td class="kw">הטעיה</td></tr>
+        <tr class="hot"><td class="sec">16</td><td><b>טעות סופר</b> — נפלה בחוזה טעות סופר או טעות כיוצא בה, <b>יתוקן החוזה</b> לפי אומד דעת הצדדים, <b>ואין הטעות עילה לביטול</b>. המתכחש לטעות גלויה פועל בחוסר תום לב.</td><td class="kw">תיקון — לא ביטול</td></tr>
+        <tr class="hot"><td class="sec">17(א)</td><td><b>כפייה</b> — התקשרות עקב כפייה <b>בכוח או באיום</b> שכפה <b>הצד השני או מטעמו</b> → רשאי לבטל. יסודות: חוזה + כפייה + הכופה הוא הצד השני/מטעמו + קש"ס. כפייה מצד ג׳ עצמאי — לא (שושנה קרן). כפייה <b>כלכלית</b> מוכרת: לחץ בלתי לגיטימי, מפתיע וחמור (אקספומדיה; מאיה נ׳ פנפורד — איכות הלחץ ועוצמתו).</td><td class="kw">בכוח או באיום</td></tr>
+        <tr class="hot"><td class="sec">17(ב)</td><td><b>אזהרה בתום־לב על הפעלת זכות אינה איום</b> — "אם לא תשלם אגיש תביעה" על חוב אמיתי אינו כפייה.</td><td class="kw">⚠ הסייג</td></tr>
+        <tr><td class="sec">19</td><td>ביטול חלקי: העילה בחלק מחוזה הניתן להפרדה — מבטלים אותו; לא היה מתקשר בלעדיו — מבטלים הכול (די וורולי סיאני).</td><td class="kw">ביטול חלקי</td></tr>
+        <tr><td class="sec">20</td><td>דרך הביטול: הודעה (אף משתמעת) תוך זמן סביר מגילוי העילה; בכפייה — משפסקה הכפייה.</td><td class="kw">זמן סביר</td></tr>
+        <tr><td class="sec">21</td><td>השבה הדדית: בעין, ואם בלתי אפשרית/בלתי סבירה — השבת שווי.</td><td class="kw">השבה</td></tr>
+        <tr style="opacity:.6"><td class="sec">22 ✗</td><td><b>שמירת תרופות — רקע.</b><span data-only="quiz"> מחוץ לרשימה הרשמית (היא עוצרת ב-21).</span> התוכן בשורה אחת, ושווה להכיר: אין בפרק זה כדי לגרוע מתרופות לפי כל דין — ולכן אפשר לצרף פיצויי ס' 12 לביטול ולהשבה. <b>אל תבנה נימוק על המספר 22.</b></td><td class="kw">✗ רקע</td></tr>
+        <tr><td class="sec">23</td><td>חופש הצורה: בע"פ, בכתב או בצורה אחרת — אלא אם חוק/הסכם קובעים צורה כתנאי לתוקף.</td><td class="kw">חופש הצורה</td></tr>
+        <tr><td class="sec">24</td><td>חופש התוכן: ככל שהסכימו הצדדים.</td><td class="kw">חופש התוכן</td></tr>
+        <tr><td class="sec">26</td><td>השלמת פרטים שאינם עיקר: נוהג בין הצדדים ← נוהג מקובל ← הוראות החוק המשלימות.</td><td class="kw">השלמה</td></tr>
+        <tr><td class="sec">30</td><td>חוזה בלתי חוקי / בלתי מוסרי / נוגד תקנת ציבור — בטל (מעצמו, לא "ניתן לביטול").</td><td class="kw">חוזה פסול — בטל</td></tr>
+        <tr><td class="sec">27, 29</td><td><span data-only="quiz"><b>חוזה על תנאי — מחוץ לרשימת הבוחן</b> (הרשימה מדלגת מ-26 ל-30). </span><span data-only="final"><b>חוזה על תנאי — נלמד ב-1.9, וחזרה ב-8.9</b> (<a href="#conditional">הפרק המלא</a>). </span><b>מתלה</b> — החוזה תלוי בהתקיימות התנאי · <b>מפסיק</b> — החוזה יחדל בהתקיימותו; תנאי = אירוע עתידי, בלתי ודאי וחיצוני. לא התקיים תוך זמן סביר (29): <b>מתלה ← החוזה מתבטל</b> · <b>מפסיק ← ההתנאה מתבטלת והחוזה נשאר בתוקף</b>.</td><td class="kw"><span data-only="quiz">✗ לא ברשימה</span><span data-only="final">תנאי</span></td></tr>
+        <tr style="opacity:.6"><td class="sec">28 ✗</td><td><b>סיכול תנאי — מחוץ להיקף</b> — המרצה דילגה עליו במכוון, „קשה להוכיח”. למי שרוצה: צד שמנע תנאי מתלה לא יסתמך על אי-קיומו; סייג כפול ב-28(ג).</td><td class="kw">✗ לא בהיקף</td></tr>
+        <tr style="opacity:.6"><td class="sec">39 ✗</td><td><b>תום לב בקיום החוזה.</b> חובת תום הלב נמשכת גם לתוך תקופת החוזה.<span data-only="quiz"> מחוץ לרשימה — בבוחן הישען על <b>ס' 12</b>.</span><span data-only="final"> <b>למבחן:</b> ס' 39 הוא החריג הנדיר לביטול בהפרה יסודית (חלאבין נ׳ מיקרובלנס) — ראה <a href="#remedies">פרק התרופות</a>.</span></td><td class="kw">✗ רקע</td></tr>
+        <tr style="opacity:.6"><td class="sec">41–50 ✗</td><td><b>לא נלמדו כסעיפים עצמאיים</b> — אבל הם המנגנון שאליו <b>ס' 26</b> מפנה: 41 מועד הקיום · 44 מקום הקיום · 45 השלמה בבינוניות · 46 תמורה בסכום ראוי. צטט את <b>26</b>, והזכר אותם כ"הוראות החוק המשלימות".</td><td class="kw">מנגנון של ס' 26</td></tr>
+        <tr style="opacity:.6"><td class="sec">60 ✗</td><td><b>מתן הודעה — לא נלמד כסעיף,</b> אבל המושג עצמו הוא הלב של ס' 3, 5 ו-10: הודעה <b>נמסרת</b> בהגעתה לנמען או למענו — כך נבחן אם הודעת חזרה/דחייה הגיעה בזמן. <b>דע את המושג, אל תצטט את המספר.</b></td><td class="kw">תורת המסירה</td></tr>
+      </tbody>
+    </table></div>
+    <h3 data-only="final">למבחן המסכם — ריבוי חייבים וחוק התרופות <span class="finaltag">נלמדו 8.9–22.9</span></h3>
+    <div class="tablewrap" data-only="final"><table>
+      <thead><tr><th>סעיף</th><th>מה קובע</th><th>מילת מפתח</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">חו"ח 54</td><td>שניים שחייבים חיוב אחד — <b>חזקה שהם חייבים יחד ולחוד</b>.</td><td class="kw">ביחד ולחוד</td></tr>
+        <tr><td class="sec">חו"ח 55</td><td>הנושה גובה מכל אחד את הכל, אבל לא יותר מהמגיע לו; ביטול חיובו של אחד — בטל גם של השני (למעט פגם בכשרות/ייצוג); הפטר לאחד — פוטר גם את השני.</td><td class="kw">מול הנושה</td></tr>
+        <tr><td class="sec">חו"ח 56</td><td>ביניהם — <b>חלקים שווים</b>; מי ששילם יותר חוזר על השני; חלקו של מי שאי אפשר להיפרע ממנו מתחלק בין הנותרים.</td><td class="kw">בין החייבים</td></tr>
+        <tr><td class="sec">תרופות 1–2</td><td>הפרה = מעשה או מחדל בניגוד לחוזה. אכיפה <b>או</b> ביטול, ופיצויים בנוסף או במקומם — <b>בחירת הנפגע</b>.</td><td class="kw">בחירת הנפגע</td></tr>
+        <tr><td class="sec">תרופות 3</td><td>הנפגע זכאי לאכיפה, זולת: לא בר-ביצוע · שירות אישי · פיקוח בלתי סביר · בלתי צודקת (רק בין המפר לנפגע).</td><td class="kw">אכיפה</td></tr>
+        <tr class="hot"><td class="sec">תרופות 6</td><td>הפרה יסודית = <b>מסתברת</b> (אדם סביר לא היה מתקשר אילו ראה אותה מראש) <b>או מוסכמת</b> (נקבע בחוזה). תניה גורפת — אין לה תוקף, אלא אם הייתה סבירה בעת הכריתה.</td><td class="kw">יסודית</td></tr>
+        <tr class="hot"><td class="sec">תרופות 7</td><td>(א) יסודית — רשאי לבטל. (ב) לא יסודית — רק אחרי <b>ארכה</b>, והמפר רשאי לטעון שהביטול בלתי צודק. (ג) חוזה הניתן להפרדה — חלק, או הכל אם היסודית נוגעת לכל החוזה.</td><td class="kw">ארכה</td></tr>
+        <tr><td class="sec">תרופות 8</td><td>הודעת ביטול תוך זמן סביר מגילוי ההפרה; אחרי ארכה — מתום הארכה.</td><td class="kw">מועד</td></tr>
+        <tr><td class="sec">תרופות 9</td><td>השבה הדדית; <b>שווי</b> — אם ההשבה בלתי אפשרית, בלתי סבירה, או <b>שהנפגע בחר</b>.</td><td class="kw">השבה</td></tr>
+        <tr><td class="sec">תרופות 10</td><td>פיצויים על נזק <b>עקב</b> ההפרה, שהמפר ראה או היה עליו לראות מראש <b>בעת הכריתה</b>. „נזק” — לרבות מניעת רווח (ס' 1).</td><td class="kw">נזק · קש"ס · צפיות</td></tr>
+        <tr><td class="sec">תרופות 11</td><td>(א) חיוב לספק או לקבל + <b>החוזה בוטל</b> ← הפרש בין המחיר החוזי לשווי ביום הביטול. (ב) חיוב כספי ← ריבית על הפיגור. בלי הוכחת נזק.</td><td class="kw">בלי הוכחה</td></tr>
+        <tr><td class="sec">תרופות 13</td><td>נזק שאינו ממון (עוגמת נפש) — בשיעור שייראה לבית המשפט. לבני אדם, לא לחברות.</td><td class="kw">לא ממוני</td></tr>
+        <tr><td class="sec">תרופות 14</td><td>(א) אין פיצוי לפי 10 ו-13 על נזק שאפשר היה למנוע או להקטין באמצעים סבירים. (ב) הוצאות סבירות להקטנה — המפר משפה, <b>בין אם הצליחה ובין אם לאו</b>.</td><td class="kw">הקטנה</td></tr>
+        <tr class="hot"><td class="sec">תרופות 15</td><td>(א) פיצוי מוסכם — <b>בלי הוכחת נזק</b>; בית המשפט רשאי להפחית אם אין יחס סביר לנזק הצפוי. (ב) הנפגע רשאי לתבוע במקומו לפי 10–14. (ג) <b>ערובה</b> — הכללים חלים גם על מה שניתן מראש להבטחת הפיצוי: המסעדה שלוקחת פרטי כרטיס אשראי, „אם לא תגיעו — 50 ₪ לסועד”.</td><td class="kw">מוסכם</td></tr>
+        <tr><td class="sec">תרופות 17</td><td>הפרה צפויה — תרופות גם לפני המועד; אבל צו אכיפה לא יורה לבצע לפני המועד שנקבע.</td><td class="kw">צפויה</td></tr>
+        <tr><td class="sec">תרופות 18</td><td>סיכול: לא צפוי + לא ניתן למנוע + קיום בלתי אפשרי או שונה יסודית ← <b>אין אכיפה ואין פיצויים</b>. הנפגע מקבל <b>רק השבה והחזר הוצאות סבירות</b>, בין אם בוטל החוזה ובין אם לאו (18(ב)).</td><td class="kw">הגנת המפר</td></tr>
+      </tbody>
+    </table></div>
+    <h3>מחוץ לחוק החוזים — גם בהיקף</h3>
+    <p class="lead" style="margin-top:0">שלושת אלה נכתבו <b>במפורש</b> בהודעת המרצה על היקף הבוחן, ולכן הם נושא לגיטימי להיגד בפני עצמו.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>מקור</th><th>הכלל</th></tr></thead>
+      <tbody>
+        <tr class="hot"><td class="sec">ס' 8 לחוק המקרקעין</td><td><b>"התחייבות לעשות עסקה במקרקעין טעונה מסמך בכתב."</b> דרישת כתב <b>מהותית</b> — בלעדיה אין התחייבות תקפה, וזה החריג המרכזי לחופש הצורה שבס' 23. מכאן חשיבות <b>זיכרון הדברים</b>: מסמך שעומד בשני מבחני רבינאי מקיים גם את דרישת הכתב. <b>„כתב” אינו חייב להיות חוזה פורמלי:</b> מייל, התכתבות וואטסאפ ואפילו קבלה שכתוב עליה עבור מה יכולים לקיים את הדרישה (שיעורים 3–4, הזוג המתגרש). ובתרשים הזרימה של הקורס: כשאין כתב <b>בגלל חוסר תום לב</b> — מוותרים על דרישת הכתב (קלמר נ׳ גיא).</td><td class="kw">כתב מהותי</td></tr>
+        <tr class="hot"><td class="sec">ס' 5 לחוק המתנה</td><td><b>5(א):</b> התחייבות לתת מתנה בעתיד טעונה <b>מסמך בכתב</b>. <b>5(ב):</b> הנותן רשאי <b>לחזור בו</b> כל עוד לא שינה המקבל את מצבו בהסתמך על ההתחייבות. <b>5(ג):</b> חזרה גם לאחר הסתמכות — אם הייתה התנהגות מחפירה של המקבל, או הרעה ניכרת במצבו הכלכלי של הנותן.</td><td class="kw">כתב + חזרה</td></tr>
+        <tr class="hot"><td class="sec">זיכרון דברים <span style="font-size:.85em;font-weight:400">(אין סעיף בחוק)</span></td><td>נושא עצמאי. <b>שני מבחנים מצטברים (רבינאי נ׳ מן שקד):</b> (1) <b>כוונה ליצור קשר חוזי מחייב כבר עתה</b>; (2) <b>מסוימות</b> — הסכמה על הפרטים המהותיים. התקיימו → חוזה מחייב, גם אם תוכנן חוזה מפורט שלא נחתם, וגם לצורך דרישת הכתב במקרקעין. <b>"בכפוף לחוזה שייחתם"</b> = אין גמירת דעת ← אין חוזה.</td><td class="kw">שני מבחנים</td></tr>
+      </tbody>
+    </table></div>
+    <h3>רקע — לא בהיקף</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>מקור</th><th>הכלל</th></tr></thead>
+      <tbody>
+        <tr style="opacity:.6"><td class="sec">חוק הכשרות, ס' 2–5 ✗</td><td>כל אדם כשר (2); קטין עד 18 (3); פעולת קטין טעונה הסכמת נציג (4); ביטול ע"י נציג/יועמ"ש תוך חודש מהיוודע או ע"י הקטין תוך חודש מבגרותו (5). רקע לחופש ההתקשרות. מפי המרצה: „אנחנו לא לומדים אותו” (שיעור 2).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><b>הגדרות מדויקות (מצגת 1 ושקפי החזרה — חשוב להיגדי מועדים!):</b> "מסירת הצעה" = הגעתה לניצע או למענו; "מתן הודעת קיבול" = רגע אמירת/משלוח ה"כן"; "מסירת הודעת קיבול" = הגעת ה"כן" למציע. ס' 3(א) ו־4(2) נבחנים לפי <b>מתן</b>; ס' 10 — לפי <b>מסירה</b>.</div>
+  </section>
+
+  <section id="cases" class="newpage">
+    <div class="part-label">חלק ג׳</div>
+    <h2>טבלאות פסקי דין</h2>
+    <h3>מהמצגות הרשמיות — אלה שצפוי לצטט</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>פסק דין</th><th>נושא</th><th>ההלכה בקצרה</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">שיכון עובדים נ׳ זפניק</td><td class="kw">אכיפה</td><td>נסיגה בשלב מתקדם מאוד — במקרים נדירים ביהמ"ש מורה להשלים את העסקה.</td></tr>
+        <tr><td class="sec">פרץ בוני הנגב נ׳ בוחבוט (ע"א 1932/90)</td><td class="kw">גמירת דעת</td><td>מבחן אובייקטיבי מרוכך: "מתקשר סביר במעמדם" של הצדדים — האם ממעשיהם ודבריהם היה מסיק שגמרו בדעתם לכרות חוזה.</td></tr>
+        <tr><td class="sec">נוה עם נ׳ יעקבסון</td><td class="kw">דחיית הצעה</td><td>דחייה מפקיעה רק אם מפורשת ואקטיבית; שאלות הבהרה או ניסיון שיפור אינם דחייה.</td></tr>
+        <tr><td class="sec">פס"ד רבינוביץ</td><td class="kw">הגדרת טעות</td><td>"טעות היא אמונה של צד לחוזה שאינה תואמת את המציאות" (שלו/שמגר); מתייחסת להווה או לעבר בלבד.</td></tr>
+        <tr><td class="sec">קוזלי נ׳ מדינת ישראל (ע"א 6295/16)</td><td class="kw">הצעת פרס לציבור</td><td>פרשת מג׳די חלבי — ראו מסגרת בסיכום: 4 המשוכות, אקראיות אינה שוללת, פקיעה וחזרה. דנ"א 4165/19 נדחה.</td></tr>
+        <tr><td class="sec">רבינאי נ׳ מן שקד (ע"א 158/77)</td><td class="kw">זיכרון דברים</td><td>שני מבחנים מצטברים: כוונה להתחייב כבר עתה + מסוימות בפרטים המהותיים → חוזה; ממלא את דרישת הכתב במקרקעין.</td></tr>
+        <tr><td class="sec">פנידר נ׳ קסטרו</td><td class="kw">חובת גילוי</td><td>חובת גילוי עובדות במו"מ; היקפה לפי זהות הצדדים, קלות ועלות השגת המידע ומומחיות הצד השני.</td></tr>
+        <tr><td class="sec">קוט נ׳ ארגון הדיירים</td><td class="kw">חוסר תום לב</td><td>עריכת חוזה בלי לקיימו, או בידיעה שיופר — חוסר תום לב במו"מ.</td></tr>
+        <tr><td class="sec">תשובה נ׳ בר נתן (ע"א 7824/95)</td><td class="kw">חזרה מהצעה</td><td>חרטה (בטלפון ופקס) שנמסרה לפני שההצעה בדואר הגיעה לניצע — תופסת; אין חוזה על ההצעה המקורית.</td></tr>
+        <tr><td class="sec">קייס הזוג המתגרש (שיעור 4)</td><td class="kw">הצעה וקיבול בדוא"ל</td><td>התכתבות אמיתית מפסק דין. „הריני מביע נכונותי לרכוש את חלקה… 1,900,000” — הצעה: פנייה, גמירת דעת ומסוימות. „מרשתי מסכימה למכור את חלקה” — קיבול. התוספות (העברה אגב גירושין בלי מס, פירעון המשכנתה) אינן שינוי לפי ס' 11 — הן רק מצהירות על הדין הקיים. „מייל זה כתב” — דרישת הכתב (ס' 8 מקרקעין) מתקיימת. הנסיגה שבאה אחר כך — מאוחר מדי, החוזה כבר נכרת.</td></tr>
+        <tr><td class="sec">פס"ד ספקטור (נ׳ צרפתי)</td><td class="kw">גילוי / טעות</td><td>בעל מגרש לא סיפר לקבלן על הפקעה מתוכננת (שיעור 6). חובת גילוי לפי ס' 12 — המבחן: מה אדם סביר היה מגלה; בעליון הדעות נחלקו, כי מקבלן מקצועי, הצד החזק, מצופה לבדוק. ובמצגת 2: טעות עובדתית על נתון המשליך על השווי אינה "כדאיות".</td></tr>
+        <tr><td class="sec">פס"ד בן לולו</td><td class="kw">כדאיות</td><td>הסכם פשרה עם ויתור על תביעות = סיכון מודע; החמרה מאוחרת = כדאיות בלבד, אין ביטול.</td></tr>
+        <tr><td class="sec">כרמל נ׳ טלמון (ע"א 7920/13)</td><td class="kw">כדאיות — AS-IS</td><td>תניית AS-IS והנסיבות = נטילת סיכון על המצב התכנוני והשווי; טעות בשווי = כדאיות, אין ביטול (חיות). אושר בדנ"א 2128/16.</td></tr>
+        <tr><td class="sec">זעירא זבולון נ׳ קנית</td><td class="kw">מו"מ מקביל</td><td>מו"מ מקביל נבחן בתום לב — הפסול בהסתרה וביצירת מצג, לא בעצם הקיום המקביל.</td></tr>
+        <tr><td class="sec">זנדבנק נ׳ דנציגר (ע"א 440/75)</td><td class="kw">מסוימות</td><td>ההצעה מלאה ומדויקת במידה מספקת כך שעם הקיבול נכרת חוזה בר־קיום.</td></tr>
+        <tr><td class="sec">קל בניין נ׳ ע.ר.מ. רעננה</td><td class="kw">פיצויי קיום</td><td>כשכל תנאי העסקה סוכמו והפרישה בחוסר תום לב — פיצויי קיום (החריג).</td></tr>
+        <tr><td class="sec">שג"מ חניונים</td><td class="kw">קיבול בהתנהגות</td><td>כניסה לחניון בתשלום = קיבול במעשה (ס' 6(א)); אין להתווכח על המחיר בדיעבד.</td></tr>
+        <tr><td class="sec">זהבה כנען נ׳ ממשלת ארה"ב</td><td class="kw">טעות משותפת</td><td>טעות משותפת → מסלול 14(ב): ביטול בשיקול דעת ביהמ"ש משיקולי צדק. נלמד בשיעור 7.</td></tr>
+        <tr class="hot"><td class="sec">שושנה קרן נ׳ דיור לעולה</td><td class="kw">כפייה — ס' 17 <b>בהיקף</b></td><td>לחץ מצד שלישי עצמאי (שכנים) אינו כפייה — ס' 17 דורש שהכופה יהיה <b>הצד השני או מי מטעמו</b>. נלמד בשיעור 8.</td></tr>
+      </tbody>
+    </table></div>
+    <h3 data-only="final">למבחן המסכם — חוק התרופות וריבוי חייבים <span class="finaltag">נלמדו 8.9–22.9</span></h3>
+    <div class="tablewrap" data-only="final"><table>
+      <thead><tr><th>פסק דין</th><th>נושא</th><th>ההלכה בקצרה</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">פומרנץ נ׳ קדש חברה לבנייה</td><td class="kw">אכיפה — 3(4)</td><td>חריג „בלתי צודק” נבחן <b>רק בין המפר לנפגע</b>. הלובי הקומתי קטן מהתוכניות — העליון הורה לאכוף ולשבור את הקיר, אף שזה פוגע בדייר הסמוך; הדייר יתבע את הקבלן. (הקלטה משלימה)</td></tr>
+        <tr><td class="sec">פרץ נ׳ ביטון (ד״נ 44/75)</td><td class="kw">ביטול — יסודית?</td><td><b>איחור בתשלום אינו הפרה יסודית מסתברת.</b> בלי סעיף מוסכם — חובה לתת ארכה (7(ב)); ביטול בלי ארכה לא תפס, והחוזה נשאר בתוקף. (הקלטה משלימה, 22.9)</td></tr>
+        <tr><td class="sec">חלאבין נ׳ מיקרובלנס</td><td class="kw">ביטול — תום לב (ס' 39)</td><td>גם בהפרה יסודית מוסכמת: מי שנתן לה לעבור 15 שנה צריך לתת ארכה לפני שהוא מבטל. חריג נדיר. (הקלטה משלימה)</td></tr>
+        <tr><td class="sec">תושייה נ׳ גוטמן</td><td class="kw">פיצויים — הקטנת נזק (14)</td><td>יכול היה למכור ב-90, חיכה ומכר ב-70 — פיצוי על 10 בלבד, לא על 30. (הקלטה משלימה)</td></tr>
+        <tr><td class="sec">איינשטיין נ׳ אוסי</td><td class="kw">פיצויים בלי הוכחת נזק — 11(א)</td><td>ביטלו את החוזה ← ההפרש בין מחיר השוק ביום הביטול (192) למחיר החוזי (140): 52 אלף דולר, בלי להוכיח נזק ובלי להקטין. (הקלטה משלימה)</td></tr>
+        <tr><td class="sec">מלך נ׳ קורנהויזר</td><td class="kw">ריבוי חייבים — 54–55</td><td>שלושה כלבים תקפו אדם, ובעלי שניים מהם אותרו — הם חייבים <b>יחד ולחוד</b> על מלוא הנזק, ולא כל אחד שליש. „זה עובד בכל התחומים.” (8.9)</td></tr>
+        <tr><td class="sec">השיפוצניק ממלחמת יום כיפור</td><td class="kw">סיכול — 18</td><td>עליית מחירי החומרים אחרי המלחמה אינה סיכול — מלחמות בישראל צפויות. היום שואלים אם <b>ההשלכות</b> היו צפויות. (שם פסק הדין לא נמסר.)</td></tr>
+      </tbody>
+    </table></div>
+    <h3>מופיעים בתרשימי הזרימה של הקורס שלנו</h3>
+    <p class="hint">שני פסקי הדין מופיעים ב<a href="https://lemida.biu.ac.il/mod/resource/view.php?id=3148908">„תרשימי זרימה חלק א — הכול רלוונטי”</a> בלמדה שלנו. בשיעורים עצמם הם לא פורטו, ולכן כאן רק מה שכתוב בתרשים.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>פסק דין</th><th>נושא</th><th>ההלכה בקצרה</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">סויסה נ׳ זגב</td><td class="kw">הטעיה פסיבית</td><td>אי־גילוי של עובדה שחובה לגלות <b>מכוח חוק</b> הוא הטעיה במחדל (ס' 15).</td></tr>
+        <tr><td class="sec">קלמר נ׳ גיא</td><td class="kw">תו"ל מול כתב</td><td>במקרקעין: אין כתב — אין חוזה. החריג: כשאין כתב <b>בגלל חוסר תום לב</b>, מוותרים על דרישת הכתב.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="traps" class="newpage">
+    <div class="part-label">חלק ד׳</div>
+    <h2>14 מלכודות קלאסיות בהיגדים</h2>
+    <ol class="trap-list">
+      <li><b>מילים מוחלטות:</b> "תמיד", "רק", "בכל מקרה", "כל פרט" — לרוב לא נכון; חפשו את החריג.</li>
+      <li><b>14(א) מול 14(ב):</b> ההבדל — ידיעת הצד השני (בפועל/בכוח). ידע → ביטול עצמי; לא ידע → רק ביהמ"ש + חשיפה לפיצויים. טעות משותפת → 14(ב).</li>
+      <li><b>"בטל" לעומת "ניתן לביטול":</b> חוזה פסול (ס' 30) — בטל מעצמו. פגמים ברצון — ניתן לביטול ע"י הנפגע (או ביהמ"ש ב־14(ב)) בלבד.</li>
+      <li><b>דחיית הצעה:</b> רק מפורשת ואקטיבית מפקיעה (נוה עם); בירור ושיפור אינם דחייה.</li>
+      <li><b>השלמה "רק מנוהג":</b> לא — גם הוראות החוק המשלימות (41, 44, 45, 46).</li>
+      <li><b>זיכרון דברים:</b> תוכן ולא כותרת; עיקרי הדברים חובה; השלמה רק לפרטים משניים (ס' 26 + 41–46); "בכפוף לחוזה" = לא מחייב.</li>
+      <li><b>חרטת מציע — שני מסלולים:</b> רגילה — עד מתן הקיבול (3(א)); "ללא חזרה"/עם מועד — משנמסרה לניצע אין חזרה, לפני שנמסרה אפשר (3(ב)).</li>
+      <li><b>חרטת ניצע:</b> נמסרה לא אחרי הודעת הקיבול; הגיעו יחד — החזרה גוברת (ס' 10).</li>
+      <li><b>טעות — הווה/עבר בלבד:</b> ציפייה לעתיד שהתבדתה = כדאיות (14(ד)); וכך גם AS-IS ונטילת סיכון (כרמל נ׳ טלמון, בן לולו).</li>
+      <li><b>מוות:</b> לפני מתן הקיבול — פקיעה (4(2)); אחרי — חוזה שעובר ליורשים.</li>
+      <li><b>מתן מול מסירה:</b> מתן קיבול = אמירת/משלוח ה"כן"; מסירה = הגעתו למציע. ס' 3(א) ו־4(2) — מתן; ס' 10 — מסירה. <b>הודעה נמסרת</b> בהגעה פיזית לנמען או למענו (ס' 60).</li>
+      <li><b>סעד ס' 12:</b> פיצויים (הסתמכות; חריג — קיום), לא ביטול; נתבע גם בלי כריתה וגם כשהחוזה נשאר בתוקף.</li>
+      <li><b>קיבול בהתנהגות:</b> רק כשנקבע/משתמע (6(א), שג"מ חניונים); משבוצע — חוסם חרטת מציע.</li>
+      <li><b>שתיקה:</b> המציע לא כופה (6(ב)); הניצע רשאי מיוזמתו; הצעה מזכה — חזקת קיבול (7).</li>
+    </ol>
+  </section>
+
+  <section id="summary" class="newpage">
+    <div class="part-label">חלק ה׳</div>
+    <h2>סיכום נושאים מלא</h2>
+
+    <h3>1 · מצגת מבוא — מפת המשפט ועקרונות</h3>
+    <ul>
+      <li><b>ענפי המשפט:</b> ציבורי (עונשין, חוקתי, מנהלי, מסים, צבא) מול פרטי (ממון — קניין וחיובים: חוזים, נזיקין, עשיית עושר; משפחה; עבודה; מסחרי). הקורס — משפט פרטי.</li>
+      <li><b>חוזים יש לכבד:</b> עיקרון־על; אין "הפרה יעילה" בישראל; שידול להפרה = גרם הפרת חוזה.</li>
+      <li><b>חופש החוזים:</b> צורה (ס' 23; חריגים: מקרקעין ס' 8, מתנה עתידית); תוכן (ס' 24 בכפוף לס' 30 — בטל); התקשרות (כשרות — ס' 2–5 לחוק הכשרות).</li>
+    </ul>
+
+    <h3>2 · מצגת 1 — כריתת חוזה (ס' 1–12)</h3>
+    <h4>הצעה (ס' 2)</h4>
+    <ul>
+      <li><b>גמירת דעת:</b> מבחן אובייקטיבי מרוכך (בוחבוט). העדה: אמירה מפורשת, נסיבות, מונחים משפטיים, מסוימות, התנהגות, חתימה, העברת כספים.</li>
+      <li><b>מסוימות:</b> עיקרי הדברים — מלאה ומדויקת במידה מספקת (זנדבנק); מחירון = מחיר.</li>
+      <li><b>חסר יסוד:</b> הזמנה להציע הצעות — התגובה אליה היא ההצעה.</li>
+    </ul>
+    <h4>השלמת פרטים (ס' 26 + 41–50)</h4>
+    <ul><li>נוהג בין הצדדים ← נוהג מקובל ← החוק: מועד (41), מקום (44), בינוניות (45), סכום ראוי (46). עיקרי הדברים — לעולם לא.</li></ul>
+    <h4>חיי ההצעה (ס' 3–4)</h4>
+    <ul>
+      <li><b>חזרה (3(א)):</b> שלושה שלבים (מקוזלי): כוונה + הודעה לניצע + לפני מתן הקיבול.</li>
+      <li><b>בלתי הדירה (3(ב)):</b> משנמסרה לניצע אין חזרה; לפני מסירתה — אפשר (תשובה נ׳ בר נתן).</li>
+      <li><b>פקיעה (4):</b> דחייה מפורשת ואקטיבית (נוה עם) / חלוף מועד או זמן סביר (לפי טיב ההצעה) / מוות, פסלות דין, צו נכסים, פירוק — לפני מתן הקיבול.</li>
+    </ul>
+    <h4>קיבול (ס' 5–11)</h4>
+    <ul>
+      <li><b>5:</b> הודעה שנמסרה + גמירת דעת + על יסוד ההצעה ובהתאמה לה.</li>
+      <li><b>6(א):</b> בהתנהגות — כשנקבע/משתמע (שג"מ חניונים, הצעות פרס); דינה כהודעת קיבול לעניין 3(א) ו־4(2).</li>
+      <li><b>6(ב):</b> אין כפיית שתיקה; הברירה בידי הניצע.</li>
+      <li><b>7:</b> הצעה מזכה — חזקת קיבול; "מתנה" עם נטל אינה מזכה.</li>
+      <li><b>8:</b> מועד/זמן סביר; תקלת תקשורת — נכרת חוזה אלא אם דחה מיד.</li>
+      <li><b>9:</b> קיבול אחרי פקיעה = הצעה חדשה. <b>10:</b> חרטת ניצע — לפני או יחד. <b>11:</b> "כן, אבל" = הצעה חדשה.</li>
+    </ul>
+    <h4>פ"ד קוזלי (ע"א 6295/16) — פרשת מג׳די חלבי</h4>
+    <div class="note">
+      <b>מצגת שלמה בקורס — צפוי בהיגדים.</b> פרס 10 מיליון דולר למידע על נעדרים; המערערים נתקלו בשרידים באקראי ודיווחו. העליון חייב לשלם:
+      <ol>
+        <li><b>ידיעה על ההצעה</b> — הוכחה.</li>
+        <li><b>סימולטניות</b> — חשבו על האפשרות שזה הנעדר ופעלו מתוך תקווה לזכות.</li>
+        <li><b>אין צורך בידיעה ודאית</b> שההתנהגות תזכה — די בכוונה ותקווה; מפגש רצונות, לא הסתברות.</li>
+        <li><b>אקראיות אינה שוללת</b> — פרשנות לפי "הניצע הסביר": מידע אמין מספיק, בלי דרישת מאמץ (משל הכלבלב).</li>
+      </ol>
+      <b>פקיעה:</b> 9 חודשים בלי פרסום ≠ חלוף זמן סביר — הסבירות לפי רקע ההצעה ותוכנה (נעדרים/עבריין — תקפה זמן רב). <b>חזרה:</b> הפסקת מימון והורדת שלטים ≠ חזרה; נדרשת כוונה + הודעה בדרך מקבילה לפרסום (אתר, מוקד) + לפני קיבול. דנ"א 4165/19 נדחה.
+    </div>
+    <h4>זיכרון דברים (רבינאי, ע"א 158/77)</h4>
+    <ul>
+      <li>שתי נקודות מבט: שלב במו"מ ("חומר גלמי") או חוזה גמור שיקבל לבוש פורמלי.</li>
+      <li>שני מבחנים מצטברים: כוונה להתחייב כבר עתה + מסוימות בפרטים המהותיים → חוזה מחייב + ממלא דרישת כתב במקרקעין.</li>
+      <li>"בכפוף לחוזה" = לא מחייב; "חוזה מפורט ייערך בעוד שבוע" = מחייב.</li>
+    </ul>
+    <h4>תום לב במו"מ (ס' 12)</h4>
+    <ul>
+      <li><b>תחולה:</b> מהקשר הראשון עד כריתה/סיום; כל מי שנטל חלק (צד, עובד, מתווך); סטנדרט אובייקטיבי; נמשך גם לתוך תקופת החוזה (ס' 39 — <span data-only="quiz"><b>אינו ברשימה</b>, הישען על 12</span><span data-only="final">ובתרופות: חלאבין נ׳ מיקרובלנס</span>). נתבע גם בלי כריתה וגם כשהחוזה בתוקף.</li>
+      <li><b>מצבים:</b> מו"מ מקביל בהסתרה (זעירא נ׳ קנית); מו"מ ללא כוונת התקשרות; פרישה שלא בתו"ל; חוזה בידיעה שיופר (קוט); הפרת חובת גילוי (פנידר נ׳ קסטרו). פרמטרים לגילוי: זהות, קלות, עלות, מומחיות — ובלשון המרצה: <b>„מצופה מהצד החזק לספר יותר”</b> (שיעור 6).</li>
+      <li><b>סעד (12(ב)):</b> הסתמכות; חריג — קיום (קל בניין); לעיתים אכיפה (זפניק). קלמר נ׳ גיא עוסק בתום לב מול דרישת הכתב ומופיע בתרשים הזרימה של הקורס.</li>
+    </ul>
+
+    <h3>3 · מצגת 2 — פגמים בכריתה (ס' 14–17, 19–21)</h3>
+    <div class="note"><b>המסגרת:</b> טעות (14), הטעיה (15), כפייה (17) — ועושק (18), <b>שאינו בהיקף</b>. הפגם מתגלה אחרי הכריתה; ביטול חד־צדדי (14(א), 15, 17) או באישור ביהמ"ש (14(ב)) + השבה (21). <b>ניתן לביטול — לא בטל.</b> ס' 16 (טעות סופר) יושב בתוך הרצף אך אינו עילת ביטול כלל.</div>
+    <h4>טעות (ס' 14)</h4>
+    <ul>
+      <li><b>הגדרה:</b> אמונה שאינה תואמת את המציאות (רבינוביץ); הווה או עבר בלבד.</li>
+      <li><b>14(א):</b> חוזה; טעות (לא כדאיות); קש"ס; יסודיות ("ניתן להניח שלולא הטעות לא היה מתקשר"); ידיעת הצד השני בפועל או בכוח → ביטול עצמי (20) + השבה (21); כפוף ל־19 ו־14(ג).</li>
+      <li><b>14(ב):</b> הצד השני לא ידע → רק ביהמ"ש, משיקולי צדק (נזק/תועלת, רשלנות, אשם תורם) + אפשרות פיצויים לצד השני. [טעות משותפת → 14(ב), זהבה כנען.]</li>
+      <li><b>14(ג):</b> תיקון במקום ביטול. <b>14(ד):</b> כדאיות — סיכון מודע שהתממש (פרידמן וכהן; בן לולו; קרקע שלא הופשרה; AS-IS — כרמל נ׳ טלמון). טעות עובדתית על נתון קיים המשליך על שווי — כן עילה (ספקטור).</li>
+    </ul>
+    <h4>סעדים בשל פגם (ס' 19–21)</h4>
+    <ul>
+      <li><b>19:</b> ביטול חלקי; בלי יחידה נפרדת — מבטלים הכול (די וורולי סיאני).</li>
+      <li><b>20:</b> הודעה (אף משתמעת) תוך זמן סביר; בכפייה — משפסקה הכפייה, לא מהכריתה.</li>
+      <li><b>21:</b> השבה בעין, ואם בלתי אפשרית או בלתי סבירה — השבת שווי.</li>
+      <li><b>19, 20 ו-21 פועלים אותו דבר בכל עילות הביטול</b> — טעות, הטעיה וכפייה. ב-14(ב) חסר רק <b>הביטול העצמאי בהודעה (ס' 20)</b> — שם בית המשפט מבטל, וביטול חלקי (19) והשבה (21) עוברים דרכו (מצגת 2, שקפים 2 ו-12). בשיעור 7 נאמר בקיצור ש-19–21 „לא חלים” ב-14(ב); המצגת מדייקת.</li>
+      <li style="opacity:.65"><b>22 ✗ רקע:</b> שמירת תרופות — הבסיס לצירוף פיצויי ס' 12. לא נלמד כסעיף, אז אל תבנה נימוק על המספר.</li>
+    </ul>
+    <div class="note"><b>הטעיה (ס' 15) — בהיקף:</b> מצג שווא / העלמת מידע / הצהרה כוזבת בשלב הטרום־חוזי, בכתב, בע"פ או בהתנהגות. אקטיבית ("שתילת מידע מוטעה") או פסיבית (אי־גילוי שחובה לגלות לפי דין, נסיבות, נוהג). יסודות: חוזה; הטעיה ע"י הצד השני/מטעמו; טעות (לא כדאיות); קש"ס כפול. סעד: ביטול עצמי (20) + השבה (21). אי־גילוי מהותי = גם ס' 12 וגם ס' 15. פירוט מיד למטה.</div>
+    <h4>הטעיה (ס' 15)</h4>
+    <ul>
+      <li><b>היחס לטעות:</b> „הטעיה תמיד גורמת לטעות — אבל לא כל טעות נוצרת בגלל הטעיה” (שיעור 6). ס' 15 רחב יותר — אין בו דרישת יסודיות — אבל דורש שהצד השני או מי מטעמו גרם לטעות (שיעור 7).</li>
+      <li><b>אקטיבית:</b> "שתילת מידע מוטעה" — גם בתום לב ("עבר 50,000 ק"מ" כשעבר 200,000; פרסומת מטעה).</li>
+      <li><b>פסיבית:</b> אי־גילוי שחובה לגלות לפי דין, הנסיבות או נוהג (רטיבות, תאונה קשה) — וזה תמיד גם חוסר תום לב.</li>
+      <li><b>סעד:</b> ביטול עצמי (20) + השבה (21); כפוף ל־19 ולסייג הכדאיות; קש"ס כפול נדרש. ואם יש גם חוסר תום לב — פיצויים לפי 12(ב) (קייס מוטי).</li>
+    </ul>
+
+    <h4>טעות סופר (ס' 16)</h4>
+    <ul>
+      <li><b>הכלל:</b> נפלה טעות סופר או טעות כיוצא בה — <b>החוזה מתוקן</b> לפי אומד דעת הצדדים, <b>ואין הטעות עילה לביטול</b>. זה ההבדל מס' 14: שם טעות מקימה זכות ביטול, כאן — רק תיקון.</li>
+      <li><b>מה זה:</b> פליטת קולמוס בכתיבת המוסכם — מספר, שם, שטח — כשברור מה הצדדים באמת סיכמו. לא טעות ברצון.</li>
+      <li><b>התכחשות:</b> צד שמתכחש לטעות סופר גלויה פועל בחוסר תום לב; ביהמ"ש יתקן לפי אומד הדעת ולא יבטל.</li>
+      <li><b>מלכודת קלאסית:</b> "נכתב 573 מ"ר במקום 375 — ניתן לבטל" ← <b>לא נכון.</b> מתקנים.</li>
+    </ul>
+
+    <h4>כפייה (ס' 17)</h4>
+    <ul>
+      <li><b>יסודות 17(א):</b> חוזה תקף + כפייה <b>בכוח או באיום</b> + הכופה הוא <b>הצד השני או מי מטעמו</b> + קשר סיבתי בין הכפייה להתקשרות.</li>
+      <li><b>מקור הלחץ מכריע:</b> לחץ מצד שלישי עצמאי (שכנים) <b>אינו</b> כפייה לפי הסעיף — שושנה קרן נ׳ דיור לעולה.</li>
+      <li><b>כפייה כלכלית מוכרת:</b> אקספומדיה (ע"א 8/88) — איום מפתיע, חמור ובלתי הפיך, בעיתוי של פגיעוּת מרבית, "גובל בסחיטה". מאיה נ׳ פנפורד (ע"א 1569/93) — נבחנות <b>איכות</b> הלחץ (מנוגד לכללי המשחק) ו<b>עוצמתו</b> ("מקדיח את התבשיל").</li>
+      <li><b>17(ב) — הסייג שמכריע היגדים:</b> <b>אזהרה בתום לב על הפעלת זכות אינה איום.</b> "אם לא תשלם אגיש תביעה" על חוב אמיתי — לגיטימי, אין כפייה.</li>
+      <li><b>ביטול:</b> הודעה תוך זמן סביר <b>מרגע שפסקה הכפייה</b> (ס' 20 — לא מרגע הכריתה!) + השבה (21).</li>
+    </ul>
+  </section>
+
+  <section id="ourquiz" class="newpage">
+    <div class="part-label">חלק ו׳</div>
+    <h2>הבוחן שלנו (8.9) + הפתרון הרשמי</h2>
+    <p>חמשת ההיגדים שהוקרנו, בניסוח משוחזר מצילום (לא מילה במילה), עם הפתרון שהמרצה פרסמה בלמדה ב-9.9 — הוא מצוטט בראש כל תשובה.</p>
+
+    <details class="q"><summary><span class="n">1.</span>הסעד בשל הפרת חובת תום הלב במשא ומתן הוא ביטול החוזה או פיצויים, לבחירת הנפגע.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span>
+        <p><b>הפתרון הרשמי:</b> „לא נכון. סעיף 12(ב) לא מאפשר ביטול.”</p>
+        <p class="more">12(ב) נותן פיצויים, ומפנה לס' 10, 13 ו-14 לחוק התרופות. ביטול מגיע רק מעילה אחרת — טעות, הטעיה או כפייה.</p>
+      </div>
+    </details>
+    <details class="q"><summary><span class="n">2.</span>כדי לבטל חוזה בשל הטעיה, יש להוכיח שהטעות יסודית.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span>
+        <p><b>הפתרון הרשמי:</b> „לא נכון. סעיף 15 לא דורש שהטעות תהיה יסודית. זה אחד ההבדלים בין סעיף 15 ל-14.”</p>
+        <p class="more">בס' 15 מספיק קשר סיבתי כפול — הטעיה ← טעות ← התקשרות. „יסודית” היא דרישה של ס' 14 בלבד.</p>
+      </div>
+    </details>
+    <details class="q"><summary><span class="n">3.</span>מציע שמת לפני מתן הודעת הקיבול — ההצעה פוקעת.</summary>
+      <div class="a"><span class="verdict good">נכון</span>
+        <p><b>הפתרון הרשמי:</b> „נכון, סעיף 4(2).”</p>
+        <p class="more">הקובע הוא <b>מתן</b> הודעת הקיבול, לא מסירתה. מוות אחרי מתן הקיבול — כבר יש חוזה, והוא עובר ליורשים.</p>
+      </div>
+    </details>
+    <details class="q"><summary><span class="n">4.</span>בטעות משותפת יש לפנות לבית המשפט כדי לבטל את החוזה.</summary>
+      <div class="a"><span class="verdict good">נכון</span>
+        <p><b>הפתרון הרשמי:</b> „נכון, סעיף 14ב.”</p>
+        <p class="more">בטעות משותפת אף צד לא „ידע או היה עליו לדעת” על טעות השני, ולכן המסלול הוא 14(ב) — ביטול בידי בית המשפט, משיקולי צדק (זהבה כנען נ׳ ממשלת ארה״ב).</p>
+      </div>
+    </details>
+    <details class="q"><summary><span class="n">5.</span>חוזה במקרקעין מחייב את חתימת הצדדים.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span>
+        <p><b>הפתרון הרשמי:</b> „לא נכון. אומנם נדרש כתב אך לא נדרשת חתימה אם ניתן להוכיח גמ״ד בדרכים אחרות. פ״ד רבינאי.”</p>
+        <p class="more">ס' 8 לחוק המקרקעין דורש <b>מסמך בכתב</b>, לא חתימה. ברבינאי מורשה החתימה של החברה לא חתם, אבל התשלום של 10% והלקיחה שלו הוכיחו גמירת דעת. <b>המלכודת: מילה קרובה במקום מונח החוק</b> — „חתימה” במקום „כתב”, כמו „מסירה” במקום „מתן”.</p>
+      </div>
+    </details>
+
+    <h3>שאלות הרשות שלנו בלמדה</h3>
+    <p>כך נראית „שאלה אמריקאית” של המרצה.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>ניתנה</th><th>השאלה</th><th>התשובה הנכונה</th><th>למה</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">21.7</td><td>הצעה חייבת: (א) לנקוב בשם ניצע ספציפי · (ב) לכלול את כל הפרטים של העסקה, אחרת אין הצעה · (ג) להיות בכתב · (ד) לכלול את עיקרי העסקה המוצעת</td><td><b>(ד)</b> — לכלול את עיקרי העסקה</td><td class="kw">ס' 2 — מסוימות; ההצעה יכולה להיות לציבור ובעל פה, והשאר ניתן להשלמה (26)</td></tr>
+        <tr><td class="sec">18.8</td><td>יונה קנתה דירה מחברה קבלנית. את המו״מ ניהל יונתן, נציג מכירות של החברה, והוא הסתיר ממנה מידע מהותי. יונה טוענת שאפשר לתבוע גם את יונתן בגין הפרת חובת תום הלב, ולא רק את החברה. נכון או לא?</td><td><b>נכון</b></td><td class="kw">ס' 12 — החובה חלה על כל מי שמשתתף במו״מ, גם אם אינו צד לחוזה</td></tr>
+        <tr><td class="sec">1.9</td><td>רמי רוצה לבטל חוזה שהתקשר בו עקב כפייה: (א) לא יוכל — בחר להתקשר בכל זאת · (ב) יוכל בכל עת · (ג) תוך זמן סביר מהכריתה · (ד) תוך זמן סביר מרגע שפסקה הכפייה</td><td><b>(ד)</b></td><td class="kw">ס' 20 — בכפייה הזמן הסביר נספר משפסקה הכפייה</td></tr>
+        <tr data-only="final"><td class="sec">22.9</td><td>המשפט הנכון ביותר לגבי פיצוי מוסכם: (א) כדי לקבל אותו על הנפגע להקטין את הנזק · (ב) על אותו נזק בדיוק אפשר לתבוע גם פיצוי מוסכם וגם פיצוי אחר · (ג) כשיש הפרה שנקבע לגביה פיצוי מוסכם, אין צורך להוכיח נזק · (ד) הנפגע אינו רשאי לוותר על פיצוי מוסכם</td><td><b>(ג)</b></td><td class="kw">ס' 15(א). (א) — ס' 14 לא חל על פיצוי מוסכם · (ב) — אין כפל פיצוי · (ד) — 15(ב): רשאי לוותר</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint" style="font-size:.9em">לשאלה מ-4.8 אין עיון בתשובות במודל.</p>
+  </section>
+
+  <section id="practice" class="newpage">
+    <div class="part-label">חלק ז׳</div>
+    <h2>מאגר תרגול — 30 היגדים</h2>
+    <p>1–8 ו־27 מקובצי ההיגדים שבלמדה שלנו („היגדים+פתרון” ו„בוחן משלים+פתרון”); 10 לפי שאלת הרשות שלנו מ־1.9; השאר נכתבו לתרגול על החלק הכללי של חוק החוזים. כל 30 ההיגדים בהיקף המבחן.</p>
+
+    <details class="q"><summary><span class="n">1.</span>החובה לנהוג בתום לב במו"מ חלה על כל מי שמשתתף בו, גם אם בסוף לא יהיה צד לחוזה.</summary>
+      <div class="a"><span class="verdict good">נכון</span><p>ס' 12(א) — כל מי שנטל חלק במו"מ: צד, עובד חברה, מתווך; בלי תלות בכריתה.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">2.</span>מודעה שקובעת תמורה "לפי מחירון לוי יצחק" אינה הצעה, כי אין מסוימות.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>מסוימות = עיקרי הדברים (זנדבנק); הפניה למחירון = נקיבת מחיר. הצעה לפי ס' 2.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">3.</span>הצעה שניתן לקבל בהתנהגות אינה מאפשרת למציע להתחרט.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>המציע רשאי לחזור בו (3(א)) כל עוד לא בוצעה ההתנהגות; משבוצעה — דינה כהודעת קיבול (6(א)) והחרטה נחסמת.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">4.</span>זיכרון דברים יכול לחייב גם אם הצדדים תכננו לערוך חוזה מחייב בהמשך.</summary>
+      <div class="a"><span class="verdict good">נכון</span><p>רבינאי: גמירת דעת + מסוימות → חוזה, גם אם תוכנן חוזה מפורט שלא נחתם.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">5.</span>הודעת חרטה של ניצע הגיעה למציע בדיוק יחד עם הודעת הקיבול — אין חוזה.</summary>
+      <div class="a"><span class="verdict good">נכון</span><p>ס' 10: "לא לאחר" = לפני או יחד — החזרה גוברת.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">6.</span>הצעה מזכה ניתן לקבל רק בקיבול מפורש.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 7 — חזקת קיבול בשתיקה; רק ההתנגדות טעונה הודעה תוך זמן סביר.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">7.</span>אם חסרים עיקרי הפרטים בזיכרון דברים, בית המשפט רשאי להשלימם.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>משלימים (ס' 26) רק פרטים שאינם עיקר; בלי עיקרי הדברים אין מסוימות ואין חוזה.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">8.</span>קיבול בהתנהגות אפשרי בכל סוג של הצעה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 6(א): רק כשנקבע ע"י המציע או משתמע מההצעה (שג"מ חניונים, מודעת פרס).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">9.</span>דנה שלחה לרון הצעה בכתב למכור לו את הקטנוע שלה, וכתבה שההצעה בתוקף עד יום חמישי. ביום שני, אחרי שההצעה כבר נמסרה לרון ולפני שהשיב, הודיעה לו שהיא חוזרת בה. החזרה תקפה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>נקבע מועד לקיבול → ההצעה בלתי הדירה, ומשנמסרה לניצע אין חזרה ממנה (3(ב)). אפשר היה לחזור רק עד שההצעה הגיעה לרון: „כשהיא מגיעה אליו, אני כבר לא יכולה להתחרט” (תשובה נ׳ בר נתן, שיעור 4).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">10.</span><span>רמי מעוניין לבטל חוזה שנכרת עקב כפייה — עליו לעשות זאת תוך זמן סביר מרגע שנכרת החוזה.</span><span class="tag">ס׳ 17 · בהיקף</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 20: בכפייה — תוך זמן סביר משפסקה הכפייה, לא מהכריתה.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">11.</span>חוזה למכירת רכב שנעשה בעל פה בלבד — אין לו תוקף.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 23 — חופש הצורה; כתב נדרש רק כשחוק/הסכם קובעים (מקרקעין ס' 8; מתנה עתידית).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">12.</span>חוזה שתוכנו נוגד את תקנת הציבור ניתן לביטול ע"י הצד הנפגע.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 30 — בטל מעצמו ומלכתחילה, בלי הודעת ביטול.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">13.</span>קטין בן 17 אינו כשיר להתקשר בחוזה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 2 לחוק הכשרות — כל אדם כשר; פעולת קטין טעונה הסכמת נציג (4) וניתנת לביטול (5).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">14.</span>מציע רשאי לקבוע שאם הניצע לא יגיב תוך שבוע — ייחשב הדבר הסכמה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 6(ב) — אין תוקף; שתיקה כקיבול רק ביוזמת הניצע, או בהצעה מזכה (7).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">15.</span>ניצע שענה "מסכים, בתנאי שהמסירה תוקדם בשבוע" — קיבל את ההצעה ונכרת חוזה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>קיבול תוך שינוי = הצעה חדשה (ס' 11); התפקידים מתהפכים.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">16.</span>הודעת קיבול שנשלחה בזמן אך איחרה בגלל תקלת תקשורת שאינה תלויה בניצע — אינה יוצרת חוזה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 8(ב) — נכרת חוזה, אלא אם המציע דחה מיד עם קבלת ההודעה.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">17.</span>קיבול של הצעה שפקעה הוא חסר כל נפקות משפטית.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 9 — כמוהו כהצעה חדשה שהמציע המקורי רשאי לקבל.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">18.</span>ב׳ השיב "כן" במייל להצעת א׳, ושעה אחר כך — בטרם נקרא המייל — מת. ההצעה פקעה ואין חוזה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 4(2) — פקיעה רק לפני מתן הקיבול; "מתן" = משלוח ה"כן", שכבר נעשה. החוזה מחייב את העיזבון.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">19.</span>"מתן הודעת קיבול" הוא הרגע שבו ההודעה מגיעה לידי המציע.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>מתן = אמירת/משלוח ה"כן"; ההגעה למציע היא "מסירה". ס' 3(א) ו־4(2) — מתן; ס' 10 — מסירה.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">20.</span>ניהול מו"מ במקביל עם כמה רוכשים מהווה כשלעצמו חוסר תום לב.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>מו"מ מקביל לגיטימי (זעירא נ׳ קנית); הפסול בהסתרה וביצירת מצג של בלעדיות.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">21.</span>מי שפרש ממו"מ בלי שנכרת חוזה אינו חשוף לתביעה, שהרי אין חוזה.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 12 חל בשלב הטרום־חוזי; פרישה שלא בתו"ל — פיצויי הסתמכות, ובחריגים קיום (קל בניין).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">22.</span>צד שנפגע מחוסר תום לב במו"מ חייב לבטל את החוזה שנכרת כדי לזכות בפיצויים לפי ס' 12(ב).</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ניתן לתבוע בין אם נכרת חוזה ובין אם לאו — וגם כשהנפגע משאיר את החוזה בתוקפו.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">23.</span>רוכשת קרקע חקלאית שקיוותה להפשרה שלא הגיעה — רשאית לבטל בעילת טעות.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>טעות = הווה/עבר (רבינוביץ); ציפייה עתידית שהתבדתה = סיכון מודע = כדאיות (14(ד), בן לולו).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">24.</span>קונה שרכש נכס "AS-IS" ללא אחריות למצבו, וגילה שטעה בשווי — רשאי לבטל בעילת טעות.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>כרמל נ׳ טלמון (ע"א 7920/13): נטל את הסיכון; טעות בשווי = כדאיות (14(ד)).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">25.</span>שני הצדדים טעו יחד לגבי טיב הנכס — הנפגע רשאי לבטל בהודעה לפי ס' 14(א).</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>טעות משותפת = הצד השני לא ידע → מסלול 14(ב): רק ביהמ"ש, משיקולי צדק (זהבה כנען).</p></div>
+    </details>
+    <details class="q"><summary><span class="n">26.</span>מי שמצא נעדר באקראי, בלי שחיפש באופן פעיל, אינו זכאי לפרס שהובטח למוסרי מידע.</summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>קוזלי (ע"א 6295/16): פרשנות "הניצע הסביר" — די במסירת מידע העונה להצעה; אקראיות אינה שוללת, ואין צורך בידיעה ודאית — די בכוונה ותקווה.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">27.</span><span>אי־גילוי פרט שחובה לגלותו הוא חוסר תום לב, וגם הטעיה אם נכרת חוזה.</span><span class="tag">ס' 15</span></summary>
+      <div class="a"><span class="verdict good">נכון</span><p>אי־גילוי לפי דין, נוהג או נסיבות מפר את ס' 12; נכרת חוזה — גם הטעיה פסיבית (ס' 15) המקנה ביטול.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">28.</span><span>מי שהוטעה ע"י מתווך מטעם המוכר אינו יכול לבטל מול המוכר, כי המוכר עצמו לא הטעה.</span><span class="tag">ס' 15</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 15 — "הצד השני או אחר מטעמו"; הטעיית שלוח מקנה ביטול מול הצד עצמו.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">29.</span><span>בחוזה נכתב בטעות "573 מ"ר" במקום "375 מ"ר" — הצד המעוניין רשאי לבטל את החוזה.</span><span class="tag">ס׳ 16 · בהיקף</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>טעות סופר (ס' 16) — מתקנים לפי אומד דעת הצדדים; ההתכחשות לה — חוסר תום לב.</p></div>
+    </details>
+    <details class="q"><summary><span class="n">30.</span><span>ספק שאמר "אם לא תשלם עד מחר — אגיש תביעה", והלקוח חתם על הסדר — הלקוח רשאי לבטל בעילת כפייה.</span><span class="tag">ס׳ 17 · בהיקף</span></summary>
+      <div class="a"><span class="verdict bad">לא נכון</span><p>ס' 17(ב) — אזהרה בתום לב על הפעלת זכות אינה איום; כפייה = לחץ בלתי לגיטימי, מפתיע וחמור (אקספומדיה; מאיה נ׳ פנפורד).</p></div>
+    </details>
+  </section>
+
+
+  <section id="write" class="noprint">
+    <div class="part-label">חלק ח׳</div>
+    <h2>חדר כתיבה — תרגול כתיבת תשובות</h2>
+    <p>כותבים תשובה מלאה לפי התבנית, ואז לוחצים <b>בדוק</b>. הבדיקה מזהה אם פסקתם נכון,
+      אם ציטטתם את הסעיף ואת פסק הדין הנכונים, ואם יישמתם לעובדות — ורק אחר כך נחשפת תשובת המופת.
+      התשובות נשמרות בדפדפן שלכם.</p>
+    <div class="note"><b>לזכור:</b> בבוחן כתבנו ביד ובלי מחשב, וכך כנראה גם במבחן. השתמשו בחדר הכתיבה כדי לתרגל
+      ניסוח ומבנה — ולפחות סבב אחד כדאי לעשות על נייר, בכתב יד, עם טיימר.</div>
+
+    <div class="lab">
+      <div class="lab-tabs">
+        <button class="act" id="tabFree">תרגול חופשי</button>
+        <button class="act ghost" id="tabQuiz">מצב בוחן — 5 היגדים, 30 דק׳</button>
+      </div>
+
+      <!-- ============ free practice ============ -->
+      <div id="paneFree">
+        <div class="lab-nav">
+          <button class="act ghost" id="fPrev">‹ הקודם</button>
+          <button class="act ghost" id="fNext">הבא ›</button>
+          <button class="act ghost" id="fRand">אקראי 🎲</button>
+          <span class="pill" id="fPos"></span>
+          <span class="pill warnp lab-hide" id="fTag"></span>
+        </div>
+        <div class="lab-stmt" id="fStmt"></div>
+        <div class="template" id="fTmpl">[נכון / לא נכון]. לפי סעיף ___ לחוק החוזים (חלק כללי) / פס"ד ___, הכלל הוא ש־___. בענייננו ___, ולכן ___.</div>
+        <textarea id="fText" placeholder="כתוב כאן את התשובה המלאה…" aria-label="התשובה שלך"></textarea>
+        <div class="lab-meta">
+          <span id="fCount">0 מילים</span>
+          <span>
+            <button class="act" id="fCheck">בדוק</button>
+            <button class="act ghost" id="fClear">נקה</button>
+          </span>
+        </div>
+        <div id="fOut"></div>
+        <div class="qjump" id="fJump"></div>
+        <div class="btnrow">
+          <button class="act ghost" id="fExport">📋 העתק את כל התשובות שלי לבדיקה מעמיקה</button>
+          <button class="act ghost" id="fWipe">מחק את כל הטיוטות</button>
+        </div>
+        <p class="hint" id="fExportNote" style="font-size:13px;color:var(--muted);margin-top:8px">
+          הכפתור מעתיק את ההיגדים, מה שכתבת ותשובות המופת — הדביקו לי בצ׳אט ואבדוק לעומק.</p>
+      </div>
+
+      <!-- ============ quiz mode ============ -->
+      <div id="paneQuiz" class="lab-hide">
+        <div id="qIntro">
+          <p>סימולציה בתנאי הבוחן: <b>5 היגדים</b> נבחרים אקראית מתוך החומר שבהיקף, <b>30 דקות</b>,
+            בלי לראות תשובות עד הסוף. גם במבחני העבר של המרצה היה חלק של היגדים „נכון / לא נכון”.</p>
+          <p class="hint" style="margin:10px 0">כל 30 ההיגדים במאגר בהיקף המבחן.</p>
+          <button class="act" id="qStart">התחל בוחן</button>
+        </div>
+        <div id="qRun" class="lab-hide">
+          <div class="lab-nav">
+            <span class="timer" id="qTimer">30:00</span>
+            <button class="act ghost" id="qPrev">‹ הקודם</button>
+            <button class="act ghost" id="qNext">הבא ›</button>
+            <span class="pill" id="qPos"></span>
+            <button class="act" id="qDone">סיים ובדוק</button>
+          </div>
+          <div class="lab-stmt" id="qStmt"></div>
+          <textarea id="qText" placeholder="כתוב כאן את התשובה המלאה…" aria-label="התשובה שלך"></textarea>
+          <div class="lab-meta"><span id="qCount">0 מילים</span></div>
+          <div class="qjump" id="qJump"></div>
+        </div>
+        <div id="qReport" class="lab-hide"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="casestudy" class="newpage">
+    <div class="part-label">חלק ח׳</div>
+    <h2>קייסים רשמיים עם פתרון</h2>
+    <p><b>שיטה:</b> שלבי הכריתה כרונולוגית (הזמנה להציע? הצעה? קיבול / תוך שינוי / דחייה?) → עילות → סעדים, עם סעיף לכל שלב.</p>
+    <div class="note"><b>מה נותן ניקוד — מפי המרצה (שיעור 5):</b> „אם נכרת חוזה בין תמרי לניר — התשובה ‚כן’ לא מעניינת אותי, זה לא מקבל ניקוד. מה מקבל ניקוד? <b>כל ההשתלשלות הזאת</b>.” ובבחינה עצמה, לדבריה, השרשרת תהיה קצרה יותר: „איזו מודעה, שאו שהיא הצעה או שהיא הזמנה להציע הצעות, ותהיה תגובה”.</div>
+    <h3>תבנית הפתרון לפגמים — כפי שהמרצה הכתיבה (שיעור 8)</h3>
+    <div class="grid2">
+      <div class="card"><h4>ס' 14 — טעות</h4><ol><li>חוזה</li><li>טעות — למעט בכדאיות העסקה (14(ד))</li><li>קשר סיבתי בין הטעות לחוזה</li><li>טעות יסודית</li><li>האם הצד השני ידע או היה צריך לדעת? ידע ← 14(א), ביטול עצמאי. לא ידע ← 14(ב), ביטול בידי בית המשפט</li></ol></div>
+      <div class="card"><h4>ס' 15 — הטעיה</h4><ol><li>חוזה</li><li>הטעיה — אקטיבית או פסיבית</li><li>טעות — למעט בכדאיות העסקה</li><li>קשר סיבתי בין ההטעיה לחוזה</li><li>← ביטול עצמאי</li></ol></div>
+    </div>
+    <p><b>כפייה (ס' 17), מאותו שיעור:</b> חוזה · כפייה בכוח או באיום, על ידי הצד השני או מי מטעמו · קשר סיבתי. כפייה היא לחץ לא לגיטימי + איום לגרום נזק חמור + היעדר חלופה סבירה (אקספומדיה). הביטול — תוך זמן סביר <b>משפסקה הכפייה</b>.</p>
+    <p><b>אחרי כל עילה:</b> ביטול בהודעה תוך זמן סביר (20), השבה בעין או בשווי (21), וביטול חלקי אם אפשר להפריד (19). ואם הייתה גם הפרה של תום הלב במו"מ — פיצויים לפי 12(ב).</p>
+    <h3>קייס 1 — תמרי הנגר (תרגול 3 בלמדה · נפתר בכיתה ב־11.8)</h3>
+    <div class="case-box">תמרי, נגר בעל שם, הציב כוננית בחלון הראווה עם תווית מחיר 6,000 ₪. ניר נכנס והציע 5,000 ₪ כולל הובלה והרכבה על חשבון תמרי. תמרי סירב. למחרת שלח ניר מייל: 5,000 ₪ והובלה עליו, "אם לא אשמע ממך עד מחר — אראה בכך הסכמה". תמרי לא ענה והפיק חשבונית. ניר לא הגיע לאסוף, ותמרי דורש לקיים את החוזה.</div>
+    <ol>
+      <li><b>כוננית + תווית מחיר:</b> הצעה לציבור (ס' 2) — פנייה, גמירת דעת, מסוימות.</li>
+      <li><b>הצעת ניר:</b> קיבול תוך שינוי = הצעה חדשה (ס' 11); ניר נעשה מציע.</li>
+      <li><b>סירוב תמרי:</b> דחייה מפורשת — הצעת ניר פקעה (ס' 4(1)).</li>
+      <li><b>המייל:</b> הצעה חדשה; כפיית שתיקה — חסרת תוקף (6(ב)), אך תמרי רשאי מיוזמתו לאמץ שתיקה כקיבול.</li>
+      <li><b>הפקת החשבונית:</b> קיבול בהתנהגות (6(א)) — נכרת חוזה. תמרי צודק.</li>
+    </ol>
+    <h3>קייס 2 — סיגל והמורה לגיטרה (תרגול 1 בלמדה — מהקייסים המורכבים לתרגול)</h3>
+    <p class="hint">בלמדה הקייס נמצא תחת „קייסים מורכבים לתרגול — לא יהיו כאלו קייסים בבחינה”. הפתרון שם בראשי פרקים; כאן הוא מפורט מעט יותר.</p>
+    <div class="case-box">סיגל פרסמה בפייסבוק שהיא מחפשת מורה לגיטרה לבנה. איתי, חסר ניסיון בהוראה, פנה: "בעל ניסיון עשיר בלימוד גיטרה וילדים. 100 ₪ לשיעור". סיגל הציעה 75 ₪; איתי הסכים; נקבעו שיעורים. לאחר כמה שיעורים גילתה סיגל שאין לו ניסיון. דונו לפי חוק החוזים (חלק כללי).</div>
+    <ol>
+      <li><b>המודעה:</b> הזמנה להציע הצעות.</li>
+      <li><b>פניית איתי:</b> הצעה (ס' 2).</li>
+      <li><b>תגובת סיגל (75 ₪):</b> קיבול תוך שינוי = הצעה חדשה (ס' 11).</li>
+      <li><b>הסכמת איתי והשיעורים:</b> קיבול (ס' 5; אף 6(א)) — נכרת חוזה.</li>
+      <li><b>עילות:</b> חוסר תו"ל (ס' 12) — מצג שווא; טעות ידועה (14(א)) — יסודית, קש"ס, איתי ידע; והטעיה אקטיבית (ס' 15) עם קש"ס כפול.</li>
+      <li><b>סעדים:</b> ביטול בהודעה תוך זמן סביר (20) + השבה (21), ובמצטבר פיצויי הסתמכות מכוח 12(ב).</li>
+    </ol>
+    <h3>קייס 3 — מוטי והשתלת השיער (שיעור 8, פתרון המרצה)</h3>
+    <div class="case-box">מוטי, מנכ"ל בשנות ה-30, סובל מהתקרחות. הוא נתקל בפרסומת: „חדש במכון הישראלי לבריאות השיער!!! השתלת שיער בטכניקה חדשה וייחודית… השיטה מונעת תופעות לוואי, צלקות, ומאפשרת למטופל תפקוד מלא במהלך הטיפולים”. הוא התרשם שיוכל לתפקד כרגיל — הוא אינו יכול להיעדר מעבודתו — והגיע למכון. אחרי בדיקת רופא הוצעה לו תוכנית טיפול: 6 חודשים, 45,000 ₪. מוטי הסכים בתנאי שיפרסו לחמישה תשלומים; המזכירה הסכימה והוא הסדיר את התשלום. כבר אחרי הטיפול הראשון סבל מכאבים עזים, נפיחות ודימומים שריתקו אותו למיטה. התברר שמדובר בתופעת לוואי ידועה. דונו לפי חוק החוזים (חלק כללי).</div>
+    <ol>
+      <li><b>הפרסומת:</b> יש פנייה ואולי גמירת דעת, אבל אין מסוימות — אין מחיר ואין פרטי טיפול. אי אפשר לומר עליה „כן”, ולכן אינה הצעה (ס' 2).</li>
+      <li><b>תוכנית הטיפול:</b> זו ההצעה — פנייה אישית, גמירת דעת (רופא בדק אותו), מסוימות (מחיר ומשך).</li>
+      <li><b>„בתנאי שיפרסו לחמישה תשלומים”:</b> אין קיבול לפי ס' 5 — זו הצעה חדשה לפי ס' 11.</li>
+      <li><b>הסכמת המזכירה והסדרת התשלום:</b> קיבול — נכרת חוזה.</li>
+      <li><b>הטעיה (ס' 15):</b> גם פסיבית — בתוכנית הטיפול לא סיפרו לו על תופעת לוואי ידועה — וגם אקטיבית — הפרסומת מסרה מידע שגוי. ההטעיה גרמה לטעות (חשב שיתפקד כרגיל), ויש קשר סיבתי: „אם היה יודע… לא היה נכנס לזה”. ← ביטול עצמאי.</li>
+      <li><b>טעות (ס' 14), לאותה תוצאה:</b> חוזה · טעות · קשר סיבתי · יסודית (אדם סביר לא היה נכנס) · בעלי המקצוע ידעו, או לכל הפחות היו צריכים לדעת ← 14(א). למה לדון בשניהם? „כי היסודות הם לא אותו דבר”.</li>
+      <li><b>סעדים:</b> ביטול (20) והשבה (21). הוא מקבל את מה ששילם, אבל מחזיר את שווי מה שכבר קיבל — הזקיקים שהושתלו — כי השבה מלאה בעין בלתי סבירה. ובנוסף, חוסר תום לב במו"מ (ס' 12) מקנה פיצויים.</li>
+    </ol>
+
+    <h3 id="case4" data-only="final">קייס 4 — חיים ויעל: הפרה ותרופות <span class="finaltag">מבחן מסכם · נפתר בכיתה ב-22.9 וב-6.10</span></h3>
+    <div class="case-box" data-only="final">חיים מתקשר עם יעל, מעצבת פנים, לשיפוץ דירתו תמורת 350,000 ₪ שישולמו בסיום. בחוזה: (1) העבודה לפי התוכניות; (2) סיום תוך 3 חודשים; (3) יעל אחראית להתקשר עם בעלי המקצוע ולפקח עליהם, ובין היתר לוודא — בעצמה או באמצעות מי מטעמה — ניקיון ושקט בין 14:00 ל-16:00; (4) הפרת סעיף 2 תיחשב הפרה יסודית; (5) הפרת סעיף 3 תחייב פיצוי של 10,000 ₪. חיים עובר לדירה חלופית ב-4,000 ₪ לחודש, והשכנים מתלוננים על רעש ולכלוך בשטח המשותף. <b>ההמשך:</b> חודש אחרי תחילת השיפוץ יעל נפצעת קשה בצניחה חופשית, וצפוי לה אשפוז ארוך. חיים שוכר את יוסי, מעצב ידוע, שדורש 200,000 ₪ נוספים; השיפוץ מסתיים רק אחרי 7 חודשים, ובכל הזמן הזה חיים גר בדירה החלופית, עם עוגמת נפש רבה. דונו בתביעת חיים, בטענות ההגנה של יעל ובסעדים לפי חוק התרופות.</div>
+    <div data-only="final">
+      <p><b>שיטת המרצה (22.9):</b> מזהים את ההפרה — איזה סעיף בחוזה הופר — ואז עוברים על <b>כל</b> התרופות: „אתם לא תבחרו לחיים איזו תרופה הוא יקבל.” בסוף אפשר להמליץ.</p>
+      <p><b>חלק א׳ — הפרת סעיף 3 (ניקיון ושקט).</b> נפתר בכיתה:</p>
+      <ol>
+        <li><b>אכיפה (ס' 3):</b> עוברים על ארבעת החריגים — אף אחד לא חל. הקיום אפשרי; זה <b>לא שירות אישי</b>, כי היא רשאית לפעול באמצעות מי מטעמה; וזה לא בלתי צודק. ← אכיפה תינתן.</li>
+        <li><b>ביטול:</b> יסודית מוסכמת? <b>לא</b> — סעיף 4 לחוזה מדבר על הפרת סעיף 2, לא 3. יסודית מסתברת? <b>לא</b> — אדם סביר לא היה מוותר על שיפוץ של 350 אלף בגלל ניקיון. ← <b>לא יסודית</b>: חובה לתת ארכה (7(ב)); אם לא תיקנה — ביטול תוך זמן סביר מתום הארכה (8), ויעל רשאית לבקש לבטל את הביטול מטעמי צדק. אחרי ביטול — השבה (9). (המרצה: „לא הייתי ממליצה לו”.)</li>
+        <li><b>פיצויים:</b> הפיצוי המוסכם — 10,000 ₪ לפי ס' 15, בלי להוכיח נזק ובלי להקטין. יעל יכולה לטעון שהוא מופרז — לדעת המרצה הוא לא. או שחיים מוותר עליו (15(ב)) ותובע לפי ס' 10 (נזק, קש״ס, צפיות) ולפי ס' 13, בכפוף ל-14 — למשל לשכור מנקה.</li>
+      </ol>
+      <p><b>חלק ב׳ — לוח הזמנים (סעיף 2).</b> נפתר בכיתה ב־6.10. המבנה הוא של הפתרון הכתוב שבקובץ „קייס הפרה ותרופות+פתרון” באתר הקורס, עם מה שהמרצה הוסיפה בכיתה:</p>
+      <ol start="4">
+        <li><b>הפרה צפויה (ס' 17):</b> עבר חודש מתוך שלושה: ההפרה עוד לא קרתה, אבל ברור שיעל לא תעמוד בלוח הזמנים. חיים רשאי לפעול כבר עכשיו — לא בהכרח בתביעה; הוא יכול לבטל — או לחכות שההפרה תתגבש.</li>
+        <li><b>טענת ההגנה — סיכול (18(א)):</b> שלושה תנאים מצטברים — נסיבות שלא ניתן היה לצפות, שלא ניתן היה למנוע, וקיום שנעשה בלתי אפשרי או שונה באופן יסודי. <b>דעת המרצה בכיתה: זה לא סיכול.</b> תאונת דרכים היא סיכון של מהלך החיים הרגיל; צניחה חופשית היא בחירה של מי שיש לה פרויקט לבצע, והיא נושאת בתוצאות. <b>ובמבחן לא מכריעים — דנים פעמיים:</b> (א) בהנחה שזה סיכול: לפי 18(ב) חיים יוכל לקבל <b>רק השבה והחזר הוצאות סבירות</b> — <b>לא אכיפה ולא פיצויים</b>; וכאן אין מה להשיב, כי עוד לא שילם דבר. (ב) „ליתר ביטחון”, בהנחה שלא: זו הפרה, וממשיכים לכל התרופות. מי שעוצר אחרי הסיכול מפסיד את כל הנקודות של התרופות.</li>
+        <li><b>אם אין סיכול — אכיפה?</b> לא. חל 3(1): היא מאושפזת, והחוזה אינו בר־ביצוע. בכיתה: כשהחריג הראשון חל, אין חובה לעבור על השאר; ומי שפספס אותו מגיע לאותה תוצאה דרך 3(2) (שירות אישי) או 3(4) (בלתי צודק).</li>
+        <li><b>ביטול:</b> זו הפרה יסודית <b>מוסכמת</b> (סעיף 4 לחוזה) — אין מה להוכיח ← ביטול בלי ארכה (7(א)), בהודעה תוך זמן סביר (8) ובלי בית משפט, והשבה (9). <b>ההשבה כאן הפוכה:</b> חיים לא שילם, ואין לו מה לקבל; מי שזכאית להשבה היא יעל, על העבודה שכבר עשתה — בערך שליש.</li>
+        <li><b>פיצויים:</b> אפשר עם ביטול, עם אכיפה או לבדם; תובעים כשהנזק התגבש, ולא מפצלים את התביעה. <b>ס' 10</b> (נזק, קש״ס, צפיות) — ארבעה חודשי שכירות נוספים, <b>16,000 ₪</b>, שקל להוכיח; ו־<b>200,000 ₪</b> למעצב החלופי, בכפוף ל<b>ס' 14</b>: היה עליו להביא כמה הצעות מחיר ולבחור מעצב ברמה של יעל, ולכן <b>לא בטוח שיקבל את כל ההפרש</b>. <b>ס' 13</b> — עוגמת נפש; לא מכמתים, בית המשפט קובע. <b>ס' 11(א)</b> — ההפרש בין המחיר החוזי למחיר השוק: <b>דורש ביטול</b> (ס' 10 לא), ומחיר השוק מוכח בהצעות מחיר, „שלוש לפחות”. בקייס הזה אין הבדל מעשי בין המסלולים, ובכל זאת כותבים את שניהם.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="law" class="newpage">
+    <div class="part-label">נספח חקיקה</div>
+    <h2>לשון הסעיפים — לציטוט מדויק</h2>
+    <p>הסעיפים שלהלן מובאים <b>כלשונם מהמצגות של המרצה</b>. סעיפים המסומנים <b>"תמצית"</b> מובאים בניסוח מתומצת — ציין בבחינה את מספר הסעיף, ואם נדרש ציטוט מילולי מדויק היעזר בקובץ החקיקה המודפס.</p>
+
+    <h3>כריתת החוזה</h3>
+    <div class="law"><span class="num">ס' 2 — הצעה</span><p class="txt">"פנייתו של אדם לחברו היא בגדר הצעה, אם היא מעידה על גמירת דעתו של המציע להתקשר עם הניצע בחוזה והיא מסויימת כדי אפשרות לכרות את החוזה בקיבול ההצעה; הפניה יכול שתהיה לציבור."</p></div>
+    <div class="law"><span class="num">ס' 3 — חזרה מן ההצעה</span><p class="txt">"(א) המציע רשאי לחזור בו מן ההצעה בהודעה לניצע, ובלבד שהודעת החזרה נמסרה לניצע לפני שנתן הודעת קיבול.<br>(ב) קבע המציע שהצעתו היא ללא חזרה, או שקבע מועד לקיבולה, אין הוא רשאי לחזור בו ממנה לאחר שנמסרה לניצע."</p></div>
+    <div class="law"><span class="num">ס' 4 — פקיעת ההצעה</span><p class="txt">"ההצעה פוקעת — (1) כשדחה אותה הניצע או עבר המועד לקיבולה; (2) כשמת המציע או הניצע או כשנעשה אחד מהם פסול־דין או ניתן נגדו צו לקבלת נכסים או צו פירוק, והכל לפני מתן הודעת הקיבול."</p></div>
+    <div class="law"><span class="num">ס' 5 — הקיבול</span><p class="txt">"הקיבול יהיה בהודעת הניצע שנמסרה למציע ומעידה על גמירת דעתו של הניצע להתקשר עם המציע בחוזה לפי ההצעה."</p></div>
+    <div class="law"><span class="num">ס' 6 — קיבול בהתנהגות ובשתיקה</span><p class="txt">"(א) הקיבול יכול שיהיה במעשה לביצוע החוזה או בהתנהגות אחרת, אם דרכים אלה של קיבול משתמעות מן ההצעה; ולענין סעיפים 3(א) ו־4(2), התנהגות כאמור דינה כדין מתן הודעת קיבול.<br>(ב) קביעת המציע שהעדר תגובה מצד הניצע ייחשב לקיבול, אין לה תוקף."</p></div>
+    <div class="law"><span class="num">ס' 7 — הצעה מזכה</span><p class="txt">"הצעה שאין בה אלא כדי לזכות את הניצע, חזקה עליו שקיבל אותה, זולת אם הודיע למציע על התנגדותו תוך זמן סביר לאחר שנודע לו עליה."</p></div>
+    <div class="law"><span class="num">ס' 8 — מועד הקיבול</span><p class="txt">"(א) אין לקבל הצעה אלא תוך התקופה שנקבעה לכך בהצעה, ובאין תקופה כזאת — תוך זמן סביר.<br>(ב) נתן הניצע הודעת קיבול בעוד מועד, אך הודעתו נמסרה למציע באיחור מחמת סיבה שאינה תלויה בניצע ולא היתה ידועה לו, נכרת החוזה, זולת אם הודיע המציע לניצע על דחיית הקיבול מיד לאחר שנמסרה לו הודעת הקיבול."</p></div>
+    <div class="law"><span class="num">ס' 9 — קיבול לאחר פקיעה</span><p class="txt">"קיבול של הצעה לאחר שפקעה, כמוהו כהצעה חדשה."</p></div>
+    <div class="law"><span class="num">ס' 10 — חזרה מן הקיבול</span><p class="txt">"הניצע רשאי לחזור בו מן הקיבול בהודעה למציע, ובלבד שהודעת החזרה נמסרה למציע לא לאחר שנמסרה לו הודעת הקיבול או שנודע לו על קיבול בדרך האמורה בסעיף 6(א)."</p></div>
+    <div class="law"><span class="num">ס' 11 — קיבול תוך שינוי</span><p class="txt">"קיבול שיש בו תוספת, הגבלה או שינוי אחר לעומת ההצעה כמוהו כהצעה חדשה."</p></div>
+    <div class="law"><span class="num">ס' 12(א) — תום לב במשא ומתן</span><p class="txt">"במשא ומתן לקראת כריתתו של חוזה חייב אדם לנהוג בדרך מקובלת ובתום לב."</p></div>
+    <div class="law para"><span class="num">ס' 12(ב) — הסעד</span><p class="txt">צד שלא נהג בדרך מקובלת ובתום לב חייב לפצות את הצד השני על הנזק שנגרם לו עקב המשא ומתן או עקב כריתת החוזה.</p><p class="gloss">בפסיקה: פיצויי הסתמכות (שליליים); בחריג — פיצויי קיום (קל בניין).</p></div>
+    <div class="law para"><span class="num">ס' 60 — מתן הודעה</span><p class="txt">הודעה שיש לתיתה לפי חוק זה תינתן בדרך שקבעו הצדדים, ובאין קביעה — בדרך המקובלת בנסיבות העניין.</p><p class="gloss">הודעה נמסרת בהגעתה לנמען או למענו — הבסיס להבחנה בין <b>מתן</b> (יציאת ההודעה) ל<b>מסירה</b> (הגעתה), שמכריעה בס' 10.</p></div>
+    <div class="law"><span class="num">ס' 26 — השלמת פרטים</span><p class="txt">"פרטים שלא נקבעו בחוזה או על פיו יהיו לפי הנוהג הקיים בין הצדדים, ובאין נוהג כזה — לפי הנוהג המקובל בחוזים מאותו סוג, ויראו גם פרטים אלה כמוסכמים."</p></div>
+
+    <h3>פגמים בכריתה</h3>
+    <div class="law"><span class="num">ס' 14(א) — טעות ידועה</span><p class="txt">"מי שהתקשר בחוזה עקב טעות וניתן להניח שלולא הטעות לא היה מתקשר בחוזה והצד השני ידע או היה עליו לדעת על כך, רשאי לבטל את החוזה."</p></div>
+    <div class="law"><span class="num">ס' 14(ב) — טעות שאינה ידועה</span><p class="txt">"מי שהתקשר בחוזה עקב טעות וניתן להניח שלולא הטעות לא היה מתקשר בחוזה והצד השני לא ידע ולא היה עליו לדעת על כך, רשאי בית המשפט, לפי בקשת הצד שטעה, לבטל את החוזה, אם ראה שמן הצדק לעשות זאת; עשה כן, רשאי בית המשפט לחייב את הצד שטעה בפיצויים בעד הנזק שנגרם לצד השני עקב כריתת החוזה."</p></div>
+    <div class="law"><span class="num">ס' 14(ג) — תיקון הטעות</span><p class="txt">"טעות אינה עילה לביטול חוזה, אם ניתן לקיים את החוזה בתיקון הטעות והצד השני הודיע, לפני שבוטל החוזה, שהוא מוכן לעשות כן."</p></div>
+    <div class="law para"><span class="num">ס' 14(ד) — הגדרת "טעות"</span><p class="txt">"טעות" לעניין סעיף זה וסעיף 15 — בין בעובדה ובין בחוק, להוציא טעות שאינה אלא בכדאיות העסקה.</p><p class="gloss">זהו הסייג המרכזי: סיכון שנטל צד במפורש או מכללא והתממש — אינו טעות.</p></div>
+    <div class="law"><span class="num">ס' 15 — הטעיה</span><p class="txt">"מי שהתקשר בחוזה עקב טעות שהיא תוצאת הטעיה שהטעהו הצד השני או אחר מטעמו, רשאי לבטל את החוזה; לענין זה, 'הטעיה' — לרבות אי־גילוין של עובדות אשר לפי דין, לפי נוהג או לפי הנסיבות היה על הצד השני לגלותן."</p></div>
+    <div class="law"><span class="num">ס' 19 — ביטול חלקי</span><p class="txt">"ניתן החוזה להפרדה לחלקים ועילת הביטול נוגעת רק לאחד מחלקיו, ניתן לביטול אותו חלק בלבד; אולם אם יש להניח שהצד הרשאי לבטל לא היה מתקשר בחוזה לולא העילה, רשאי הוא לבטל את החלק האמור או את החוזה כולו."</p></div>
+    <div class="law para"><span class="num">ס' 20 — דרך הביטול</span><p class="txt">ביטול החוזה יהיה בהודעת המתקשר לצד השני תוך זמן סביר לאחר שנודע לו על עילת הביטול, ובמקרה של כפייה — תוך זמן סביר לאחר שנודע לו שפסקה הכפייה.</p><p class="gloss">ההודעה יכולה להיות אף משתמעת (מהמצגת).</p></div>
+    <div class="law para"><span class="num">ס' 21 — השבה</span><p class="txt">משבוטל החוזה, חייב כל צד להשיב לצד השני מה שקיבל על פי החוזה, ואם ההשבה היתה בלתי אפשרית או בלתי סבירה — לשלם לו את שוויו של מה שקיבל.</p></div>
+    <div class="law para" style="opacity:.6"><span class="num">ס' 22 — שמירת תרופות ✗</span><p class="txt">אין בהוראות פרק זה כדי לגרוע מכל תרופה אחרת.</p><p class="gloss"><b>רקע — לא נלמד כסעיף.</b> זה הבסיס לצירוף פיצויי ס' 12 לביטול ולהשבה — אבל אל תצטט את המספר 22 כמקור.</p></div>
+
+    <h3>טעות סופר וכפייה</h3>
+    <div class="law"><span class="num">ס' 16 — טעות סופר</span><p class="txt">"נפלה בחוזה טעות סופר או טעות כיוצא בה, יתוקן החוזה לפי אומד דעת הצדדים ואין הטעות עילה לביטול החוזה."</p><p class="gloss">המסר להיגד: <b>תיקון — לא ביטול.</b></p></div>
+    <div class="law"><span class="num">ס' 17(א) — כפייה</span><p class="txt">"מי שהתקשר בחוזה עקב כפיה שכפה עליו הצד השני או אחד מטעמו, בכוח או באיום, רשאי לבטל את החוזה."</p></div>
+    <div class="law"><span class="num">ס' 17(ב) — אזהרה בתום לב</span><p class="txt">"אזהרה בתום־לב על הפעלתה של זכות אינה בגדר איום לעניין סעיף זה."</p><p class="gloss">המסר להיגד: איום להגיש תביעה על חוב אמיתי — <b>אינו</b> כפייה.</p></div>
+
+    <h3>מחוץ לחוק החוזים</h3>
+    <div class="law"><span class="num">ס' 8 לחוק המקרקעין</span><p class="txt">"התחייבות לעשות עסקה במקרקעין טעונה מסמך בכתב."</p><p class="gloss">דרישת כתב מהותית — החריג המרכזי לחופש הצורה (ס' 23), והבסיס לשאלת זיכרון הדברים.</p></div>
+    <div class="law"><span class="num">ס' 5 לחוק המתנה</span><p class="txt">"(א) התחייבות לתת מתנה בעתיד טעונה מסמך בכתב. (ב) כל עוד מקבל המתנה לא שינה את מצבו בהסתמך על ההתחייבות, רשאי הנותן לחזור בו ממנה... (ג) מלבד האמור בסעיף קטן (ב), רשאי הנותן לחזור בו מהתחייבותו אם היתה החזרה מוצדקת בהתנהגות מחפירה של מקבל המתנה כלפי הנותן או כלפי בן־משפחתו או בהרעה ניכרת שחלה במצבו הכלכלי של הנותן."</p></div>
+
+    <h3>עקרונות ומסגרת</h3>
+    <div class="law"><span class="num">ס' 23 — צורת החוזה</span><p class="txt">"חוזה יכול שייעשה בעל פה, בכתב או בצורה אחרת, זולת אם היתה צורה מסויימת תנאי לתקפו על פי חוק או הסכם בין הצדדים."</p></div>
+    <div class="law"><span class="num">ס' 24 — תוכן החוזה</span><p class="txt">"תוכנו של חוזה יכול שיהיה ככל אשר הסכימו הצדדים."</p></div>
+    <div class="law"><span class="num">ס' 30 — חוזה פסול</span><p class="txt">"חוזה שכריתתו, תכנו או מטרתו הם בלתי חוקיים, בלתי מוסריים או סותרים את תקנת הציבור — בטל."</p></div>
+    <div class="law"><span class="num">חוק הכשרות המשפטית, ס' 2 — כשרות</span><p class="txt">"כל אדם כשר לפעולות משפטיות, זולת אם נשללה או הוגבלה כשרות זו בחוק או בפסק דין של בית משפט."</p></div>
+    <div class="law"><span class="num">שם, ס' 3 — קטינות ובגירות</span><p class="txt">"אדם שלא מלאו לו 18 שנה הוא קטין; אדם שמלאו לו 18 שנה הוא בגיר."</p></div>
+    <div class="law"><span class="num">שם, ס' 4 — פעולות של קטין</span><p class="txt">"פעולה משפטית של קטין טעונה הסכמת נציגו; ההסכמה יכולה להינתן מראש או למפרע לפעולה מסויימת או לסוג מסויים של פעולות..."</p></div>
+
+    <h3>מחוץ להיקף — לידיעה בלבד</h3>
+    <div class="law" style="opacity:.6"><span class="num">ס' 18 — עושק ✗</span><p class="txt">"מי שהתקשר בחוזה עקב ניצול הצד השני או אחר מטעמו את מצוקת המתקשר, חולשתו השכלית או הגופנית או חוסר נסיונו, ותנאי החוזה גרועים במידה בלתי סבירה מן המקובל, רשאי לבטל את החוזה."</p><p class="gloss">הרשימה הרשמית מסתיימת ב-17 — <b>עושק אינו בהיקף.</b></p></div>
+  </section>
+
+  <section id="conditional" class="newpage" data-only="final">
+    <div class="part-label">מבחן מסכם</div>
+    <h2>חוזה על תנאי — ס׳ 27 ו-29 <span class="finaltag">נלמד 1.9 · חזרה 8.9</span></h2>
+    <p class="lead"><b>נלמד בשיעור 8 (1.9)</b>, ו<b>בשיעור 9 (8.9) המרצה חזרה עליו</b> — „אני רוצה להיות רגועה שזה יושב טוב”: מתלה ומפסיק, ס׳ 29, ו-27(ב) עם דוגמת היתר הבנייה. <b>ס׳ 28 דולג במכוון.</b> במבחנים לדוגמה שבלמדה הנושא מופיע: רב-ברירה במועד א׳ תשפ"א, והיגד על תנאי מפסיק ב„עוד מבחן לדוגמה”. הדימוי של המרצה: „החוזה הוא היפהפייה הנרדמת, והתנאי המתלה הוא הנשיקה שמעירה אותו”.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th>תנאי מתלה</th><th>תנאי מפסיק</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">המנגנון — 27(א)</td><td>החוזה <b>תלוי</b> בהתקיים התנאי: נכרת, אך החיובים ממתינים</td><td>יש חוזה ומתנהלים לפיו; <b>קיום</b> התנאי <b>מפסיק</b> אותו</td></tr>
+        <tr><td class="sec">הדוגמה מהשיעור</td><td>כניסה לדירה רק אחרי <b>ערבות בנקאית</b> — לא הביא, החוזה לא נכנס לתוקף</td><td>שכירות ל-5 שנים, ואם המעסיק <b>מבטל את הרילוקיישן</b> — החוזה מתבטל</td></tr>
+        <tr><td class="sec">לא התקיים בזמן — 29</td><td><b>החוזה מתבטל</b></td><td><b>ההתנאה מתבטלת</b> — והחוזה נשאר בתוקף</td></tr>
+        <tr><td class="sec">ניסוח מזהה</td><td>„ייכנס לתוקף רק אם…”, „בכפוף לקבלת…”</td><td>„יתבטל אם…”, „יפקע עם…”</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>27(ב) — חזקה:</b> חוזה הטעון הסכמת צד שלישי או <b>רישיון לפי חיקוק</b> — חזקה שקבלתם היא תנאי <b>מתלה</b>, גם אם הצדדים לא כתבו את זה. הדוגמה מ-8.9: <b>היתר בנייה</b>. והעצה שלה: מי שקונה דירה מקבלן שעוד אין לו היתר — שיכתוב מסגרת זמנים, אחרת „זמן סביר” יכול להימשך שנים.</li>
+      <li><b>27(ג) — במצגת, לא פורט בהקלטות:</b> בתנאי מתלה כל צד זכאי לסעדים למניעת הפרה <b>אף לפני</b> שהתקיים התנאי. אין אצלנו הודעת הוצאה מפורשת שלו מהמבחן.</li>
+      <li><b>29 — הזמן:</b> התקופה שנקבעה, ובאין תקופה — <b>זמן סביר מכריתת החוזה</b>.</li>
+      <li><b>28 (סיכול תנאי) — מחוץ להיקף:</b> מסומן בצהוב בקובץ החקיקה, והמרצה דילגה עליו במכוון (8.9): לדבריה אין טעם ללמד אותו, כי קשה מאוד להוכיח אותו.</li>
+      <li><b>המלכודת:</b> „לא התקיים תנאי מפסיק ← החוזה מתבטל” — <b>לא נכון</b>; מתבטלת ההתנאה בלבד. ובשאלת סיווג (הדוגמה ממבחן תשפ"א): ערבות בנקאית כתנאי לכניסה לתוקף = מתלה; חזרת הבת ארצה שמבטלת את השכירות = מפסיק.</li>
+    </ul>
+  </section>
+
+  <section id="appendix" class="newpage" data-only="final">
+    <div class="part-label">נספח</div>
+    <h2>ס׳ 18 — עושק <span class="finaltag">מחוץ להיקף</span></h2>
+    <p class="lead">מהמשך מצגת 2. <b>מחוץ להיקף.</b> בשיעור 8 (1.9) המרצה הזכירה אותו בקצרה — צריך להוכיח מצוקה, חולשה שכלית או גופנית, או חוסר ניסיון, וזה „קשה להוכיח” — וסיכמה: „יאללה, בוא נעזוב אותו… לא יהיה במבחן. תדעו אבל שהוא קיים”. נשאר כאן כרקע בלבד.</p>
+    <h4>עושק (ס' 18)</h4>
+    <ul><li>ניצול (ביודעין/בעצימת עיניים — סאסי) של מצוקה, חולשה שכלית/גופנית או חוסר ניסיון, במצב חמור במועד ההתקשרות; קש"ס כפול; ותנאים גרועים במידה בלתי סבירה (בוחנים את החוזה כולו).</li></ul>
+  </section>
+
+
+  <section id="remedies" class="newpage" data-only="final">
+    <div class="part-label">מבחן מסכם</div>
+    <h2>תרופות בשל הפרת חוזה <span class="finaltag">נלמד 8.9–22.9 · לפחות 20 נק׳</span></h2>
+    <p class="lead">חוק החוזים (תרופות בשל הפרת חוזה), התשל"א־1970 — „חוק לגמרי אחר” מחוק החוזים (חלק כללי). נלמד בשיעור 9 (8.9, ס' 1–3), בהקלטה המשלימה (כל השאר) ובחזרה של 22.9. <b>„תמיד מופיע במבחן, ובדרך כלל מנוקד בלפחות עשרים נקודות.”</b></p>
+    <div class="note"><b>מה נלמד:</b> ס' 1–3 · 6–9 · 10, 11, 13, 14, 15 · 17 · 18. <b>לא:</b> ס' 4–5 — „סעיף טכני, לא מעניין אותנו”. ס' 12, 16 ו-19–22 לא הוזכרו. <b>לקריאה ולתרגול:</b> חוברת התרופות עם 48 שאלות ותשובון מצורפת ל<a href="https://lemida.biu.ac.il/mod/forum/discuss.php?d=1149533">הודעת המרצה מ־29.9</a>; באותה הודעה נמצא גם הקישור לשאלון המקוון הקודם, בן 17 שאלות. החוברת מסבירה את השיעור; ללשון הסעיפים השתמשו ב<a href="https://lemida.biu.ac.il/mod/resource/view.php?id=3148910">קובץ החקיקה</a>. הסיכומים המלאים: <a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%94%D7%A7%D7%9C%D7%98%D7%95%D7%AA/%D7%A9%D7%99%D7%A2%D7%95%D7%A8-10.md">ההקלטה המשלימה</a> · <a href="https://github.com/bohanyzahal-cyber/bar-ilan-legal-aspects/blob/main/%D7%94%D7%A7%D7%9C%D7%98%D7%95%D7%AA/%D7%A9%D7%99%D7%A2%D7%95%D7%A8-11.md">החזרה ב-22.9</a> · קייס לתרגול: <a href="#case4">חיים ויעל</a>.</div>
+
+    <h3>נקודת המוצא — ס' 1–2</h3>
+    <ul>
+      <li><b>ס' 1 — הפרה:</b> מעשה או מחדל שהם בניגוד לחוזה. <b>אין שאלת אשמה</b> — „לא משנה למה”. רק סיכול (ס' 18) יכול לפטור את המפר.</li>
+      <li><b>ס' 2 — שלוש תרופות:</b> <b>אכיפה או ביטול</b> — „אי אפשר גם לבטל וגם לקיים” — ולכל אחת מהן אפשר לצרף <b>פיצויים</b>. אפשר גם פיצויים לבד. <b>הבחירה בידי הנפגע.</b></li>
+    </ul>
+
+    <h3>אכיפה — „מלכת התרופות” (ס' 3)</h3>
+    <p>„חוזים צריך לכבד, חוזים צריך לקיים.” הנפגע <b>זכאי</b> לאכיפה, והיא מחייבת פנייה לבית המשפט — זולת ארבעה חריגים. בקייס: „תמיד תעברו על כל החריגים ותנסו ליישם.”</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>ס'</th><th>החריג</th><th>מה נלמד</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">3(1)</td><td>החוזה <b>אינו בר־ביצוע</b></td><td class="kw">נגנב, נמכר למישהו אחר. ביצוע <b>בקירוב</b> (דירה בכיוון אחר באותה קומה) — רק אם הנפגע מסכים</td></tr>
+        <tr><td class="sec">3(2)</td><td>כפייה לעשות או לקבל <b>עבודה או שירות אישי</b></td><td class="kw">בשני הכיוונים — עובד ומעסיק. <b>חברה</b> (ניקיון) — לא שירות אישי, אפשר לאכוף. Wagner, פ"ד צרי · חריגים לחריג: פיטורי אישה בהריון בלי היתר, איש מילואים, חושפי שחיתויות</td></tr>
+        <tr><td class="sec">3(3)</td><td>הביצוע דורש <b>מידה בלתי סבירה של פיקוח</b></td><td class="kw">„לא משתמשים בו יותר” — היום ממנים כונס נכסים או נאמן</td></tr>
+        <tr class="hot"><td class="sec">3(4)</td><td>האכיפה <b>בלתי צודקת</b> בנסיבות</td><td class="kw">צדק של המפר מול הנפגע <b>בלבד</b>, לא של צד שלישי. <b>פומרנץ נ׳ קדש:</b> הלובי קטן מהתוכניות — שוברים את הקיר, והדייר יתבע את הקבלן. ודוגמת המרפסות שנוצקו קטנות מדי: אכיפה = הריסה — בלתי צודקת</td></tr>
+      </tbody>
+    </table></div>
+    <p class="hint" style="font-size:.9em">ס' 4 (תנאים באכיפה) ו-5 (אכיפה בעסקה טעונת רישום) — לא נלמדו.</p>
+
+    <h3>ביטול — ס' 6–8</h3>
+    <p>מבטלים <b>לבד</b>, בהודעה למפר — בלי בית משפט. ו<b>רק כאן</b> שואלים אם ההפרה יסודית: „לא דיברתי על זה כשדיברתי על אכיפה, ואני לא אדבר על זה כשאדבר על פיצויים.”</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>סוג</th><th>המבחן</th><th>הדוגמאות</th></tr></thead>
+      <tbody>
+        <tr><td><b>יסודית מסתברת</b> (אובייקטיבית)</td><td>„מכונת זמן”: חוזרים ליום הכריתה ושואלים <b>אדם סביר</b> — אילו ראה את ההפרה ותוצאותיה מראש, היה מתקשר?</td><td class="kw">שוכר שהפסיק לשלם לגמרי — יסודית. <b>איחור בתשלום — לא יסודית</b> (פרץ נ׳ ביטון)</td></tr>
+        <tr><td><b>יסודית מוסכמת</b> (סובייקטיבית)</td><td>נקבע מראש בחוזה שההפרה יסודית</td><td class="kw">אפשר גם על זוטות — „הווילון באמבטיה”. מומלץ רק על מה שבאמת חשוב</td></tr>
+        <tr class="hot"><td><b>לא יסודית</b></td><td>כל מה שאינו אחד מהשניים — „אני לא יכולה לתת הגדרה”</td><td class="kw">ההגדרה היא <b>„או–או”</b>: מסתברת או מוסכמת, לא צריך את שתיהן</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>תניה גורפת</b> (סיפת ס' 6) — ההופכת הפרות להפרות יסודיות <b>ללא הבחנה ביניהן</b> — אין לה תוקף, אלא אם הייתה סבירה בעת הכריתה. „תפסת מרובה — לא תפסת.” אין נוסחה: 20 יסודיים מתוך 100 סעיפים יכולים להיות סבירים, וגם 8 מתוך 10. ומי שעשה תניה גורפת עדיין יכול לטעון להפרה יסודית <b>מסתברת</b>.</p>
+
+    <h4>שלושת ההבדלים — „זה כזה חשוב שהוצאתי אותו לשקף נפרד”</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th>הפרה יסודית</th><th>הפרה שאינה יסודית</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">הזכות והמועד</td><td><b>7(א) + 8:</b> רשאי לבטל תוך זמן סביר <b>מגילוי ההפרה</b>. בלי ארכה</td><td><b>7(ב) + 8:</b> <b>חייב</b> לתת למפר <b>ארכה</b>; רק אם לא תיקן — מבטל תוך זמן סביר <b>מתום הארכה</b>. „אם לא נתת ארכה — לא עשית כלום”</td></tr>
+        <tr><td class="sec">בית המשפט</td><td>לא מתערב. חריג נדיר: תום לב (ס' 39 לחוק החוזים)</td><td>ה<b>מפר</b> רשאי לבקש, תוך זמן סביר, <b>לבטל את הביטול</b> מטעמי צדק — „לא מבטלים חוזה על הווילון באמבטיה”</td></tr>
+        <tr><td class="sec">חוזה הניתן להפרדה — 7(ג)</td><td>אם ההפרה יסודית <b>לכל החוזה</b> — אפשר לבטל את החלק שהופר או את כל החוזה. יסודית רק לחלק — מבטלים את החלק</td><td>רק את <b>החלק</b> שהופר, בכפוף לארכה ולשאר תנאי הביטול</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>פרץ נ׳ ביטון (ד"נ 44/75):</b> ביטון מכר דירה לפרץ בלי סעיף הפרה יסודית מוסכמת, וקנה דירה מצד ג׳ בחוזה שבו איחור בתשלום הוא הפרה יסודית. פרץ איחר, ביטון איחר, וצד ג׳ ביטל כדין. ביטון ביטל מול פרץ מיד, בלי ארכה — <b>הביטול לא תפס</b>: איחור בתשלום אינו יסודי מסתבר, ובהפרה שאינה יסודית חובה לתת ארכה. „ביטון למד את זה על בשרו.”</p>
+    <p><b>חלאבין נ׳ מיקרובלנס — חריג תום הלב:</b> אי-עמידה ביעדי הפצה הוגדרה הפרה יסודית מוסכמת, והחוזה התחדש מדי שנה. חלאבין לא ביטלה במשך 15 שנה, ואז ביטלה פתאום. בית המשפט: הזכות לפי 7(א) קיימת, אבל מכוח ס' 39 „מן הראוי שתתנו עכשיו ארכה”. „עיקרון תום הלב מרחף תמיד על הכל” — אבל זה חריג נדיר.</p>
+
+    <h3>השבה — ס' 9</h3>
+    <p>ביטול = <b>השבה הדדית</b>, „ביטול תמיד בא עם השבה”. הכלל: <b>השבה בעין</b>. שווי במקומה בשלושה מקרים:</p>
+    <ol>
+      <li>ההשבה <b>בלתי אפשרית</b> — הדבר נגנב;</li>
+      <li>ההשבה <b>בלתי סבירה</b> — האוטו כבר עבר תאונה קשה;</li>
+      <li><b>הנפגע בחר בשווי</b> — בלי לנמק. „רוב הנפגעים תמיד בוחרים בשווי.” זה הבדל מס' 21 לחוק החוזים, שבו אין בחירה כזו.</li>
+    </ol>
+    <p>ביטול חלקי (7(ג)) ← גם ההשבה חלקית (9(ב)).</p>
+
+    <h3>פיצויים — ס' 10–15</h3>
+    <p>„הפיצויים זו התרופה הכי טובה” — עומדים לבד, או מצטרפים לאכיפה או לביטול. <b>הפרה אחת — הרבה נזקים</b> (שכירות, הובלה, אחסון, ימי עבודה, עוגמת נפש), ועל כל ראש נזק בוחרים סעיף. <b>אין כפל פיצוי</b> על אותו נזק.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th>עם הוכחת נזק</th><th>בלי הוכחת נזק</th></tr></thead>
+      <tbody>
+        <tr><td class="sec">הסעיפים</td><td><b>10</b> (נזק ממוני) · <b>13</b> (עוגמת נפש)</td><td><b>11</b> (הפרש מחיר; ריבית) · <b>15</b> (פיצוי מוסכם)</td></tr>
+        <tr><td class="sec">הנטל</td><td>על הנפגע — „הוא עובד יותר קשה”</td><td>לא צריך להוכיח נזק</td></tr>
+        <tr class="hot"><td class="sec">הקטנת נזק (14)</td><td><b>חלה</b></td><td><b>לא חלה</b></td></tr>
+        <tr><td class="sec">מה מכסה</td><td>כמעט כל נזק</td><td>נקודתי בלבד</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>ס' 10 — שלושה יסודות מצטברים</h4>
+    <ol>
+      <li><b>נזק</b> — להוכיח ולכמת: חוזה שכירות, העברות, תלושים, קבלות. „זה לא הזמן לעבוד בשחור.” כולל <b>רווח שנמנע</b> — ס' 1: „נזק — לרבות מניעת ריווח”.</li>
+      <li><b>קשר סיבתי — „עקב ההפרה”:</b> מי ששכר דירה כי רצה לשפץ את שלו — לא ניזוק מההפרה.</li>
+      <li><b>צפיות</b> — נזק שהמפר ראה או היה עליו לראות מראש בעת הכריתה. „כמו מסננת שמסננת נזקים רחוקים”: גירושין בגלל הלחץ — רחוק מדי.</li>
+    </ol>
+    <p><b>הדוגמאות מההקלטה:</b> איחור במסירה (שכירות, ימי עבודה, אחסון) · ליקויים (קבלות על התיקון, או <b>ירידת ערך</b> עם מומחה) · <b>פיצויי קיום</b> — חנות מכרה מזנון ב-10,000 והזמינה אותו מנגר ב-7,000; הנגר לא סיפק ← 3,000 · <b>נזק תוצאתי</b> — כרטיס מסך שהותקן לא נכון שרף את המחשב. במצגת נוספים ליסודות גם <b>ודאות</b> (הנזק יוכח בוודאות סבירה) וחובת ההקטנה.</p>
+
+    <h4>ס' 14 — הקטנת הנזק</h4>
+    <ul>
+      <li><b>„סעיף 10 כפוף לסעיף 14”</b> (וגם 13): אין פיצוי על נזק שאפשר היה למנוע או להקטין <b>באמצעים סבירים</b> — „לשכור דירה דומה באותו אזור, לא אחוזה בסביון”.</li>
+      <li><b>14(ב):</b> הוצאות סבירות על ההקטנה (למשל מתווך) — המפר משפה עליהן, <b>גם אם ההקטנה לא הצליחה</b>: „זה לא מבחן התוצאה, זה מבחן הכוונה”.</li>
+      <li><b>תושייה נ׳ גוטמן:</b> יכול היה למכור ב-90, מכר ב-70 ← פיצוי על 10 ולא על 30.</li>
+    </ul>
+
+    <h4>ס' 13 — עוגמת נפש</h4>
+    <p>נזק שאינו ממוני; בית המשפט מעריך את הסכום — „זה לא מדע מדויק”. להלכה צריך להוכיח, אבל בתי המשפט מניחים עוגמת נפש: „אנחנו לא אבנים”. <b>רק לבני אדם — לא לחברות</b> („אין להן נפש”). כפוף ל-14: המלון בבנייה — עוברים למלון דומה ולא נשארים לסבול.</p>
+
+    <h4>ס' 11 — פיצויים בלי הוכחת נזק</h4>
+    <ul>
+      <li><b>11(א):</b> הופר חיוב <b>לספק או לקבל</b> נכס או שירות, <b>והחוזה בוטל</b> ← ההפרש בין המחיר החוזי לשווי <b>ביום הביטול</b>. <b>הביטול הוא תנאי</b> — בגלל תאריך היחס. בלי הוכחה ובלי הקטנה, אבל <b>רק הפרש מחיר</b>. עובד לשני הכיוונים.</li>
+      <li><b>איינשטיין נ׳ אוסי:</b> זיכרון דברים (= חוזה) לדירה ב-140 אלף דולר; אוסי דרשה יותר; הזוג ביטל; הדירה נמכרה ב-192 ← <b>52 אלף דולר</b>, בלי להוכיח שקנו דירה אחרת.</li>
+      <li><b>11(ב):</b> הופר חיוב לשלם כסף ← <b>ריבית</b> על הפיגור לפי חוק פסיקת ריבית, בלי הוכחת נזק.</li>
+    </ul>
+
+    <h4>ס' 15 — פיצויים מוסכמים</h4>
+    <ul>
+      <li><b>15(א):</b> סכום שנקבע מראש — <b>בלי הוכחת נזק ובלי חובת הקטנה</b>. בית המשפט <b>רשאי</b> (לא חייב) להפחית אם נקבע „ללא כל יחס סביר לנזק שניתן היה לראותו מראש” — 10% מהתמורה על יום איחור אחד; 50,000 לכל יום על שכירות של 6,000 לחודש. העצה שלה: להעריך את הנזק ולהכפיל, לא יותר — „אל תהיו גרידיים”.</li>
+      <li><b>15(ב):</b> פיצוי מוסכם <b>אינו מחייב את הנפגע</b> — הוא רשאי לוותר עליו ולתבוע לפי ס' 10–14 (אם הנזק גבוה יותר), או לבקש תרופה אחרת. „זה משהו שחייבים לזכור.”</li>
+      <li><b>15(ג) — ערובה:</b> כללי הפיצוי המוסכם חלים גם על מה שניתן מראש כדי להבטיח אותו. הדוגמה של המרצה: מסעדה שלוקחת פרטי כרטיס אשראי ומודיעה „אם לא תגיעו, תחויבו ב־50 ₪ לסועד” קבעה פיצוי מוסכם שניתן כערובה מראש — „נחשב סוג של פיצוי מוסכם” (22.9). <span style="color:var(--muted);font-size:.92em">לשון הסעיף בקובץ החקיקה: „סכומים שהמפר שילם לנפגע לפני הפרת החוזה והצדדים הסכימו מראש על חילוטם לטובת הנפגע, דינם כדין פיצויים מוסכמים.”</span></li>
+      <li><b>מהמצגת:</b> פיצוי מוסכם הוא רצפה ולא תקרה — על <b>נזק אחר</b> אפשר לתבוע בנוסף, לא על <b>אותו</b> נזק. ביטול בשל <b>הפרה</b> לא מבטל את תניית הפיצוי המוסכם; ביטול בשל <b>פגם ברצון</b> מבטל גם אותה.</li>
+    </ul>
+    <p class="note"><b>הקשר לחוק החוזים:</b> ס' 12(ב) (חוסר תום לב במו"מ) מפנה ל<b>ס' 10, 13 ו-14</b> כאן — ולכן גם שם יש נזק ממוני, עוגמת נפש וחובת הקטנה. „אני משלימה חסר שלא יכולתי להשלים כשלימדתי את זה.”</p>
+
+    <h3>הפרה צפויה — ס' 17</h3>
+    <p>הפרה שעוד לא התרחשה, אבל ברור שתתרחש: המפר הודיע (הקבלן כבר בדצמבר, על מסירה באוגוסט), או שהנסיבות מראות זאת (ביולי עוד לא התחיל לבנות). הנפגע זכאי לתרופות <b>כבר עכשיו</b>, או יכול לחכות.</p>
+    <ul>
+      <li><b>ביטול</b> — לפעול כשמודיעים; <b>רק אם ההפרה הצפויה יסודית</b> (מצגת 4: „יסודית ומוחלטת”).</li>
+      <li><b>אכיפה</b> — אין טעם למהר: בית המשפט לא יורה לבצע לפני המועד שנקבע (סיפת ס' 17).</li>
+      <li><b>פיצויים</b> — לחכות שהנזק יתגבש: „היום נראה 5,000, בסוף 20,000”. רק לא להגיע להתיישנות.</li>
+    </ul>
+
+    <h3>סיכול — ס' 18</h3>
+    <p><b>טענת הגנה של המפר.</b> שלושה תנאים <b>מצטברים</b> (18(א)): נסיבות שלא ידע ולא היה עליו לצפות בעת הכריתה · שלא יכול היה למנוע · והקיום בלתי אפשרי או שונה באופן יסודי ממה שהוסכם. <b>בישראל כמעט הכל צפוי</b> — „איפה נופלים? כבר בראשון”.</p>
+    <ul>
+      <li><b>מלחמת יום כיפור:</b> שיפוצניק במחיר פיקס טען לסיכול בגלל זינוק מחירי החומרים — נדחה, „מלחמות בישראל צפויות”. היום שואלים אם <b>ההשלכות</b> היו צפויות.</li>
+      <li><b>קורונה:</b> הסגר הראשון — כנראה סיכול; השני — כבר לא, „כבר היינו בסרט הזה”.</li>
+      <li><b>התוצאה — 18(ב):</b> אין אכיפה ואין פיצויים. הנפגע יוכל לקבל <b>רק השבה והחזר הוצאות סבירות</b>, בין אם בוטל החוזה ובין אם לאו — „כל מה שיכולים לבקש מכם זה רק השבה” (22.9). <span style="color:var(--muted);font-size:.92em">לשון הסעיף: „רשאי בית המשפט, בין אם בוטל החוזה ובין אם לאו, לחייב כל צד להשיב לצד השני מה שקיבל על פי החוזה… ולחייב את המפר בשיפוי הנפגע על ההוצאות הסבירות… אם נראה לבית המשפט צודק לעשות כן”.</span></li>
+      <li><b>בפועל:</b> מכניסים לחוזה סעיף כוח עליון (מלחמה, סגר, ימי גשם) — „מה שהופך את סעיף 18 לדי מיותר”. „יש מרצים שלא מלמדים את הסעיף הזה בכלל. אני מלמדת אותו, אבל אין לו המון שימוש.”</li>
+    </ul>
+
+    <h3>מלכודות בהיגדים — תרופות</h3>
+    <ol class="trap-list">
+      <li><b>„הפרה יסודית”</b> רלוונטית <b>רק לביטול</b> — לא לאכיפה ולא לפיצויים.</li>
+      <li><b>איחור בתשלום</b> אינו הפרה יסודית מסתברת (פרץ נ׳ ביטון) — אלא אם נקבע בחוזה.</li>
+      <li><b>ביטול בהפרה לא יסודית בלי ארכה</b> — לא תפס. ו„ביטול הביטול מטעמי צדק” — <b>רק</b> בלא יסודית, ורק לבקשת <b>המפר</b>.</li>
+      <li><b>תניה גורפת</b> — אין לה תוקף (אלא אם הייתה סבירה בעת הכריתה). „כל הפרה של החוזה יסודית” — לא נכון.</li>
+      <li><b>ס' 11(א) מחייב ביטול</b>; ס' 10 ו-13 לא.</li>
+      <li><b>פיצוי מוסכם:</b> בלי הוכחה ובלי הקטנה · בית המשפט <b>רשאי</b> (לא חייב) להפחית · הנפגע <b>רשאי לוותר</b> עליו · אין כפל על אותו נזק.</li>
+      <li><b>עוגמת נפש לחברה</b> — לא. „אין לה נפש.”</li>
+      <li><b>חריג הצדק באכיפה</b> שוקל רק את המפר מול הנפגע — <b>לא צדדים שלישיים</b> (פומרנץ נ׳ קדש).</li>
+      <li><b>סיכול</b> — אין אכיפה ואין פיצויים. מה כן? <b>רק השבה והחזר הוצאות סבירות</b> (18(ב)), בין אם בוטל החוזה ובין אם לאו.</li>
+      <li><b>חוזה עם חברת ניקיון</b> — אינו „שירות אישי”, ואפשר לאכוף אותו.</li>
+    </ol>
+
+    <h3>תבנית לקייס הפרה — כפי שהמרצה פתרה (22.9)</h3>
+    <ol>
+      <li><b>ההפרה:</b> איזה סעיף בחוזה הופר, ומה המפר עשה או לא עשה (ס' 1).</li>
+      <li><b>אכיפה (3):</b> עוברים על <b>כל</b> ארבעת החריגים, עם יישום.</li>
+      <li><b>ביטול:</b> יסודית? — מוסכמת (לפי <b>הסעיף שהופר בפועל</b>) או מסתברת (אדם סביר) ← 7(א) או 7(ב) (ארכה, ביטול הביטול) ← ס' 8 (מועד) ← ס' 9 (השבה).</li>
+      <li><b>פיצויים:</b> מוסכם (15)? ← ס' 10 (נזק, קש"ס, צפיות) + 14 (הקטנה) ← 13 (עוגמת נפש) ← 11 (הפרש מחיר, אם בוטל).</li>
+      <li><b>הפרה עתידית?</b> ← 17. <b>טענת הגנה?</b> ← 18.</li>
+      <li><b>המלצה</b> — ורק אחרי שעברתם על הכל.</li>
+    </ol>
+  </section>
+
+  <section id="form" class="newpage" data-only="final">
+    <div class="part-label">מבחן מסכם</div>
+    <h2>ריבוי חייבים · חוזה פסול — הרחבה <span class="finaltag">מצגת 3</span></h2>
+    <p class="lead"><b>ריבוי חייבים ונושים נלמד ב-8.9</b> (שיעור 9) — ס' 54–56 בלבד. ס' 23, 24 ו־30 — הרחבה מהמצגת לסעיפים שבחלק ב׳. ס' 31 ו-13 שלמטה — מהמצגת בלבד, לא נדונו בכיתה.</p>
+
+    <h3>ריבוי חייבים ונושים (ס' 54–56) <span class="finaltag">נלמד 8.9</span></h3>
+    <p>„נושא סופר פרקטי.” <b>נושה</b> — מי שחייבים לו (הבנק, המשכיר); <b>חייב</b> — מי שצריך לשלם. ריבוי חייבים: בני זוג עם הלוואה אחת, שתי שותפות מול משכיר אחד. „57, 58, 59 — לא מעניין.”</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>ס'</th><th>הכלל</th><th>מה נאמר בשיעור</th></tr></thead>
+      <tbody>
+        <tr class="hot"><td class="sec">54</td><td>שניים שחייבים חיוב אחד — <b>חזקה שהם חייבים יחד ולחוד</b></td><td class="kw">„אם לא כותבים — אוטומטית ביחד ולחוד.” מי שלא רוצה, צריך לכתוב אחרת</td></tr>
+        <tr><td class="sec">55(א)</td><td>הנושה רשאי לדרוש את <b>כל החיוב או מקצתו</b> משניהם או מכל אחד מהם — <b>ובלבד שלא ייפרע יותר מן המגיע לו</b></td><td class="kw">הוא יתבע את השותפה העשירה — „את הנושה לא מעניין מי משלם לו”</td></tr>
+        <tr><td class="sec">55(ב)</td><td>בטל או בוטל חיובו של אחד החייבים — <b>בטל גם חיובו של השני</b>, זולת אם הביטול נובע מפגם בכשרותו או בייצוגו</td><td class="kw">הנושה הטעה רק אחת מהשותפות, והיא ביטלה — החוזה בטל גם כלפי השנייה</td></tr>
+        <tr><td class="sec">55(ג)</td><td>הנושה <b>פטר</b> אחד החייבים (ויתור, מחילה, פשרה) — <b>הופטר גם השני</b> באותה מידה, אלא אם משתמעת כוונה אחרת</td><td class="kw"></td></tr>
+        <tr><td class="sec">56(א)–(ב)</td><td>ביניהם — <b>חלקים שווים</b>; מי ששילם יותר מחלקו <b>חוזר על השני</b></td><td class="kw">שכירות של 5,000: כל אחת חייבת 2,500, ומי ששילמה הכל גובה מהשנייה</td></tr>
+        <tr><td class="sec">56(ג)</td><td>יותר משני חייבים, ואחד מהם לא ניתן להיפרע ממנו — <b>הנותרים נושאים בחלקו</b> לפי חלקיהם</td><td class="kw">שלושה שותפים ואחד נעלם</td></tr>
+      </tbody>
+    </table></div>
+    <p><b>מלך נ׳ קורנהויזר</b> — „זה עובד בכל התחומים”: שלושה כלבים תקפו אדם בסביון; בעלי שניים מהם אותרו, השלישי לא. הם ביקשו לשלם כל אחד שליש, ושהניזוק „יחפש את השלישי” — אבל הם חייבים <b>יחד ולחוד</b> על מלוא הפיצוי. וכך גם <b>ערב</b>: החייב לא שילם ← הנושה תובע את הערב על הכל, והערב חוזר על החייב.</p>
+    <details class="source-extra"><summary>ריבוי נושים — ס׳ 59, דולג בקורס שלנו</summary><p>חומר נוסף במצגת. המרצה אמרה על 57–59 שאינם בחומר שנלמד למבחן.</p></details>
+
+    <h3>חוזה פסול (ס' 30) — ההרחבה</h3>
+    <p>חוזה שכריתתו, תוכנו או מטרתו בלתי חוקיים, בלתי מוסריים או נוגדים את תקנת הציבור — <b>בטל מעיקרו</b>, ואינו תלוי ברצון הצדדים. חמישה אופנים:</p>
+    <ul>
+      <li><b>כריתה</b> בלתי חוקית — נעשתה בניגוד להוראת חוק (למשל מכרז לא חוקי)</li>
+      <li><b>תוכן</b> בלתי חוקי — מהווה עוולה אזרחית או פלילית (למשל הסדר כובל)</li>
+      <li><b>מטרה</b> בלתי חוקית — למשל להונות את השלטונות; <b>לא משנה אם הושגה</b></li>
+      <li><b>ביצוע</b> בלתי חוקי — למשל תחילת ביצוע ללא רישיונות</li>
+      <li>המבחן: <b>אי־חוקיות מהותית ולא טפלה</b> — לפי תכלית החוק</li>
+    </ul>
+
+    <details class="source-extra"><summary>ס׳ 31 ו־13 — חומר נלווה במצגת, לא נדון בהקלטות</summary>
+    <p class="hint">הסעיפים אינם נלמדים כאן כחלק מהחזרה המרכזית. הכללתם במסכם לא אושרה ברשימת היקף נפרדת.</p>
+    <h3>הסעדים בחוזה פסול (ס' 31)</h3>
+    <ul>
+      <li>החוזה בטל ויש <b>חובת השבה</b>; משיקולי צדק ביהמ"ש רשאי <b>לפטור מהשבה</b> ואף לחייב בקיום החוב שכנגד.</li>
+      <li><b>הכלל: אין פיצויים</b> בשל בטלות חוזה פסול.</li>
+      <li>מאחר שהחוזה בטל מעיקרא — <b>אין צורך בהודעת ביטול</b>.</li>
+      <li>ביהמ"ש רשאי להכריז על <b>בטלות חלקית</b> — "עקרון העיפרון הכחול".</li>
+    </ul>
+
+    <h3>חוזה למראית עין (ס' 13) <span class="finaltag">מסומן בצהוב — לא נלמד</span></h3>
+    <p>חוזה למראית עין <b>בטל מעיקרא</b>. זהו חומר נלווה שבמצגת; לא נדון בכיתה שלנו.</p>
+    </details>
+  </section>
+
+  <footer class="fin">
+    <div class="big">בהצלחה במבחן!</div>
+    <p>חומר הלימוד נבנה רק מחומרי הקורס שלנו ואומת מול אתר הקורס בלמדה: המצגות, קובץ החקיקה, קובצי התרגול, הקלטות 12 השיעורים, והודעת המרצה וחוברת התרופות מ־29.9 · עודכן 9.10.2026.</p>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('toggleAll');
+    var all = function () { return Array.prototype.slice.call(document.querySelectorAll('details.q, details.source-extra')); };
+    var expanded = false;
+    if (btn) {
+      btn.addEventListener('click', function () {
+        expanded = !expanded;
+        all().forEach(function (d) { d.open = expanded; });
+        btn.textContent = expanded ? 'סגור את כל התשובות' : 'פתח את כל התשובות';
+      });
+    }
+    // Make sure every answer is visible on paper, then restore the reader's state.
+    window.addEventListener('beforeprint', function () {
+      all().forEach(function (d) { d.dataset.prev = d.open ? '1' : '0'; d.open = true; });
+    });
+    window.addEventListener('afterprint', function () {
+      all().forEach(function (d) { d.open = d.dataset.prev === '1'; });
+    });
+  })();
+</script>
+
+<script>
+/* ---------- writing lab: builds its bank from the printed practice section ---------- */
+(function () {
+  'use strict';
+  var root = document.getElementById('write');
+  if (!root) return;
+
+  var LSK = 'biu-legal-write-v1';
+  var HEBRE = /[\u05d0-\u05ea]/;
+
+  function norm(s) { return (s || '').replace(/[\u05f3\u2019\u02bc]/g, "'").replace(/\s+/g, ' ').trim(); }
+  function el(id) { return document.getElementById(id); }
+  function words(s) { var t = norm(s); return t ? t.split(' ').length : 0; }
+  function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  /* ---- storage (must survive private mode / blocked storage) ---- */
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(LSK) || '{}') || {}; } catch (e) { store = {}; }
+  function save() { try { localStorage.setItem(LSK, JSON.stringify(store)); } catch (e) {} }
+
+  /* ---- case-law list, derived from the judgments table ---- */
+  var GENERIC = ['מדינת ישראל', 'ממשלת ארה"ב', 'ארגון הדיירים', 'ממשלת ארהב'];
+  function buildCases() {
+    var out = [], seen = {};
+    function add(name, extra) {
+      name = norm(name);
+      if (!name || name.length < 3 || seen[name]) return;
+      seen[name] = 1;
+      var al = [name];
+      name.split(/\s+נ'\s+/).forEach(function (p) {
+        p = norm(p);
+        if (p.length >= 3 && GENERIC.indexOf(p) === -1) al.push(p);
+      });
+      (extra || []).forEach(function (x) { al.push(x); });
+      out.push({ name: name, aliases: al });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#cases td:first-child'), function (td) {
+      var raw = norm(td.textContent).replace(/\([^)]*\)/g, '').replace(/פס"?ד\s*/, '').replace(/פסק דין\s*/, '');
+      add(raw);
+    });
+    /* appendix judgments that appear in answers but not in the table */
+    add('אקספומדיה'); add('מאיה נ\' פנפורד', ['פנפורד']);
+    return out;
+  }
+  var CASES = buildCases();
+
+  /* Hebrew prefixes (ב/ה/ל/מ/ו/כ/ש) glue onto nouns, so "בזנדבנק" must still
+     count as a hit on "זנדבנק" — walk back over up to two of them. */
+  var PREFIX = /[בהלמוכש]/;
+  function hasTerm(text, term) {
+    var i = text.indexOf(term);
+    while (i !== -1) {
+      if (!HEBRE.test(text.charAt(i + term.length) || ' ')) {
+        var j = i;
+        for (var k = 0; k <= 2; k++) {
+          var b = j > 0 ? text.charAt(j - 1) : ' ';
+          if (!HEBRE.test(b)) return true;
+          if (!PREFIX.test(b)) break;
+          j--;
+        }
+      }
+      i = text.indexOf(term, i + 1);
+    }
+    return false;
+  }
+  function findCases(text) {
+    var t = norm(text), hit = [];
+    CASES.forEach(function (c) {
+      for (var i = 0; i < c.aliases.length; i++) {
+        if (hasTerm(t, c.aliases[i])) { hit.push(c.name); return; }
+      }
+    });
+    return hit;
+  }
+
+  /* ---- section references: ס' 12(ב) / סעיף 12 / bare 3(א) ---- */
+  function findSecs(text) {
+    var t = norm(text), out = {}, m;
+    var re1 = /(?:ס'|סעיף)\s*(\d{1,2})\s*(\([א-ת0-9]{1,3}\))?/g;
+    while ((m = re1.exec(t))) out[m[1] + (m[2] || '')] = 1;
+    var re2 = /(?:^|[\s(])(\d{1,2})\s*(\([א-ת]\))/g;
+    while ((m = re2.exec(t))) out[m[1] + m[2]] = 1;
+    var keys = Object.keys(out);
+    /* drop a bare number when a sub-lettered version of it exists */
+    return keys.filter(function (k) {
+      if (/\(/.test(k)) return true;
+      return !keys.some(function (o) { return o !== k && o.indexOf(k + '(') === 0; });
+    });
+  }
+  function baseOf(s) { return s.replace(/\(.*/, ''); }
+
+  /* ---- verdict in free text ---- */
+  function readVerdict(text) {
+    var t = norm(text);
+    var neg = t.search(/לא נכון|אינו נכון|איננו נכון|אינה נכונה|לא נכונה|שגוי|לא מדויק/);
+    var pos = t.search(/נכון|נכונה/);
+    if (neg === -1 && pos === -1) return null;
+    if (neg === -1) return 'נכון';
+    if (pos === -1) return 'לא נכון';
+    return neg <= pos ? 'לא נכון' : 'נכון';
+  }
+  var APPLY = /בענייננו|במקרה שלנו|במקרה דנן|בנסיבות|ולכן|מכאן|לפיכך|משכך|ומשום כך/;
+
+  /* ---- bank, read straight out of #practice so it never drifts ---- */
+  var BANK = [];
+  Array.prototype.forEach.call(document.querySelectorAll('#practice details.q'), function (d, i) {
+    var sum = d.querySelector('summary'), ans = d.querySelector('.a');
+    if (!sum || !ans) return;
+    var sc = sum.cloneNode(true);
+    var nEl = sc.querySelector('.n'), tEl = sc.querySelector('.tag');
+    var num = nEl ? nEl.textContent.replace(/\D/g, '') : String(i + 1);
+    var tag = tEl ? norm(tEl.textContent) : '';
+    if (nEl) nEl.parentNode.removeChild(nEl);
+    if (tEl) tEl.parentNode.removeChild(tEl);
+    var vEl = ans.querySelector('.verdict');
+    var ac = ans.cloneNode(true);
+    var vc = ac.querySelector('.verdict');
+    if (vc) vc.parentNode.removeChild(vc);
+    var atext = norm(ac.textContent);
+    /* every statement is in scope since the lecturer's official list took in ss' 16-17;
+       a tag saying "מחוץ" is the only thing that pulls one out of the quiz pool */
+    var scope = (tag.indexOf('מחוץ') !== -1) ? 'appendix' : 'core';
+    BANK.push({
+      num: num, tag: tag, scope: scope,
+      stmt: norm(sc.textContent),
+      verdict: (vEl && /good/.test(vEl.className)) ? 'נכון' : 'לא נכון',
+      html: ac.innerHTML, text: atext,
+      secs: findSecs(atext), cases: findCases(atext)
+    });
+  });
+  if (!BANK.length) { root.style.display = 'none'; return; }
+
+  /* ---------- grading ---------- */
+  function grade(item, answer) {
+    var t = norm(answer), crits = [];
+    if (words(t) < 4) {
+      return { crits: [{ s: 'no', title: 'לא נכתבה תשובה', hint: 'כתוב תשובה מלאה לפי התבנית ואז בדוק.' }], got: 0, max: 1 };
+    }
+    /* 1. verdict */
+    var uv = readVerdict(t);
+    crits.push(uv === null
+      ? { s: 'no', title: 'פסיקה — חסרה', hint: 'פתח במילים "נכון" או "לא נכון". בלי "תלוי".' }
+      : uv === item.verdict
+        ? { s: 'ok', title: 'פסיקה — ' + uv + ' ✓', hint: '' }
+        : { s: 'no', title: 'פסיקה — כתבת "' + uv + '", והתשובה היא "' + item.verdict + '"', hint: 'זה החלק שנותן את מרבית הניקוד — שווה לחזור על המלכודת הזו.' });
+
+    /* 2. statute */
+    if (item.secs.length) {
+      var us = findSecs(t);
+      var exact = item.secs.filter(function (s) { return us.indexOf(s) !== -1; });
+      var base = item.secs.filter(function (s) {
+        return exact.indexOf(s) === -1 && us.some(function (u) { return baseOf(u) === baseOf(s); });
+      });
+      crits.push(exact.length === item.secs.length
+        ? { s: 'ok', title: 'סעיף — ' + item.secs.join(', ') + ' ✓', hint: '' }
+        : exact.length || base.length
+          ? { s: 'part', title: 'סעיף — חלקי', hint: 'ציפינו ל־' + item.secs.join(', ') + (base.length ? '. כתבת את מספר הסעיף בלי תת־הסעיף המדויק — וזה בדיוק ההבדל שנבדק.' : '.') }
+          : { s: 'no', title: 'סעיף — חסר', hint: 'התשובה נשענת על ' + item.secs.join(', ') + '. ציטוט הסעיף המדויק הוא חלק מהניקוד.' });
+    }
+    /* 3. case law */
+    if (item.cases.length) {
+      var uc = findCases(t);
+      var hit = item.cases.filter(function (c) { return uc.indexOf(c) !== -1; });
+      crits.push(hit.length
+        ? { s: hit.length === item.cases.length ? 'ok' : 'part', title: 'פסיקה מנחה — ' + hit.join(', ') + (hit.length === item.cases.length ? ' ✓' : ''), hint: hit.length === item.cases.length ? '' : 'חסר גם: ' + item.cases.filter(function (c) { return hit.indexOf(c) === -1; }).join(', ') }
+        : { s: 'no', title: 'פסק דין — חסר', hint: 'התשובה נשענת על ' + item.cases.join(', ') + '.' });
+    }
+    /* 4. application */
+    crits.push(APPLY.test(t)
+      ? { s: 'ok', title: 'יישום לעובדות ✓', hint: '' }
+      : { s: 'no', title: 'יישום — חסר', hint: 'חבר את הכלל לעובדות ההיגד: "בענייננו… ולכן…".' });
+
+    var got = 0;
+    crits.forEach(function (c) { got += c.s === 'ok' ? 1 : c.s === 'part' ? 0.5 : 0; });
+    return { crits: crits, got: got, max: crits.length };
+  }
+
+  function renderGrade(g, item, showModel) {
+    var pct = g.max ? g.got / g.max : 0;
+    var cls = pct >= 0.85 ? 'hi' : pct >= 0.5 ? 'mid' : 'lo';
+    var h = '<div class="score ' + cls + '">' + (Math.round(g.got * 10) / 10) + ' מתוך ' + g.max + '</div>';
+    g.crits.forEach(function (c) {
+      h += '<div class="crit ' + c.s + '"><span class="mark">' + (c.s === 'ok' ? '✓' : c.s === 'part' ? '~' : '✗') + '</span>' +
+        '<span class="txt"><b>' + esc(c.title) + '</b>' + (c.hint ? '<span class="hint">' + esc(c.hint) + '</span>' : '') + '</span></div>';
+    });
+    if (showModel) h += '<div class="model"><h4>תשובת המופת</h4><b>' + esc(item.verdict) + '.</b> ' + item.html + '</div>';
+    return h;
+  }
+
+  /* ================= free practice ================= */
+  var fIdx = 0;
+  function fItem() { return BANK[fIdx]; }
+  function fRender() {
+    var it = fItem();
+    el('fPos').textContent = 'היגד ' + it.num + ' מתוך ' + BANK.length;
+    var tg = el('fTag');
+    if (it.tag) { tg.textContent = it.tag; tg.className = 'pill warnp'; } else { tg.className = 'pill warnp lab-hide'; }
+    el('fStmt').innerHTML = '<span class="idx">' + esc(it.num) + '.</span>' + esc(it.stmt);
+    el('fText').value = (store[it.num] && store[it.num].a) || '';
+    el('fOut').innerHTML = '';
+    fCount();
+    fJump();
+  }
+  function fCount() { el('fCount').textContent = words(el('fText').value) + ' מילים'; }
+  function fJump() {
+    var h = '';
+    BANK.forEach(function (b, i) {
+      var done = store[b.num] && norm(store[b.num].a) ? ' done' : '';
+      h += '<button type="button" data-i="' + i + '" class="' + (i === fIdx ? 'cur' : '') + done + (b.scope !== 'core' ? ' appx' : '') + '">' + esc(b.num) + '</button>';
+    });
+    el('fJump').innerHTML = h;
+  }
+  el('fJump').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) { fIdx = +b.getAttribute('data-i'); fRender(); }
+  });
+  el('fText').addEventListener('input', function () {
+    var it = fItem();
+    store[it.num] = store[it.num] || {};
+    store[it.num].a = el('fText').value;
+    save(); fCount();
+  });
+  el('fCheck').addEventListener('click', function () {
+    var it = fItem();
+    el('fOut').innerHTML = renderGrade(grade(it, el('fText').value), it, true);
+    fJump();
+  });
+  el('fClear').addEventListener('click', function () {
+    var it = fItem();
+    el('fText').value = ''; store[it.num] = {}; save();
+    el('fOut').innerHTML = ''; fCount(); fJump();
+  });
+  el('fPrev').addEventListener('click', function () { fIdx = (fIdx - 1 + BANK.length) % BANK.length; fRender(); });
+  el('fNext').addEventListener('click', function () { fIdx = (fIdx + 1) % BANK.length; fRender(); });
+  el('fRand').addEventListener('click', function () { fIdx = Math.floor(Math.random() * BANK.length); fRender(); });
+  el('fWipe').addEventListener('click', function () {
+    if (!window.confirm('למחוק את כל הטיוטות שנשמרו?')) return;
+    store = {}; save(); fRender();
+  });
+
+  /* ---- export for a deeper review in chat ---- */
+  function copyText(txt, btn) {
+    var done = function () {
+      var old = btn.textContent;
+      btn.textContent = '✓ הועתק — הדבק לי בצ׳אט';
+      setTimeout(function () { btn.textContent = old; }, 2600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallback(txt, done); });
+    } else { fallback(txt, done); }
+  }
+  function fallback(txt, done) {
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { window.prompt('העתק ידנית:', txt); }
+    document.body.removeChild(ta);
+  }
+  el('fExport').addEventListener('click', function () {
+    var lines = ['בדוק בבקשה את התשובות שלי לתרגול היגדים — היבטים משפטיים בניהול, הכנה למבחן המסכם.',
+      'לכל היגד: ההיגד, מה שכתבתי, ותשובת המופת מהחוברת. אמור לי מה חסר בניסוח ובנימוק.', ''];
+    var n = 0;
+    BANK.forEach(function (b) {
+      var a = store[b.num] && store[b.num].a;
+      if (!a || !norm(a)) return;
+      n++;
+      var g = grade(b, a);
+      lines.push('── היגד ' + b.num + ' ──');
+      lines.push('ההיגד: ' + b.stmt);
+      lines.push('תשובתי: ' + norm(a));
+      lines.push('תשובת המופת: ' + b.verdict + '. ' + b.text);
+      lines.push('בדיקה אוטומטית: ' + (Math.round(g.got * 10) / 10) + '/' + g.max + ' — ' +
+        g.crits.map(function (c) { return c.title; }).join(' · '));
+      lines.push('');
+    });
+    if (!n) { window.alert('עדיין לא כתבת תשובות. כתוב לפחות אחת ואז נסה שוב.'); return; }
+    copyText(lines.join('\n'), el('fExport'));
+  });
+
+  /* ================= quiz mode ================= */
+  var qSet = [], qIdx = 0, qLeft = 0, qTimer = null, qAns = {};
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  /* follows the page-level scope filter, so quiz mode never draws out-of-scope items */
+  function pickFive(withAppendix) {
+    var full = document.body.getAttribute('data-scope') === 'full';
+    var inc = withAppendix || full;
+    var pool = BANK.filter(function (b) { return b.scope === 'core' || (inc && b.scope === 'appendix'); });
+    var yes = shuffle(pool.filter(function (b) { return b.verdict === 'נכון'; }));
+    var no = shuffle(pool.filter(function (b) { return b.verdict === 'לא נכון'; }));
+    var out = [];
+    /* the bank is deliberately trap-heavy, so guarantee at least one true statement */
+    if (yes.length) out.push(yes.shift());
+    if (no.length) out.push(no.shift());
+    var rest = shuffle(yes.concat(no));
+    while (out.length < 5 && rest.length) out.push(rest.shift());
+    return shuffle(out);
+  }
+  function fmt(s) {
+    var m = Math.floor(s / 60), x = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (x < 10 ? '0' : '') + x;
+  }
+  function tick() {
+    qLeft--;
+    var t = el('qTimer');
+    t.textContent = fmt(Math.max(0, qLeft));
+    if (qLeft <= 300) t.className = 'timer low';
+    if (qLeft <= 0) { finish(true); }
+  }
+  function qJumpRender() {
+    var h = '';
+    qSet.forEach(function (b, i) {
+      h += '<button type="button" data-i="' + i + '" class="' + (i === qIdx ? 'cur' : '') +
+        (norm(qAns[b.num] || '') ? ' done' : '') + '">' + (i + 1) + '</button>';
+    });
+    el('qJump').innerHTML = h;
+  }
+  function qRender() {
+    var it = qSet[qIdx];
+    el('qPos').textContent = (qIdx + 1) + ' / ' + qSet.length;
+    el('qStmt').innerHTML = '<span class="idx">' + (qIdx + 1) + '.</span>' + esc(it.stmt);
+    el('qText').value = qAns[it.num] || '';
+    el('qCount').textContent = words(el('qText').value) + ' מילים';
+    qJumpRender();
+  }
+  el('qJump').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) { qIdx = +b.getAttribute('data-i'); qRender(); }
+  });
+  el('qText').addEventListener('input', function () {
+    qAns[qSet[qIdx].num] = el('qText').value;
+    el('qCount').textContent = words(el('qText').value) + ' מילים';
+    qJumpRender();
+  });
+  el('qPrev').addEventListener('click', function () { qIdx = (qIdx - 1 + qSet.length) % qSet.length; qRender(); });
+  el('qNext').addEventListener('click', function () { qIdx = (qIdx + 1) % qSet.length; qRender(); });
+  el('qStart').addEventListener('click', function () {
+    qSet = pickFive(true);
+    if (qSet.length < 5) { window.alert('אין מספיק היגדים במאגר.'); return; }
+    qAns = {}; qIdx = 0; qLeft = 30 * 60;
+    el('qIntro').className = 'lab-hide';
+    el('qReport').className = 'lab-hide';
+    el('qRun').className = '';
+    el('qTimer').textContent = '30:00';
+    el('qTimer').className = 'timer';
+    qRender();
+    if (qTimer) clearInterval(qTimer);
+    qTimer = setInterval(tick, 1000);
+  });
+  el('qDone').addEventListener('click', function () { finish(false); });
+
+  function finish(auto) {
+    if (qTimer) { clearInterval(qTimer); qTimer = null; }
+    var total = 0, max = 0, h = '';
+    h += '<h3>' + (auto ? 'הזמן נגמר — ' : '') + 'תוצאות</h3>';
+    var body = '';
+    qSet.forEach(function (it, i) {
+      var a = qAns[it.num] || '';
+      var g = grade(it, a);
+      total += g.got; max += g.max;
+      body += '<div class="rep"><h4>' + (i + 1) + '. ' + esc(it.stmt) + '</h4>' +
+        '<div class="mine">' + (norm(a) ? esc(norm(a)) : '<i>לא נענה</i>') + '</div>' +
+        renderGrade(g, it, true) + '</div>';
+    });
+    var pct = max ? Math.round(total / max * 100) : 0;
+    h += '<div class="score ' + (pct >= 85 ? 'hi' : pct >= 50 ? 'mid' : 'lo') + '">ציון כולל: ' +
+      (Math.round(total * 10) / 10) + ' מתוך ' + max + ' (' + pct + '%)</div>' + body +
+      '<div class="btnrow"><button class="act ghost" id="qCopy">📋 העתק את הבוחן לבדיקה מעמיקה</button>' +
+      '<button class="act ghost" id="qAgain">בוחן חדש</button></div>';
+    el('qRun').className = 'lab-hide';
+    el('qReport').className = '';
+    el('qReport').innerHTML = h;
+    el('qAgain').addEventListener('click', function () {
+      el('qReport').className = 'lab-hide';
+      el('qIntro').className = '';
+    });
+    el('qCopy').addEventListener('click', function () {
+      var L = ['בדוק בבקשה את הבוחן שלי (סימולציה, 5 היגדים) — היבטים משפטיים בניהול.', ''];
+      qSet.forEach(function (it, i) {
+        var g = grade(it, qAns[it.num] || '');
+        L.push('── היגד ' + (i + 1) + ' ──');
+        L.push('ההיגד: ' + it.stmt);
+        L.push('תשובתי: ' + (norm(qAns[it.num] || '') || '(לא נענה)'));
+        L.push('תשובת המופת: ' + it.verdict + '. ' + it.text);
+        L.push('בדיקה אוטומטית: ' + (Math.round(g.got * 10) / 10) + '/' + g.max);
+        L.push('');
+      });
+      copyText(L.join('\n'), el('qCopy'));
+    });
+  }
+
+  /* ---- tabs ---- */
+  function tab(free) {
+    el('paneFree').className = free ? '' : 'lab-hide';
+    el('paneQuiz').className = free ? 'lab-hide' : '';
+    el('tabFree').className = free ? 'act' : 'act ghost';
+    el('tabQuiz').className = free ? 'act ghost' : 'act';
+    if (free && qTimer) { clearInterval(qTimer); qTimer = null; }
+  }
+  el('tabFree').addEventListener('click', function () { tab(true); });
+  el('tabQuiz').addEventListener('click', function () { tab(false); });
+
+  fRender();
+})();
+</script>
+
+<script>
+/* ---------- scope filter: quiz 8.9 vs full course ---------- */
+(function () {
+  var KEY = 'ba-scope';
+  var body = document.body;
+  var bQ = document.getElementById('scQuiz');
+  var bF = document.getElementById('scFull');
+  var hint = document.getElementById('scHint');
+  if (!bQ || !bF) return;
+
+  var HINTS = {
+    quiz: 'מוצג רק מה שבהיקף בוחן 8.9. „מבחן מסכם” מוסיף את מה שנלמד מעבר לרשימת הבוחן: חוזה על תנאי (27, 29), ריבוי חייבים (54–56) וחוק התרופות — „בדרך כלל לפחות 20 נקודות”.',
+    full: 'מוצג חומר הקורס שלנו, כולל חוזה על תנאי, ריבוי חייבים וחוק התרופות. סימוני המיקוד מבוססים על דברי המרצה אצלנו; טרם פורסמה רשימת היקף מלאה למסכם.'
+  };
+
+  function apply(scope, save) {
+    body.setAttribute('data-scope', scope);
+    bQ.setAttribute('aria-pressed', scope === 'quiz');
+    bF.setAttribute('aria-pressed', scope === 'full');
+    if (hint) hint.textContent = HINTS[scope];
+    if (save) { try { localStorage.setItem(KEY, scope); } catch (e) {} }
+    document.dispatchEvent(new CustomEvent('scopechange', { detail: scope }));
+  }
+
+  var saved = 'full';
+  try { saved = localStorage.getItem(KEY) || 'full'; } catch (e) {}
+  apply(saved === 'quiz' ? 'quiz' : 'full', false);
+
+  bQ.addEventListener('click', function () { apply('quiz', true); });
+  bF.addEventListener('click', function () { apply('full', true); });
+})();
+</script>
+
+</body>
+</html>

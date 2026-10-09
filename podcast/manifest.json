@@ -1,0 +1,71 @@
+{
+  "updated": "2026-10-09",
+  "episodes": [
+    {
+      "id": "01-enforcement-cancellation",
+      "number": 1,
+      "title": "תרופות א — אכיפה וביטול",
+      "duration": 900.024,
+      "src": "mp3/01%20-%20%D7%AA%D7%A8%D7%95%D7%A4%D7%95%D7%AA%20%D7%90%20%E2%80%94%20%D7%90%D7%9B%D7%99%D7%A4%D7%94%20%D7%95%D7%91%D7%99%D7%98%D7%95%D7%9C.mp3",
+      "transcript": "scripts/plain/01-enforcement-cancellation.txt",
+      "speech_segments": 82,
+      "words": 1745,
+      "bytes": 7201050
+    },
+    {
+      "id": "02-compensation-frustration",
+      "number": 2,
+      "title": "תרופות ב — פיצויים הפרה צפויה וסיכול",
+      "duration": 854.838,
+      "src": "mp3/02%20-%20%D7%AA%D7%A8%D7%95%D7%A4%D7%95%D7%AA%20%D7%91%20%E2%80%94%20%D7%A4%D7%99%D7%A6%D7%95%D7%99%D7%99%D7%9D%20%D7%94%D7%A4%D7%A8%D7%94%20%D7%A6%D7%A4%D7%95%D7%99%D7%94%20%D7%95%D7%A1%D7%99%D7%9B%D7%95%D7%9C.mp3",
+      "transcript": "scripts/plain/02-compensation-frustration.txt",
+      "speech_segments": 84,
+      "words": 1647,
+      "bytes": 6839732
+    },
+    {
+      "id": "03-case-workshop",
+      "number": 3,
+      "title": "סדנת קייסים — חיים ויעל ודרך הכתיבה",
+      "duration": 977.05,
+      "src": "mp3/03%20-%20%D7%A1%D7%93%D7%A0%D7%AA%20%D7%A7%D7%99%D7%99%D7%A1%D7%99%D7%9D%20%E2%80%94%20%D7%97%D7%99%D7%99%D7%9D%20%D7%95%D7%99%D7%A2%D7%9C%20%D7%95%D7%93%D7%A8%D7%9A%20%D7%94%D7%9B%D7%AA%D7%99%D7%91%D7%94.mp3",
+      "transcript": "scripts/plain/03-case-workshop.txt",
+      "speech_segments": 82,
+      "words": 1824,
+      "bytes": 7817394
+    },
+    {
+      "id": "04-formation-good-faith",
+      "number": 4,
+      "title": "כריתה ותום לב — מהצעה לחוזה",
+      "duration": 841.458,
+      "src": "mp3/04%20-%20%D7%9B%D7%A8%D7%99%D7%AA%D7%94%20%D7%95%D7%AA%D7%95%D7%9D%20%D7%9C%D7%91%20%E2%80%94%20%D7%9E%D7%94%D7%A6%D7%A2%D7%94%20%D7%9C%D7%97%D7%95%D7%96%D7%94.mp3",
+      "transcript": "scripts/plain/04-formation-good-faith.txt",
+      "speech_segments": 78,
+      "words": 1612,
+      "bytes": 6732578
+    },
+    {
+      "id": "05-defects-consent",
+      "number": 5,
+      "title": "פגמים ברצון — טעות הטעיה וכפייה",
+      "duration": 880.62,
+      "src": "mp3/05%20-%20%D7%A4%D7%92%D7%9E%D7%99%D7%9D%20%D7%91%D7%A8%D7%A6%D7%95%D7%9F%20%E2%80%94%20%D7%98%D7%A2%D7%95%D7%AA%20%D7%94%D7%98%D7%A2%D7%99%D7%94%20%D7%95%D7%9B%D7%A4%D7%99%D7%99%D7%94.mp3",
+      "transcript": "scripts/plain/05-defects-consent.txt",
+      "speech_segments": 82,
+      "words": 1713,
+      "bytes": 7045930
+    },
+    {
+      "id": "06-conditions-debtors",
+      "number": 6,
+      "title": "חוזה על תנאי וריבוי חייבים — שתי מפות לפתרון",
+      "duration": 950.928,
+      "src": "mp3/06%20-%20%D7%97%D7%95%D7%96%D7%94%20%D7%A2%D7%9C%20%D7%AA%D7%A0%D7%90%D7%99%20%D7%95%D7%A8%D7%99%D7%91%D7%95%D7%99%20%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%E2%80%94%20%D7%A9%D7%AA%D7%99%20%D7%9E%D7%A4%D7%95%D7%AA%20%D7%9C%D7%A4%D7%AA%D7%A8%D7%95%D7%9F.mp3",
+      "transcript": "scripts/plain/06-conditions-debtors.txt",
+      "speech_segments": 88,
+      "words": 1900,
+      "bytes": 7608324
+    }
+  ]
+}
