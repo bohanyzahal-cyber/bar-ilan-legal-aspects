@@ -311,7 +311,7 @@ def build(source, output, pages):
               boxed("כשנתקעים: לא נשארים על שאלה. כותבים את היסודות שכן יודעים, משאירים שלוש שורות, מסמנים בשוליים וממשיכים. "
                     "חוזרים בסוף. אמריקאית - עד 3 דקות; היגד - עד 3 דקות; הניקוד שליד השאלה קובע כמה לכתוב.", warn=True),
               Spacer(1, 8)]
-    rows = [["מה מחפשים", "עמוד ב-PDF"]]
+    rows = [["מה מחפשים", "עמוד"]]
     ids = []
     for section in sections:
         heading = section.find("h2")[0]
@@ -340,6 +340,39 @@ def build(source, output, pages):
     return mapping
 
 
+def shrink_for_binder(path, scale=0.965):
+    """מקטין כל עמוד ב־3.5% ומצמיד אותו לשמאל: השוליים הימניים גדלים לכ־21 מ"מ, כך שניקוב לקלסר
+    (בצד ימין) לא נוגע בתחילת השורות. חלוקת העמודים לא משתנה; הקישורים והסימניות נשמרים."""
+    import fitz
+    src = fitz.open(str(path))
+    out = fitz.open()
+    w, h = src[0].rect.width, src[0].rect.height
+    top = (h - h * scale) / 2
+    target = fitz.Rect(0, top, w * scale, top + h * scale)
+    for page in src:
+        out.new_page(width=w, height=h).show_pdf_page(target, src, page.number)
+    # קישורים אחרי שכל העמודים קיימים (קישור לעמוד שעוד לא נוצר נכשל)
+    for page in src:
+        new = out[page.number]
+        for link in page.get_links():
+            r = link["from"]
+            rect = fitz.Rect(r.x0 * scale, top + r.y0 * scale, r.x1 * scale, top + r.y1 * scale)
+            target_page = link.get("page", -1)
+            if isinstance(target_page, str):  # קישור שמי: PyMuPDF מחזיר מספר עמוד כמחרוזת, החל מ־1
+                target_page = int(target_page) - 1 if target_page.isdigit() else -1
+            if target_page >= 0:  # קישורים פנימיים — כקישור לעמוד, עם היעד המוקטן
+                to = link.get("to") or fitz.Point(0, 0)
+                new.insert_link({"kind": fitz.LINK_GOTO, "from": rect, "page": target_page,
+                                 "to": fitz.Point(to.x * scale, top + to.y * scale)})
+            elif link.get("uri"):
+                new.insert_link({"kind": fitz.LINK_URI, "from": rect, "uri": link["uri"]})
+    out.set_toc(src.get_toc())
+    out.set_metadata(src.metadata)
+    data = out.tobytes(garbage=3, deflate=True)
+    src.close(); out.close()
+    path.write_bytes(data)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--html", type=Path, required=True)
@@ -354,6 +387,7 @@ def main():
         if mapping == new_mapping: break
         mapping = new_mapping
     else: raise RuntimeError("PDF page index did not stabilize")
+    shrink_for_binder(args.out)
     (args.out.parent / "exam-reference-pages.json").write_text(json.dumps(mapping, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Created {args.out}; {len(mapping)} indexed sections")
 
