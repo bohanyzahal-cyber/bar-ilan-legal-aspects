@@ -242,8 +242,42 @@ def emit_node(node, story, width):
         if isinstance(child, Node): emit_node(child, story, width)
 
 
+# לשוניות מודפסות בקצה השמאלי (הצד הפתוח של חוברת שמהודקת מימין): לכל קבוצה גובה משלה,
+# כך שבחוברת סגורה רואים את כולן לאורך הקצה. (תווית, הפרק הראשון, הפרק שאחרי האחרון)
+TABS = [("שלד · כריתה", 1, 4), ("תום לב · פגמים", 4, 9), ("תרופות", 9, 10),
+        ("פסקי דין", 10, 11), ("לשון החוק", 11, 12), ("דגלים", 13, 14)]
+TAB_PAGES = {}
+
+
+def tab_for(page):
+    for i, (label, first, after) in enumerate(TABS):
+        start, end = TAB_PAGES.get("exam-sec-%02d" % first), TAB_PAGES.get("exam-sec-%02d" % after)
+        if start and end and start <= page < end + (1 if label == "דגלים" else 0):
+            return i, label
+    return None
+
+
+def draw_tab(canvas, page):
+    found = tab_for(page)
+    if not found: return
+    i, label = found
+    width, height = A4
+    slot = (height - 130) / len(TABS)
+    top = height - 60 - i * slot
+    canvas.setFillColor(BLUE)
+    canvas.rect(0, top - slot + 6, 34, slot - 6, stroke=0, fill=1)
+    canvas.setFillColor(colors.white)
+    canvas.setFont(BOLD, 11)
+    canvas.saveState()
+    canvas.translate(24, top - slot / 2 + 3)
+    canvas.rotate(90)
+    canvas.drawCentredString(0, 0, get_display(label))
+    canvas.restoreState()
+
+
 def footer(canvas, doc):
     canvas.saveState()
+    draw_tab(canvas, doc.page)
     width, height = A4
     canvas.setStrokeColor(RULE)
     canvas.line(38, height - 33, width - 38, height - 33)
@@ -257,6 +291,7 @@ def footer(canvas, doc):
 
 
 def build(source, output, pages):
+    TAB_PAGES.clear(); TAB_PAGES.update(pages)
     parsed = Tree()
     parsed.feed(source.read_text(encoding="utf-8"))
     sections = [n for n in parsed.root.find("section") if "data-exam-section" in n.attrs]
@@ -287,7 +322,7 @@ def build(source, output, pages):
     story.append(table(rows, [width * .86, width * .14], index=ids))
     story += [Spacer(1, 8), HebrewText("במיוחד: חלק כללי 14 = טעות; תרופות 14 = הקטנת נזק. חלק כללי 17 = כפייה; תרופות 17 = הפרה צפויה. תרופות 18 = סיכול.", bold=True),
               HebrewText("הדפסה: A4, גודל 100% (גודל אמיתי, לא התאמה לעמוד); שחור-לבן מספיק. עדיף חד-צדדי, כדי לפרוש כמה עמודים זה ליד זה. "
-                         "מהדקים לפי מספרי העמודים ומדביקים לשוניות: שלד (עמוד " + pg(1) + "), פגמים (" + pg(5) + "), תרופות (" + pg(9) + "), פסקי דין (" + pg(10) + "), לשון החוק (" + pg(11) + "), דגלים (" + pg(13) + "). "
+                         "מהדקים בצד ימין. בקצה השמאלי של העמודים מודפסות לשוניות, כל אחת בגובה משלה: שלד וכריתה (עמוד " + pg(1) + "), תום לב ופגמים (" + pg(4) + "), תרופות (" + pg(9) + "), פסקי דין (" + pg(10) + "), לשון החוק (" + pg(11) + "), דגלים (" + pg(13) + "). "
                          "לבחינה מביאים ניירות בלבד: הדף הזה, קובץ החקיקה של המרצה ותרשימי הזרימה שבלמדה.", size=10), PageBreak()]
     for section in sections:
         if section.attrs["data-exam-section"] in {"13", "15"}: story.append(PageBreak())
