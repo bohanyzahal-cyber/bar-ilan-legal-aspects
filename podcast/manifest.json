@@ -1,16 +1,16 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-29",
   "episodes": [
     {
       "id": "01-enforcement-cancellation",
       "number": 1,
       "title": "תרופות א — אכיפה וביטול",
-      "duration": 900.024,
+      "duration": 908.904,
       "src": "mp3/01%20-%20%D7%AA%D7%A8%D7%95%D7%A4%D7%95%D7%AA%20%D7%90%20%E2%80%94%20%D7%90%D7%9B%D7%99%D7%A4%D7%94%20%D7%95%D7%91%D7%99%D7%98%D7%95%D7%9C.mp3",
       "transcript": "scripts/plain/01-enforcement-cancellation.txt",
       "speech_segments": 82,
-      "words": 1745,
-      "bytes": 7201050
+      "words": 1761,
+      "bytes": 7272090
     },
     {
       "id": "02-compensation-frustration",
